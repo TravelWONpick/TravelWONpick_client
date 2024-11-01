@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import MainPage from './pages/MainPage'
 import Header from './components/Header';
 import PricePick from './pages/PricePick';
