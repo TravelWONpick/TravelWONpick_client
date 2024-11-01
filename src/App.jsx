@@ -1,31 +1,38 @@
-import { React, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
 import Header from './components/Header';
 import PricePick from './components/routes/PricePick';
 import CardPick from './components/routes/CardPick';
 import Event from './components/routes/Event';
 import Etc from './components/routes/Etc';
+import Login from './components/routes/Login'; 
 
 function App() {
-
   return (
-    <>
-      <div className='App'>
-        <BrowserRouter>
-          <Header/>
-          <Routes>
-            <Route path="/" element={<PricePick />}/>
-            <Route path="/pricePick/" element={<PricePick />}></Route>
-            <Route path="/cardPick/" element={<CardPick />}></Route>
-            <Route path="/event/" element={<Event />}></Route>
-            <Route path="/etc/" element={<Etc />}></Route>
-            </Routes>
-        </BrowserRouter>
-      </div>
-      
-    </>
-  )
+    <BrowserRouter>
+      <MainContent />
+    </BrowserRouter>
+  );
 }
 
-export default App
+function MainContent() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/login';
+
+  return (
+    <div className='App'>
+      {!isLoginPage && <Header />} {/* 로그인 페이지가 아닌 경우에만 Header를 렌더링 */}
+      <Routes>
+        <Route path="/" element={<PricePick />} />
+        <Route path="/pricePick/" element={<PricePick />} />
+        <Route path="/cardPick/" element={<CardPick />} />
+        <Route path="/event/" element={<Event />} />
+        <Route path="/etc/" element={<Etc />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
