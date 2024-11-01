@@ -1,36 +1,41 @@
-import { React, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-
+import MainPage from './pages/MainPage'
 import Header from './components/Header';
-import PricePick from './components/routes/PricePick';
-import CardPick from './components/routes/CardPick';
-import Event from './components/routes/Event';
-import MainPage from './components/routes/MainPage.jsx';
-import EventDetail from './components/routes/EventDetail'; // EventDetail 추가
+import PricePick from './pages/PricePick';
+import CardPick from './pages/CardPick';
+import Event from './pages/Event';
+import Login from './pages/Login'; 
+import EventDetail from './pages/EventDetail';
 
 function App() {
-
   return (
-    <>
-      <div className='App'>
-        <BrowserRouter>
-          <Header/>
-          <Routes>
-            <Route path="/" element={<PricePick />}/>
-            <Route path="/pricePick/" element={<PricePick />}></Route>
-            <Route path="/cardPick/" element={<CardPick />}></Route>
-            <Route path="/event/" element={<Event />}></Route>
-            <Route path="/event-detail" element={<EventDetail />} /> {/* EventDetail 경로 추가 */}
-            <Route path="/etc/" element={<MainPage />}></Route>
-            </Routes>
-        </BrowserRouter>
-      </div>
-      
-    </>
-  )
+    <BrowserRouter>
+      <MainContent />
+    </BrowserRouter>
+  );
 }
 
-export default App
+function MainContent() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/login';
+
+  return (
+    <div className='App'>
+      {!isLoginPage && <Header />} {/* 로그인 페이지가 아닌 경우에만 Header를 렌더링 */}
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/pricePick/" element={<PricePick />} />
+        <Route path="/cardPick/" element={<CardPick />} />
+        <Route path="/event/" element={<Event />} />
+        <Route path="/event-detail" element={<EventDetail />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;

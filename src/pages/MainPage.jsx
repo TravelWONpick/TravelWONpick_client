@@ -1,11 +1,10 @@
-// src/components/routes/MainPage.jsx
 import React from 'react';
 import Slider from "react-slick";
 import PropTypes from 'prop-types';
-import '../../main.css';
-import image1 from '../../assets/1.png';
-import image2 from '../../assets/2.png';
-import image3 from '../../assets/3.png';
+import './main.css';
+import image1 from '../assets/1.png';
+import image2 from '../assets/2.png';
+import image3 from '../assets/3.png';
 
 // 커스텀 화살표 컴포넌트
 const CustomPrevArrow = ({ onClick }) => (
