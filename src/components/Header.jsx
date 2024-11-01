@@ -8,7 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const onChange = (key) => {
-    switch(key) {
+    switch (key) {
       case '1':
         navigate('/pricePick');
         break;
@@ -47,9 +47,9 @@ const Header = () => {
       label: (
         <div className="flex items-center">
           <span>해외이용의 정석</span>
-          <img 
-            src={linkImg} 
-            alt="link" 
+          <img
+            src={linkImg}
+            alt="link"
             className="w-4 h-4 ml-1"  // 크기와 왼쪽 마진 조정
           />
         </div>
@@ -59,33 +59,29 @@ const Header = () => {
   ];
 
   return (
-    <div className="border-b-2 border-gray-400">
-      <div className="flex items-center h-16 px-4">
-        <div className='w-28'>
+    <div className="border-b-2 border-gray-200">
+      <div className="flex items-center h-15 px-4">
+        <div className='w-40'>
           <Link to="/">
-            <img 
-              className="w-30 h-10 rounded-3xl" 
-              src={logoImg} 
-              alt="logo" 
+            <img
+              className="w-170px h-auto"
+              src={logoImg}
+              alt="logo"
             />
           </Link>
         </div>
 
-        <div className="flex justify-center w-full">
-          <Tabs 
-            defaultActiveKey="1" 
-            items={items} 
+        <div className="flex justify-center w-full [&_.ant-tabs-nav]:mb-0">
+          <Tabs
+            defaultActiveKey="1"
+            items={items}
             onChange={onChange}
             className="font-bold"
             size="large"
-            style={{ 
-              ['& .ant-tabs-nav']: {
-                marginBottom: '0px'
-              }
-            }}
+            tabBarGutter={100}
           />
         </div>
-            
+
         <div className="w-16 text-base">
           <Link to="/login">로그인</Link>
         </div>
