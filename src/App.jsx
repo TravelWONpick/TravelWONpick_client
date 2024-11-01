@@ -1,14 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
+import MainPage from './pages/MainPage'
 import Header from './components/Header';
-import PricePick from './components/routes/PricePick';
-import CardPick from './components/routes/CardPick';
-import Event from './components/routes/Event';
-import Etc from './components/routes/Etc';
-import Login from './components/routes/Login'; 
-import MainPage from './components/routes/Etc.jsx';
-import EventDetail from './components/routes/EventDetail';
+import PricePick from './pages/PricePick';
+import CardPick from './pages/CardPick';
+import Event from './pages/Event';
+import Login from './pages/Login'; 
+import EventDetail from './pages/EventDetail';
 
 function App() {
   return (
@@ -26,11 +25,10 @@ function MainContent() {
     <div className='App'>
       {!isLoginPage && <Header />} {/* 로그인 페이지가 아닌 경우에만 Header를 렌더링 */}
       <Routes>
-        <Route path="/" element={<PricePick />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/pricePick/" element={<PricePick />} />
         <Route path="/cardPick/" element={<CardPick />} />
         <Route path="/event/" element={<Event />} />
-        <Route path="/etc/" element={<MainPage />} />
         <Route path="/event-detail" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
       </Routes>

@@ -1,8 +1,7 @@
-// src/components/routes/Event.jsx
 import React, { useState } from 'react';
 import EventCard from './EventCard';
 import { Pagination } from 'antd';
-import '../../event.css';
+import './event.css';
 
 const Event = () => {
     // 이벤트 목록, 각 이벤트는 미리보기 이미지와 상세 이미지가 있음

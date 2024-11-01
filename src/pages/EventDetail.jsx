@@ -1,7 +1,6 @@
-// src/components/routes/EventDetail.jsx
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import '../../event.css';
+import './event.css';
 
 const EventDetail = () => {
     const location = useLocation();
