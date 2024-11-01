@@ -1,11 +1,14 @@
 import { React, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 import Header from './components/Header';
 import PricePick from './components/routes/PricePick';
 import CardPick from './components/routes/CardPick';
 import Event from './components/routes/Event';
-import MainPage from './components/routes/Etc.jsx';
+import MainPage from './components/routes/MainPage.jsx';
 import EventDetail from './components/routes/EventDetail'; // EventDetail 추가
 
 function App() {
