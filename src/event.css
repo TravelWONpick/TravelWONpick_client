@@ -1,0 +1,196 @@
+/* src/event.css */
+
+/* 페이지 제목 스타일 */
+.event-page h1 {
+    /* 제목을 왼쪽 정렬하고, 크기를 조정합니다. */
+    text-align: left;
+    margin-left: 10px; /* 왼쪽 여백 */
+    font-size: 2em; /* 제목 크기 */
+    font-weight: bold; /* 두꺼운 폰트 */
+}
+
+/* 필터 버튼 스타일 */
+.event-filter {
+    /* 필터 버튼 컨테이너를 왼쪽 정렬하고, 여백을 조정합니다. */
+    display: flex;
+    justify-content: flex-start; /* 버튼을 왼쪽으로 정렬 */
+    margin: 10px 0 20px 10px; /* 상단과 하단 여백 및 왼쪽 여백 */
+}
+
+.filter-button {
+    /* 필터 버튼 스타일을 설정합니다. */
+    padding: 5px 50px; /* 버튼 안쪽 여백 */
+    border: 1px solid #ddd; /* 버튼 테두리 색상 */
+    background-color: #f9f9f9; /* 버튼 배경색 */
+    color: #555; /* 버튼 텍스트 색상 */
+    cursor: pointer; /* 커서를 포인터로 변경 */
+    transition: background-color 0.3s, color 0.3s; /* 호버 효과 시 부드럽게 전환 */
+    font-size: 1em; /* 버튼 글자 크기 설정 (기본 크기) */
+}
+
+.filter-button:first-child {
+    /* 첫 번째 버튼의 왼쪽 모서리를 둥글게 설정 */
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.filter-button:last-child {
+    /* 마지막 버튼의 오른쪽 모서리를 둥글게 설정 */
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-left: none; /* 버튼들이 붙어보이도록 왼쪽 테두리 제거 */
+}
+
+.filter-button.active {
+    /* 선택된 버튼(active)의 스타일 */
+    background-color: #333; /* 배경색 */
+    color: #fff; /* 텍스트 색상 */
+    border-color: #333; /* 테두리 색상 */
+}
+
+.filter-button:hover {
+    /* 마우스를 올렸을 때 버튼 색상 변경 */
+    background-color: #555;
+    color: #fff;
+}
+
+/* 이벤트 페이지 전체 스타일 */
+.event-page {
+    /* 페이지 전체 너비와 중앙 정렬, 상단 여백을 설정합니다. */
+    width: 70%; /* 페이지 너비 */
+    margin: auto; /* 중앙 정렬 */
+    padding-top: 20px; /* 상단 여백 */
+    font-family: Arial, sans-serif; /* 기본 폰트 */
+}
+
+/* 이벤트 리스트 스타일 (리스트 형식으로 배치) */
+.event-list {
+    /* 리스트 형식으로 카드가 세로로 쌓이도록 설정합니다. */
+    display: flex;
+    flex-direction: column; /* 세로 방향 정렬 */
+    gap: 20px; /* 카드 간격 */
+}
+
+/* 리스트 형식의 카드 스타일 */
+.event-card {
+    /* 개별 카드의 스타일을 설정합니다. */
+    display: flex; /* 이미지와 텍스트가 가로로 정렬됨 */
+    align-items: center; /* 이미지와 텍스트를 수직 가운데 정렬 */
+    border: 1px solid #ddd; /* 카드 테두리 색상 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    overflow: hidden; /* 내용이 카드 밖으로 넘치지 않도록 설정 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    background-color: #fff; /* 카드 배경색 */
+    padding: 30px 15px; /* 카드 내부 여백 */
+    transition: transform 0.3s; /* 확대 효과 전환 속도 */
+}
+
+.event-card:hover {
+    /* 마우스를 올렸을 때 카드가 확대되는 효과 */
+    transform: scale(1.03);
+}
+
+.event-card img {
+    /* 카드 내 이미지 스타일 */
+    width: 400px; /* 이미지 너비 설정 */
+    height: auto; /* 이미지 높이 자동 조절 */
+    object-fit: cover; /* 이미지가 카드 크기에 맞게 채워짐 */
+    border-radius: 4px; /* 이미지 모서리 둥글게 설정 */
+    margin-right: 30px; /* 이미지와 텍스트 사이 간격 */
+}
+
+.event-details {
+    /* 카드의 텍스트 부분 스타일 */
+    flex: 1; /* 텍스트 부분이 가변적으로 너비를 차지하도록 설정 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+/* 텍스트 스타일 */
+.event-title {
+    /* 카드 제목 스타일 */
+    font-size: 1.2em; /* 제목 크기 */
+    font-weight: bold; /* 제목 두껍게 */
+    margin-bottom: 5px; /* 하단 여백 */
+    color: #333; /* 제목 색상 */
+}
+
+.event-description {
+    /* 카드 설명 텍스트 스타일 */
+    font-size: 0.9em; /* 설명 글자 크기 */
+    color: #666; /* 설명 글자 색상 */
+    margin-bottom: 10px; /* 하단 여백 */
+}
+
+.event-date {
+    /* 카드의 날짜 표시 스타일 */
+    font-size: 0.8em; /* 날짜 글자 크기 */
+    color: #999; /* 날짜 색상 */
+}
+
+/* event.css */
+
+/* 중앙 정렬을 위한 외부 컨테이너 */
+.event-detail {
+    max-width: 800px; /* 중앙에 고정된 너비 설정 */
+    margin: 0 auto; /* 페이지 중앙에 정렬 */
+    padding: 20px; /* 내부 여백 */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* 제목과 이벤트 기간을 같은 행에 배치 */
+.event-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #F5F5F7; /* 연한 갈색 배경 */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
+}
+
+/* 제목 스타일 */
+.event-detail-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    margin: 0;
+}
+
+/* 이벤트 기간 스타일 */
+.event-detail-date {
+    font-size: 0.8em;
+    color: #777;
+    text-align: right;
+    margin: 0;
+}
+
+/* 이미지 스타일 */
+.event-detail-image {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 예약 버튼 스타일 */
+.event-detail-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.event-detail-button:hover {
+    background-color: #0056b3;
+}
