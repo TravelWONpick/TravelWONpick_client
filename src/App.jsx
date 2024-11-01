@@ -7,6 +7,8 @@ import CardPick from './components/routes/CardPick';
 import Event from './components/routes/Event';
 import Etc from './components/routes/Etc';
 import Login from './components/routes/Login'; 
+import MainPage from './components/routes/Etc.jsx';
+import EventDetail from './components/routes/EventDetail';
 
 function App() {
   return (
@@ -28,7 +30,8 @@ function MainContent() {
         <Route path="/pricePick/" element={<PricePick />} />
         <Route path="/cardPick/" element={<CardPick />} />
         <Route path="/event/" element={<Event />} />
-        <Route path="/etc/" element={<Etc />} />
+        <Route path="/etc/" element={<MainPage />} />
+        <Route path="/event-detail" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </div>
