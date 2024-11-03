@@ -10,6 +10,9 @@ import CardPick from './pages/CardPick';
 import Event from './pages/Event';
 import Login from './pages/Login'; 
 import EventDetail from './pages/EventDetail';
+import Flight from './pages/Flight';
+import Flight2 from './pages/Flight2';
+import FlightDetail from './pages/FlightDetail';
 
 function App() {
   return (
@@ -33,6 +36,9 @@ function MainContent() {
         <Route path="/event/" element={<Event />} />
         <Route path="/event-detail" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/my/flight" element={<Flight />} />
+        <Route path="/my/flight2" element={<Flight2 />} />
+        <Route path="/my/flight-detail" element={<FlightDetail />} />
       </Routes>
     </div>
   );
