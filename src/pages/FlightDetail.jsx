@@ -56,15 +56,27 @@ const FlightDetail = () => {
   ];
 
   return (
-    <Layout style={{ height: '100vh' }}>
-      <div style={{ padding: '20px 24px', marginTop: '100px' }}>
-        <Title level={3} style={{ margin: 0 }}>
+    <Layout style={{
+      minHeight: '80vh',
+      background: 'white',
+      width: '100%',
+      maxWidth: '950px',
+      margin: '0 auto',
+      paddingLeft: '20px',
+      paddingRight: '20px'
+    }}>
+      <div style={{ padding: '20px 24px', marginTop: '10px' }}>
+        <Title level={3}>
           "OOO님, 즐거운 비행 되시길 바랍니다!"
         </Title>
       </div>
       <Layout>
-        <Sider width={200} style={{ background: '#f0f0f0', paddingTop: '95px' }}>
-          <Menu mode="vertical" defaultSelectedKeys={['1']} style={{ borderRight: 0 }}>
+        <Sider width={200} style={{ background: 'white' }}>
+          <Menu
+            mode="vertical"
+            defaultSelectedKeys={['1']}
+            style={{ borderRight: 0 }}
+          >
             <ItemGroup key="g1" title={<Text strong style={{ fontSize: '18px', fontWeight: 'bold' }}>나의 예약</Text>}>
               <Menu.Item key="1">
                 <Link to="/my/flight" style={{ fontSize: '14px', color: 'inherit', textDecoration: 'none' }}>
@@ -74,7 +86,9 @@ const FlightDetail = () => {
             </ItemGroup>
             <ItemGroup key="g2" title={<Text strong style={{ fontSize: '18px', fontWeight: 'bold' }}>정보관리</Text>}>
               <Menu.Item key="2">
-                <Text style={{ fontSize: '14px' }}>탑승객 정보</Text>
+                <Link to="/my/passenger" style={{ fontSize: '14px', color: 'inherit', textDecoration: 'none' }}>
+                  탑승객 정보
+                </Link>
               </Menu.Item>
               <Menu.Item key="3">
                 <Text style={{ fontSize: '14px' }}>나의 회원정보</Text>
@@ -82,8 +96,8 @@ const FlightDetail = () => {
             </ItemGroup>
           </Menu>
         </Sider>
-        <Layout>
-          <Content style={{ padding: '24px', paddingTop: '100px' }}>
+        <Layout style={{ background: 'white' }}>
+          <Content style={{ padding: '24px', paddingTop: '8px' }}>
             <Title level={5} style={{ fontWeight: 'bold', marginBottom: '16px', fontSize: '20px' }}>
               항공권 구매정보
             </Title>

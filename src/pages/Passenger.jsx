@@ -64,7 +64,7 @@ const Passenger = () => {
 
   return (
     <Layout style={{ 
-        height: '100vh', 
+        minHeight: '80vh',
         background: 'white', 
         width: '100%', 
         maxWidth: '950px', 
@@ -104,7 +104,7 @@ const Passenger = () => {
             </Menu>
           </Sider>
           <Layout style={{ background: 'white'}}>
-          <Content style={{ padding: "24px", paddingTop: "10px" }}>
+          <Content style={{ padding: "24px", paddingTop: "8px" }}>
             <Title level={5} style={{ fontWeight: "bold", marginBottom: "16px", fontSize: "20px" }}>
               탑승객 정보
             </Title>
