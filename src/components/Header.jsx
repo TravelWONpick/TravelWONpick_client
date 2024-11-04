@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { Tabs } from 'antd';
 import linkImg from '../assets/link_img.png';
@@ -6,8 +6,10 @@ import logoImg from '../assets/logo.png';
 
 const Header = () => {
   const navigate = useNavigate();
+  const [activeKey, setActiveKey] = useState(null);  
 
   const onChange = (key) => {
+    setActiveKey(key);  
     switch (key) {
       case '1':
         navigate('/pricePick');
@@ -19,11 +21,17 @@ const Header = () => {
         navigate('/event');
         break;
       case '4':
-        window.location.href = 'https://pc.wooricard.com/dcpc/yh1/fpf/fpf01/H1FPF201S00.do';
+        window.open('https://pc.wooricard.com/dcpc/yh1/fpf/fpf01/H1FPF201S00.do', '_blank', 'noopener noreferrer');
         break;
       default:
         break;
     }
+  };
+
+  // 로고 클릭 시 activeKey 초기화
+  const handleLogoClick = () => {
+    setActiveKey(null);
+    navigate('/');
   };
 
   const items = [
@@ -45,14 +53,20 @@ const Header = () => {
     {
       key: '4',
       label: (
-        <div className="flex items-center">
+        <a 
+          href="https://pc.wooricard.com/dcpc/yh1/fpf/fpf01/H1FPF201S00.do" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          onClick={(e) => e.preventDefault()}
+          className="flex items-center"
+        >
           <span>해외이용의 정석</span>
           <img
             src={linkImg}
             alt="link"
-            className="w-4 h-4 ml-1"  // 크기와 왼쪽 마진 조정
+            className="w-4 h-4 ml-1"
           />
-        </div>
+        </a>
       ),
       children: null,
     },
@@ -60,30 +74,33 @@ const Header = () => {
 
   return (
     <div className="border-b-2 border-gray-200">
-      <div className="flex items-center h-15 px-4">
-        <div className='w-40'>
-          <Link to="/">
-            <img
-              className="w-170px h-auto"
-              src={logoImg}
-              alt="logo"
-            />
-          </Link>
-        </div>
+      <div className="flex justify-center w-full">
+        <div className="w-full max-w-[950px]">
+          <div className="flex items-center h-15 px-4">
+            <div className='w-40'>
+              <div onClick={handleLogoClick} className="cursor-pointer">
+                <img
+                  src={logoImg}
+                  alt="logo"
+                  style={{ width: '250px', height: 'auto'}}
+                />
+              </div>
+            </div>
 
-        <div className="flex justify-center w-full [&_.ant-tabs-nav]:mb-0">
-          <Tabs
-            defaultActiveKey="1"
-            items={items}
-            onChange={onChange}
-            className="font-bold"
-            size="large"
-            tabBarGutter={100}
-          />
-        </div>
+            <div className="flex justify-center w-full [&_.ant-tabs-nav]:mb-0">
+              <Tabs
+                activeKey={activeKey} 
+                items={items}
+                onChange={onChange}
+                className="font-bold"
+                size="large"
+              />
+            </div>
 
-        <div className="w-16 text-base">
-          <Link to="/login">로그인</Link>
+            <div className="w-16 text-base">
+              <Link to="/login">로그인</Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

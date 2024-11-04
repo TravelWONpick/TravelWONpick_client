@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MainPage from './pages/MainPage'
 import Header from './components/Header';
+import Footer from './components/Footer';
 import PricePick from './pages/PricePick';
 import CardPick from './pages/CardPick';
 import Event from './pages/Event';
@@ -15,6 +16,8 @@ function App() {
   return (
     <BrowserRouter>
       <MainContent />
+      <div className="mt-20"></div>
+      <Footer />
     </BrowserRouter>
   );
 }
