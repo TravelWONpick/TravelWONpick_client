@@ -60,13 +60,13 @@ const Flight2 = () => {
 
   return (
     <Layout style={{ height: '100vh' }}>
-      <div style={{ padding: '20px 24px', marginTop: '100px' }}>
+      <div style={{ padding: '20px 24px', marginTop: '100px', background: '#ffffff' }}>
         <Title level={3} style={{ margin: 0 }}>
           "OOO님, 즐거운 비행 되시길 바랍니다!"
         </Title>
       </div>
       <Layout>
-        <Sider width={200} style={{ background: '#f0f0f0', paddingTop: '95px' }}>
+        <Sider width={200} style={{ background: '#ffffff', paddingTop: '95px' }}>
           <Menu
             mode="vertical"
             defaultSelectedKeys={['1']}
@@ -90,7 +90,7 @@ const Flight2 = () => {
           </Menu>
         </Sider>
         <Layout>
-          <Content style={{ padding: '24px', paddingTop: '100px' }}>
+          <Content style={{ padding: '24px', paddingTop: '10px', color: '#ffffff' }}>
             <Title level={5} style={{ fontWeight: 'bold', marginBottom: '16px', fontSize: '20px' }}>
               항공
             </Title>
