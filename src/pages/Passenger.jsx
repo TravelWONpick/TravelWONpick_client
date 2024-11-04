@@ -72,7 +72,7 @@ const Passenger = () => {
         paddingLeft: '20px',
         paddingRight: '20px'
       }}>
-        <div style={{ padding: '20px 24px', marginTop: '10px' }}>
+        <div style={{ padding: '20px 24px'}}>
           <Title level={3}>
             "OOO님, 즐거운 비행 되시길 바랍니다!"
           </Title>
