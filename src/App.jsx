@@ -14,6 +14,7 @@ import EventDetail from './pages/EventDetail';
 import Flight from './pages/Flight';
 import Flight2 from './pages/Flight2';
 import FlightDetail from './pages/FlightDetail';
+import Passenger from './pages/Passenger';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function MainContent() {
         <Route path="/my/flight" element={<Flight />} />
         <Route path="/my/flight2" element={<Flight2 />} />
         <Route path="/my/flight-detail" element={<FlightDetail />} />
+        <Route path="/my/passenger" element={<Passenger />} />
       </Routes>
     </div>
   );
