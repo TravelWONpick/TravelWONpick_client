@@ -59,14 +59,21 @@ const Flight2 = () => {
   ];
 
   return (
-    <Layout style={{ height: '100vh', background: 'white' }}>
+    <Layout style={{ 
+      height: '100vh', 
+      background: 'white', 
+      width: '100%', 
+      maxWidth: '950px', 
+      margin: '0 auto',
+      paddingLeft: '20px',
+      paddingRight: '20px'
+    }}>
       <div style={{ padding: '20px 24px', marginTop: '10px' }}>
         <Title level={3}>
           "OOO님, 즐거운 비행 되시길 바랍니다!"
         </Title>
       </div>
       <Layout>
-        {/* <Sider width={200} style={{ background: '#f0f0f0', paddingTop: '95px' }}> */}
         <Sider width={200} style={{ background: 'white'}}>
           <Menu
             mode="vertical"
@@ -90,8 +97,8 @@ const Flight2 = () => {
             </ItemGroup>
           </Menu>
         </Sider>
-        <Layout>
-          <Content style={{ padding: '24px', paddingTop: '10px', color: '#ffffff' }}>
+        <Layout style={{ background: 'white'}}>
+          <Content style={{ padding: '24px', paddingTop: '10px' }}>
             <Title level={5} style={{ fontWeight: 'bold', marginBottom: '16px', fontSize: '20px' }}>
               항공
             </Title>
