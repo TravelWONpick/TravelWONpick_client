@@ -1,0 +1,188 @@
+import React, { useState, useEffect } from "react";
+import { Layout, Typography, Input, Button, Row, Col, Card } from "antd";
+import { useNavigate, useLocation } from 'react-router-dom';
+
+const { Content } = Layout;
+const { Title, Text } = Typography;
+
+const PassengerUpdate = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    
+    const [form, setForm] = useState({
+        lastName: "",
+        firstName: "",
+        gender: "",
+        birthDate: "",
+        phone: ""
+    });
+    const [errorMessage, setErrorMessage] = useState({
+        lastName: "",
+        firstName: "",
+        gender: "",
+    });
+
+    useEffect(() => {
+        if (location.state) {
+            const { lastName, firstName, gender, birthDate, phone } = location.state;
+            setForm({ lastName, firstName, gender, birthDate, phone });
+        }
+    }, [location.state]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        // 유효성 검사: 영문 성, 영문 이름 필드에 대해 대문자 알파벳만 허용
+        if ((name === "lastName" || name === "firstName") && !/^[A-Z]*$/.test(value)) {
+            setErrorMessage({
+                ...errorMessage,
+                [name]: "알파벳 대문자만 입력 가능합니다."
+            });
+        } else {
+            setErrorMessage({
+                ...errorMessage,
+                [name]: ""
+            });
+            setForm({ ...form, [name]: value });
+        }
+    };
+
+    const handleGenderChange = (gender) => {
+        setForm({ ...form, gender });
+        setErrorMessage({ ...errorMessage, gender: "" }); // 성별 선택 시 오류 메시지 초기화
+    };
+
+    const handleCancel = () => {
+        // Navigate to the passenger page
+        navigate('/my/passenger');
+    };
+
+    const handleSave = () => {
+        if (!form.gender) {
+            setErrorMessage({ ...errorMessage, gender: "성별을 선택해 주세요." });
+        } else {
+            // Add functionality to save form data
+            console.log("Form saved:", form);
+            navigate('/my/passenger', { state: form });
+        }
+    };
+
+    const handleNumericOnly = (e) => {
+        if (!/[0-9]/.test(e.key)) {
+            e.preventDefault();
+        }
+    };
+
+    const handleBirthDateChange = (e) => {
+        const { value } = e.target;
+        if (/^[0-9]*$/.test(value) && value.length <= 8) {
+            setForm({ ...form, birthDate: value });
+        }
+    };
+
+    const handlePhoneChange = (e) => {
+        const { value } = e.target;
+        if (/^[0-9]*$/.test(value) && value.length <= 11) {
+            setForm({ ...form, phone: value });
+        }
+    };
+
+    return (
+        <Layout style={{ minHeight: "80vh", background: "white", padding: "20px" }}>
+            <Content style={{ maxWidth: "950px", margin: "0 auto" }}>
+                <Card style={{ backgroundColor: '#007BFF', borderTopLeftRadius: "8px", borderTopRightRadius: "8px", borderBottomLeftRadius: '0px', borderBottomRightRadius: '0px' }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: '20px', color: 'white' }}>탑승객 정보 수정</Text><br />
+                    <Text style={{ fontSize: '13px', color: 'white' }}>여권상의 정보와 입력정보가 동일해야하며, 오류시 탑승이 거절될 수 있습니다.</Text>
+                </Card>
+                <Card style={{ borderTopLeftRadius: "0px", borderTopRightRadius: "0px", borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }}>
+                    <Title level={5} style={{ marginBottom: "24px" }}>탑승객 정보</Title>
+                    <Row gutter={[32, 24]} style={{ marginBottom: "16px" }}>
+                        <Col span={8}>
+                            <Text style={{ fontWeight: 'bold', fontSize: '14px', color: '#888' }}>영문 성</Text>
+                            <Input
+                                name="lastName"
+                                placeholder="예: HONG"
+                                value={form.lastName}
+                                onChange={handleInputChange}
+                                style={{ padding: '10px', marginTop: '5px' }}
+                            />
+                            <div style={{ height: '20px', marginTop: '5px' }}>
+                                {errorMessage.lastName && (
+                                    <Text type="danger" style={{ color: 'red', whiteSpace: 'nowrap' }}>{errorMessage.lastName}</Text>
+                                )}
+                            </div>
+                        </Col>
+                        <Col span={8}>
+                            <Text style={{ fontWeight: 'bold', fontSize: '14px', color: '#888' }}>영문 이름</Text>
+                            <Input
+                                name="firstName"
+                                placeholder="예: GILDONG"
+                                value={form.firstName}
+                                onChange={handleInputChange}
+                                style={{ padding: '10px', marginTop: '5px' }}
+                            />
+                            <div style={{ height: '20px', marginTop: '5px' }}>
+                                {errorMessage.firstName && (
+                                    <Text type="danger" style={{ color: 'red', whiteSpace: 'nowrap' }}>{errorMessage.firstName}</Text>
+                                )}
+                            </div>
+                        </Col>
+                        <Col span={8}>
+                            <Text style={{ fontWeight: 'bold', fontSize: '14px', color: '#888' }}>성별</Text>
+                            <div style={{ display: 'flex', gap: '1px', marginTop: '5px' }}>
+                                <Button
+                                    type={form.gender === "남성" ? "primary" : "default"}
+                                    onClick={() => handleGenderChange("남성")}
+                                    style={{ width: '100px', height: '40px' }}
+                                >
+                                    남성
+                                </Button>
+                                <Button
+                                    type={form.gender === "여성" ? "primary" : "default"}
+                                    onClick={() => handleGenderChange("여성")}
+                                    style={{ width: '100px', height: '40px' }}
+                                >
+                                    여성
+                                </Button>
+                            </div>
+                            <div style={{ height: '20px', marginTop: '5px' }}>
+                                {errorMessage.gender && (
+                                    <Text type="danger" style={{ color: 'red', whiteSpace: 'nowrap' }}>{errorMessage.gender}</Text>
+                                )}
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row gutter={[32, 24]} style={{ marginBottom: "16px" }}>
+                        <Col span={8}>
+                            <Text style={{ fontWeight: 'bold', fontSize: '14px', color: '#888' }}>생년월일</Text>
+                            <Input
+                                name="birthDate"
+                                placeholder="YYYY.MM.DD"
+                                value={form.birthDate}
+                                onChange={handleBirthDateChange}
+                                onKeyPress={handleNumericOnly}
+                                style={{ padding: '10px', marginTop: '5px' }}
+                            />
+                        </Col>
+                        <Col span={8}>
+                            <Text style={{ fontWeight: 'bold', fontSize: '14px', color: '#888' }}>휴대폰 번호</Text>
+                            <Input
+                                name="phone"
+                                placeholder="번호를 입력하세요."
+                                value={form.phone}
+                                onChange={handlePhoneChange}
+                                onKeyPress={handleNumericOnly}
+                                style={{ padding: '10px', marginTop: '5px' }}
+                            />
+                        </Col>
+                    </Row>
+                </Card>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "40px" }}>
+                    <Button style={{ marginRight: "16px", fontSize: '16px', height: '45px', width: '120px' }} onClick={handleCancel}>취소</Button>
+                    <Button type="primary" onClick={handleSave} style={{ fontSize: '16px', height: '45px', width: '120px' }}>저장</Button>
+                </div>
+            </Content>
+        </Layout>
+    );
+};
+
+export default PassengerUpdate;

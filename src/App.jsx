@@ -15,6 +15,10 @@ import Flight from './pages/Flight';
 import Flight2 from './pages/Flight2';
 import FlightDetail from './pages/FlightDetail';
 import Passenger from './pages/Passenger';
+import PassengerRegister from './pages/PassengerRegister';
+import PassengerUpdate from './pages/PassengerUpdate';
+import Info from './pages/Info';
+import InfoUpdate from './pages/InfoUpdate'
 
 function App() {
   return (
@@ -44,6 +48,10 @@ function MainContent() {
         <Route path="/my/flight2" element={<Flight2 />} />
         <Route path="/my/flight-detail" element={<FlightDetail />} />
         <Route path="/my/passenger" element={<Passenger />} />
+        <Route path="/my/passenger/register" element={<PassengerRegister />} />
+        <Route path="/my/passenger/update" element={<PassengerUpdate />} />
+        <Route path="/my/info" element={<Info />} />
+        <Route path="/my/info/update" element={<InfoUpdate />} />
       </Routes>
     </div>
   );

@@ -92,7 +92,9 @@ const Flight = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item key="3">
-                <Text style={{ fontSize: '14px' }}>나의 회원정보</Text>
+              <Link to="/my/info" style={{ fontSize: '14px', color: 'inherit', textDecoration: 'none' }}>
+                  나의 회원정보
+                </Link>
               </Menu.Item>
             </ItemGroup>
           </Menu>
@@ -116,7 +118,7 @@ const Flight = () => {
                     <th
                       {...restProps}
                       style={{
-                        backgroundColor: '#0039FF',
+                        backgroundColor: '#007BFF',
                         color: 'white',
                         textAlign: 'center',
                       }}

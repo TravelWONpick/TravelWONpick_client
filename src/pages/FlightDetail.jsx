@@ -65,7 +65,7 @@ const FlightDetail = () => {
       paddingLeft: '20px',
       paddingRight: '20px'
     }}>
-      <div style={{ padding: '20px 24px'}}>
+      <div style={{ padding: '20px 24px' }}>
         <Title level={3}>
           "OOO님, 즐거운 비행 되시길 바랍니다!"
         </Title>
@@ -91,7 +91,9 @@ const FlightDetail = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item key="3">
-                <Text style={{ fontSize: '14px' }}>나의 회원정보</Text>
+                <Link to="/my/info" style={{ fontSize: '14px', color: 'inherit', textDecoration: 'none' }}>
+                  나의 회원정보
+                </Link>
               </Menu.Item>
             </ItemGroup>
           </Menu>
@@ -116,7 +118,7 @@ const FlightDetail = () => {
                     <th
                       {...restProps}
                       style={{
-                        backgroundColor: '#0039FF',
+                        backgroundColor: '#007BFF',
                         color: 'white',
                         textAlign: 'center',
                       }}
@@ -144,7 +146,7 @@ const FlightDetail = () => {
                     <th
                       {...restProps}
                       style={{
-                        backgroundColor: '#0039FF',
+                        backgroundColor: '#007BFF',
                         color: 'white',
                         textAlign: 'center',
                       }}
