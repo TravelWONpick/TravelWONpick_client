@@ -23,7 +23,6 @@ const PassengerRegister = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        // 유효성 검사: 영문 성, 영문 이름 필드에 대해 대문자 알파벳만 허용
         if ((name === "lastName" || name === "firstName") && !/^[A-Z]*$/.test(value)) {
             setErrorMessage({
                 ...errorMessage,
@@ -40,11 +39,10 @@ const PassengerRegister = () => {
 
     const handleGenderChange = (gender) => {
         setForm({ ...form, gender });
-        setErrorMessage({ ...errorMessage, gender: "" }); // 성별 선택 시 오류 메시지 초기화
+        setErrorMessage({ ...errorMessage, gender: "" });
     };
 
     const handleCancel = () => {
-        // Navigate to the passenger page
         navigate('/my/passenger');
     };
 
@@ -52,7 +50,6 @@ const PassengerRegister = () => {
         if (!form.gender) {
             setErrorMessage({ ...errorMessage, gender: "성별을 선택해 주세요." });
         } else {
-            // Add functionality to save form data
             console.log("Form saved:", form);
         }
     };
