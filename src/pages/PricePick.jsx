@@ -200,7 +200,7 @@ const PricePick = () => {
           <Search
             placeholder="목록 검색"
             onSearch={handleSearch}
-            enterButton="Search"
+            // enterButton="Search"
             size="middle"
             allowClear
             style={{
