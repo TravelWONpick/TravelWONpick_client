@@ -1,0 +1,32 @@
+.reservation-container {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-and-settings {
+  margin-bottom: 20px;
+}
+
+.flights-results {
+  margin-top: 40px;
+}
+
+.flights-results h3 {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.rdrCalendarWrapper {
+  padding: 16px; /* ant-card-body의 기본 패딩과 일치시킴 */
+  background-color: #ffffff; /* 카드의 배경색과 일치 */
+  border-radius: 8px; /* 카드의 기본 둥근 모서리 적용 */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 카드에 적용된 그림자 효과와 일치 */
+}
+
+.rdrDateRangeWrapper {
+  width: 100%; /* 달력을 카드 전체 너비에 맞게 조정 */
+  display: flex;
+  justify-content: center;
+}
