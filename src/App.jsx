@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 import MainPage from "./pages/MainPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -17,6 +18,13 @@ import FlightDetail from "./pages/FlightDetail";
 import Reservation from "./pages/Reservation";
 import ReservationConfirmation from "./pages/ReservationConfirmation";
 import Payment from "./pages/Payment";
+import Passenger from './pages/Passenger';
+import PassengerRegister from './pages/PassengerRegister';
+import PassengerUpdate from './pages/PassengerUpdate';
+import Info from './pages/Info';
+import InfoUpdate from './pages/InfoUpdate';
+import Success from './pages/Success';
+import Fail from './pages/Fail';
 
 function App() {
   return (
@@ -53,6 +61,13 @@ function MainContent() {
         <Route path="/my/flight" element={<Flight />} />
         <Route path="/my/flight2" element={<Flight2 />} />
         <Route path="/my/flight-detail" element={<FlightDetail />} />
+        <Route path="/my/passenger" element={<Passenger />} />
+        <Route path="/my/passenger/register" element={<PassengerRegister />} />
+        <Route path="/my/passenger/update" element={<PassengerUpdate />} />
+        <Route path="/my/info" element={<Info />} />
+        <Route path="/my/info/update" element={<InfoUpdate />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/fail" element={<Fail />} />
       </Routes>
     </div>
   );

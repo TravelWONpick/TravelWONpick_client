@@ -5,6 +5,10 @@ import './main.css';
 import image1 from '../assets/1.png';
 import image2 from '../assets/2.png';
 import image3 from '../assets/3.png';
+import image4 from '../assets/japan.png';
+import image5 from '../assets/usa.png';
+import image6 from '../assets/nhatrang.png';
+import image7 from '../assets/jeju.jpg'
 
 // 커스텀 화살표 컴포넌트
 const CustomPrevArrow = ({ onClick }) => (
@@ -49,24 +53,25 @@ const MainPage = () => {
 
     const flightDeals = [
         {
-            destination: '오사카(KIX)',
-            price: '284,900원 ~',
-            imgSrc: 'https://github.com/user-attachments/assets/8f4fe28a-38a5-4e3a-99b4-9659b15016bb'
-        },
-        {
-            destination: '도쿄(NRT)',
+            destination: '국내',
             price: '362,700원 ~',
-            imgSrc: 'https://github.com/user-attachments/assets/6c168935-1594-4b5c-8ccb-26d4b083d908'
+            imgSrc: image7
         },
         {
-            destination: '로스엔젤레스(LAX)',
-            price: '901,400원 ~',
-            imgSrc: 'https://github.com/user-attachments/assets/859707be-dc54-475f-a007-8e9317a6a5b3'
+            destination: '일본',
+            price: '284,900원 ~',
+            imgSrc: image4
         },
         {
-            destination: '파리(CDG)',
+            destination: '동남아',
             price: '572,500원 ~',
-            imgSrc: 'https://github.com/user-attachments/assets/70f80962-1151-4b40-9fba-903c743bc158'
+            imgSrc: image6
+        },
+        {
+
+            destination: '유럽&미주',
+            price: '901,400원 ~',
+            imgSrc: image5
         }
     ];
 
@@ -93,13 +98,18 @@ const MainPage = () => {
                         <div key={index} className="flight-deal-card">
                             <img src={deal.imgSrc} alt={deal.destination} className="flight-image" />
                             <div className="flight-info">
-                                <span className="destination">{deal.destination}</span>
-                                <span className="price">{deal.price}</span>
+                                <div className="flight-text">
+                                    <span className="destination">{deal.destination}</span>
+                                    <span className="price">{deal.price}</span>
+                                </div>
+                                <div className="arrow-icon">›</div> {/* 오른쪽 화살표 아이콘 */}
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
+
+
         </div>
     );
 };
