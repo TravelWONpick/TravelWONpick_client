@@ -141,6 +141,29 @@ const ReservationConfirmation = () => {
       <div className="w-full max-w-[950px] px-4">
         <Row gutter={[24, 24]}>
           <Col span={16}>
+            {/* <Card>
+              <div className="p-5">
+                <Title level={3} className="mb-5">
+                  예약편 확인
+                </Title>
+
+                {flights.outbound && (
+                  <FlightCard
+                    flightData={flights.outbound}
+                    isVisible={showGoingFlightDetails}
+                    onToggle={handleToggleGoingFlight}
+                  />
+                )}
+
+                {flights.inbound && (
+                  <FlightCard
+                    flightData={flights.inbound}
+                    isVisible={showReturningFlightDetails}
+                    onToggle={handleToggleReturningFlight}
+                  />
+                )}
+              </div>
+            </Card> */}
             <Card>
               <div className="p-5">
                 <Title level={3} className="mb-5">

@@ -1,150 +1,75 @@
 import React from "react";
-import { Button, Row, Typography, Tag } from "antd";
+import { Typography, Space } from "antd";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
 const FlightCard = ({ flightData, isVisible, onToggle }) => {
-  const isBound1 = flightData.bound === 1;
-  const buttonText = isBound1 ? "가는편" : "오는편";
+  const { bound, airline, flight_number, departure_place, arrival_place, 
+          departure_time, arrival_time, departure_airport_code, 
+          arrival_airport_code, baggage } = flightData;
 
-  // 날짜 포맷팅 함수
-  const formatDateTime = (dateTimeStr) => {
-    const date = new Date(dateTimeStr);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const weekDay = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-
-    return {
-      fullDate: `${date.getFullYear()}.${month}.${day}`,
-      dateTime: `${month}.${day}(${weekDay}) ${hours}:${minutes}`,
-    };
-  };
-
-  const departureTime = formatDateTime(flightData.departure_time);
-  const arrivalTime = formatDateTime(flightData.arrival_time);
+  const date = new Date(departure_time).toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).replace(/\. /g, '.').slice(0, -1);
 
   return (
-    <>
-      <Row justify="space-between" align="middle" className="mb-5">
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <Button
-            type="default"
-            style={{
-              backgroundColor: "#333",
-              color: "white",
-              marginRight: "8px",
-            }}
-          >
-            {buttonText}
-          </Button>
-          <Text>
-            {flightData.departure_place}{" "}
-            <span
-              style={{
-                color: "#666",
-                backgroundColor: "#f0f0f0",
-                padding: "2px 6px",
-                borderRadius: "4px",
-              }}
-            >
-              {flightData.departure_airport_code}
-            </span>{" "}
-            - {flightData.arrival_place}{" "}
-            <span
-              style={{
-                color: "#666",
-                backgroundColor: "#f0f0f0",
-                padding: "2px 6px",
-                borderRadius: "4px",
-              }}
-            >
-              {flightData.arrival_airport_code}
-            </span>
-          </Text>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <Text>{departureTime.fullDate}</Text>
-          <Button type="link" onClick={onToggle}>
-            {isVisible ? <UpOutlined /> : <DownOutlined />}
-          </Button>
-        </div>
-      </Row>
+    <div 
+      className="border border-solid border-[#f0f0f0] rounded-lg p-4 mb-4"
+    >
+      {/* 헤더 부분 */}
+      <div 
+        className="flex justify-between cursor-pointer"
+        onClick={onToggle}
+      >
+        <Space size={16}>
+          <div className="bg-black text-white px-3 py-1 rounded">
+            {bound === 1 ? "가는편" : "오는편"}
+          </div>
+          <Space size={8}>
+            <span>{departure_place}</span>
+            <Text type="secondary">{departure_airport_code}</Text>
+            <span>→</span>
+            <span>{arrival_place}</span>
+            <Text type="secondary">{arrival_airport_code}</Text>
+          </Space>
+        </Space>
+        <Space size={16}>
+          <span>{date}</span>
+          {isVisible ? <UpOutlined /> : <DownOutlined />}
+        </Space>
+      </div>
 
+      {/* 상세 정보 부분 */}
       {isVisible && (
-        <div className="relative pl-6 mb-4">
-          {/* 세로선과 점 */}
-          <div
-            style={{
-              position: "absolute",
-              left: "10px",
-              top: "0",
-              bottom: "0",
-              width: "2px",
-              backgroundColor: "#e0e0e0",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              left: "6px",
-              top: "0",
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              backgroundColor: "#007bff",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              left: "6px",
-              bottom: "0",
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              backgroundColor: "#007bff",
-            }}
-          />
-
-          {/* 출발 정보 */}
-          <div className="mb-4">
-            <Text strong className="text-lg">
-              {departureTime.dateTime}
-            </Text>
-            <br />
-            <Text>
-              {flightData.departure_place} {flightData.departure_airport_code}
-            </Text>
-          </div>
-
-          {/* 항공편 정보 */}
-          <div className="mb-4 ml-4">
-            <Text type="secondary">
-              {flightData.airline} {flightData.flight_number}
-            </Text>
-            <br />
-            <Text type="secondary">1시간 45분 소요 | 일반석</Text>
-            <div className="mt-2">
-              <Tag color="default">위탁수하물 {flightData.baggage}</Tag>
+        <div className="mt-4 border-t border-solid border-[#f0f0f0] pt-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Text type="secondary">항공사</Text>
+              <div>{airline}</div>
             </div>
-          </div>
-
-          {/* 도착 정보 */}
-          <div>
-            <Text strong className="text-lg">
-              {arrivalTime.dateTime}
-            </Text>
-            <br />
-            <Text>
-              {flightData.arrival_place} {flightData.arrival_airport_code}
-            </Text>
+            <div>
+              <Text type="secondary">항공편</Text>
+              <div>{flight_number}</div>
+            </div>
+            <div>
+              <Text type="secondary">출발시간</Text>
+              <div>{new Date(departure_time).toLocaleTimeString()}</div>
+            </div>
+            <div>
+              <Text type="secondary">도착시간</Text>
+              <div>{new Date(arrival_time).toLocaleTimeString()}</div>
+            </div>
+            <div>
+              <Text type="secondary">수하물</Text>
+              <div>{baggage}</div>
+            </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

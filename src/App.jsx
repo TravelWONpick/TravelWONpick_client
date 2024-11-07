@@ -16,6 +16,7 @@ import Flight2 from "./pages/Flight2";
 import FlightDetail from "./pages/FlightDetail";
 import Reservation from "./pages/Reservation";
 import ReservationConfirmation from "./pages/ReservationConfirmation";
+import Payment from "./pages/Payment";
 
 function App() {
   return (
@@ -38,10 +39,12 @@ function MainContent() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/pricePick/" element={<PricePick />} />
-        <Route path="/pricePick/Reservation/" element={<Reservation />} />
+        <Route path="/pricePick/reservation/" element={<Reservation />} />
         <Route
-          path="/pricePick/ReservationConfirmation/"
+          path="/pricePick/reservationConfirmation/"
           element={<ReservationConfirmation />}
+        />
+        <Route path="/pricePick/payment/" element={<Payment />}
         />
         <Route path="/cardPick/" element={<CardPick />} />
         <Route path="/event/" element={<Event />} />
