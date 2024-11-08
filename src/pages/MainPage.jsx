@@ -2,13 +2,6 @@ import React from 'react';
 import Slider from "react-slick";
 import PropTypes from 'prop-types';
 import './main.css';
-import image1 from '../assets/1.png';
-import image2 from '../assets/2.png';
-import image3 from '../assets/3.png';
-import image4 from '../assets/japan.png';
-import image5 from '../assets/usa.png';
-import image6 from '../assets/nhatrang.png';
-import image7 from '../assets/jeju.jpg'
 
 // 커스텀 화살표 컴포넌트
 const CustomPrevArrow = ({ onClick }) => (
@@ -46,32 +39,32 @@ const MainPage = () => {
     };
 
     const images = [
-        { src: image1, link: "https://pc.wooricard.com/dcpc/yh1/crd/crd01/H1CRD101S02.do?cdPrdCd=103489" },
-        { src: image2, link: "https://pc.wooricard.com/dcpc/yh1/crd/crd01/H1CRD101S02.do?cdPrdCd=102488" },
-        { src: image3, link: "https://b2b.travelover.co.kr/main/159530" }
+        { src: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/1.png", link: "https://pc.wooricard.com/dcpc/yh1/crd/crd01/H1CRD101S02.do?cdPrdCd=103489" },
+        { src: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/2.png", link: "https://pc.wooricard.com/dcpc/yh1/crd/crd01/H1CRD101S02.do?cdPrdCd=102488" },
+        { src: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/3.png", link: "https://b2b.travelover.co.kr/main/159530" }
     ];
 
     const flightDeals = [
         {
             destination: '국내',
             price: '362,700원 ~',
-            imgSrc: image7
+            imgSrc: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/jeju.jpg"
         },
         {
             destination: '일본',
             price: '284,900원 ~',
-            imgSrc: image4
+            imgSrc: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/japan.png"
         },
         {
             destination: '동남아',
             price: '572,500원 ~',
-            imgSrc: image6
+            imgSrc: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/nhatrang.png"
         },
         {
 
             destination: '유럽&미주',
             price: '901,400원 ~',
-            imgSrc: image5
+            imgSrc: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/usa.png"
         }
     ];
 
