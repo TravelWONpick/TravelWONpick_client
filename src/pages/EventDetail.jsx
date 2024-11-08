@@ -1,19 +1,65 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+// EventDetail.jsx
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import './event.css';
 
+const baseUrl = "http://localhost:8080";
+
 const EventDetail = () => {
-    const location = useLocation();
-    const { title, date, imgSrc } = location.state || {};
+    const { id } = useParams();
+    const [eventDetail, setEventDetail] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchEventDetail = async () => {
+            try {
+                const response = await axios.get(`${baseUrl}/api/events/${id}`);
+                setEventDetail(response.data.data);
+                setLoading(false);
+            } catch (error) {
+                console.error("Failed to fetch event details:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchEventDetail();
+    }, [id]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (!eventDetail) {
+        return <p>Failed to fetch event details.</p>;
+    }
+
+    // 날짜 형식 변환
+    const formattedStartDate = eventDetail.startDate
+        ? new Date(eventDetail.startDate).toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        })
+        : '날짜 없음';
+
+    const formattedEndDate = eventDetail.endDate
+        ? new Date(eventDetail.endDate).toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        })
+        : '날짜 없음';
 
     return (
         <div className="event-detail">
-            {/* 제목과 이벤트 기간을 같은 행에 표시 */}
             <div className="event-detail-header">
-                <h1 className="event-detail-title">{title}</h1>
-                <span className="event-detail-date">이벤트 기간: {date}</span>
+                <h1 className="event-detail-title">{eventDetail.title}</h1>
+                <span className="event-detail-date">
+                    이벤트 기간: {formattedStartDate} ~ {formattedEndDate}
+                </span>
             </div>
-            <img src={imgSrc} alt={title} className="event-detail-image" />
+            <img src={eventDetail.image} alt={eventDetail.title} className="event-detail-image" />
             <button className="event-detail-button">항공권 예약하러 가기</button>
         </div>
     );
