@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 import MainPage from "./pages/MainPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -26,14 +25,15 @@ import InfoUpdate from './pages/InfoUpdate';
 import Success from './pages/Success';
 import Fail from './pages/Fail';
 
+
 function App() {
-  return (
-    <BrowserRouter>
-      <MainContent />
-      <div className="mt-20"></div>
-      <Footer />
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <MainContent />
+            <div className="mt-20"></div>
+            <Footer />
+        </BrowserRouter>
+    );
 }
 
 function MainContent() {
@@ -56,6 +56,7 @@ function MainContent() {
         />
         <Route path="/cardPick/" element={<CardPick />} />
         <Route path="/event/" element={<Event />} />
+          <Route path="/event-detail/:id" element={<EventDetail />} /> {/* :id 추가 */}
         <Route path="/event-detail" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/my/flight" element={<Flight />} />
