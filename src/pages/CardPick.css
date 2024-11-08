@@ -1,243 +1,243 @@
 /* 메인 카드 선택 페이지 전체 레이아웃 */
 .card-pick {
-    width: 100%; /* 페이지 전체 너비 */
-    max-width: 950px; /* 최대 너비 950px */
-    margin: 0 auto; /* 페이지 가운데 정렬 */
-    padding-top: 20px; /* 상단 여백 */
-    font-family: Arial, sans-serif; /* 기본 폰트 */
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 30px;
+  min-height: 80vh;
+  font-family: Arial, sans-serif; /* 기본 폰트 */
 }
 
 /* 페이지 제목 스타일 */
-.card-pick h1 {
-    text-align: left; /* 왼쪽 정렬 */
-    margin-left: 10px; /* 왼쪽 여백 */
-    font-size: 2em; /* 제목 크기 */
-    font-weight: bold; /* 두꺼운 글꼴 */
-    padding-bottom: 10px;
+.card-pick h2 {
+  font-size: 24px; /* 제목 크기 */
+  font-weight: bold; /* 두꺼운 글꼴 */
+  padding-bottom: 20px;
 }
 
 /* 페이지 내용: 사이드바와 메인 콘텐츠 */
 .content {
-    display: flex;
-    min-height: 600px; /* 사이드바와 동일한 최소 높이 설정 */
+  display: flex;
+  min-height: 600px; /* 사이드바와 동일한 최소 높이 설정 */
 }
 
 /* 사이드바 */
 .sidebar {
-    width: 220px; /* 사이드바 너비 고정 */
-    height: 730px; /* 사이드바 높이 고정 */
-    overflow-y: auto; /* 내용이 많아질 경우 스크롤 생성 */
-    padding: 20px; /* 내부 여백 설정 */
-    background-color: #f9f9f9; /* 사이드바 배경색 */
-    box-sizing: border-box; /* 패딩 포함 너비 계산 */
+  width: 220px; /* 사이드바 너비 고정 */
+  height: 730px; /* 사이드바 높이 고정 */
+  overflow-y: auto; /* 내용이 많아질 경우 스크롤 생성 */
+  padding: 20px; /* 내부 여백 설정 */
+  background-color: #f9f9f9; /* 사이드바 배경색 */
+  box-sizing: border-box; /* 패딩 포함 너비 계산 */
 }
 
 /* 메인 콘텐츠 */
 .main-content {
-    flex: 1; /* 남은 공간을 차지하도록 설정 */
-    min-height: 800px; /* 사이드바와 동일한 최소 높이 설정 */
-    padding: 0 20px 0 20px; /* 위쪽 여백은 0, 나머지는 20px 설정 */
-    overflow-y: auto; /* 내용이 많아질 경우 스크롤 생성 */
-    box-sizing: border-box; /* 패딩 포함 너비 계산 */
+  flex: 1; /* 남은 공간을 차지하도록 설정 */
+  min-height: 800px; /* 사이드바와 동일한 최소 높이 설정 */
+  padding: 0 20px 0 20px; /* 위쪽 여백은 0, 나머지는 20px 설정 */
+  overflow-y: auto; /* 내용이 많아질 경우 스크롤 생성 */
+  box-sizing: border-box; /* 패딩 포함 너비 계산 */
 }
 
 /* 사이드바 제목 스타일 */
 .sidebar h3 {
-    display: flex;
-    justify-content: space-between; /* 제목과 토글 버튼을 양쪽 끝에 배치 */
-    align-items: center; /* 세로 가운데 정렬 */
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    cursor: pointer; /* 클릭 가능하도록 커서 변경 */
+  display: flex;
+  justify-content: space-between; /* 제목과 토글 버튼을 양쪽 끝에 배치 */
+  align-items: center; /* 세로 가운데 정렬 */
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  cursor: pointer; /* 클릭 가능하도록 커서 변경 */
 }
 
 /* .toggle-icon 스타일 */
 .toggle-icon {
-    font-size: 13px; /* 화살표 크기 */
-    color: #333; /* 화살표 색상 */
-    margin-left: 8px; /* 섹션 제목과 간격 */
-    cursor: pointer;
+  font-size: 13px; /* 화살표 크기 */
+  color: #333; /* 화살표 색상 */
+  margin-left: 8px; /* 섹션 제목과 간격 */
+  cursor: pointer;
 }
 
 .icon-up {
-    font-weight: bold; /* 두께 조절 */
+  font-weight: bold; /* 두께 조절 */
 }
 
 .icon-down {
-    font-weight: bold; /* 두께 조절 */
+  font-weight: bold; /* 두께 조절 */
 }
 
 /* 필터 태그 스타일 */
 .filter-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 20px;
 }
 
 .filter-tags .ant-tag {
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 4px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
 }
 
 .selected-filters {
-    padding: 5px; /* 필터 내부 태그 주변에 여백 추가 */
-    display: flex; /* 필터 태그들이 가로로 나란히 배치되도록 설정 */
+  padding: 5px; /* 필터 내부 태그 주변에 여백 추가 */
+  display: flex; /* 필터 태그들이 가로로 나란히 배치되도록 설정 */
 }
 
 .selected-filters .ant-tag {
-    font-size: 12px; /* 원하는 글자 크기로 조정 */
-    padding: 5px; /* 태그 내의 여백을 추가해 텍스트가 더 여유롭게 보이도록 설정 */
+  font-size: 12px; /* 원하는 글자 크기로 조정 */
+  padding: 5px; /* 태그 내의 여백을 추가해 텍스트가 더 여유롭게 보이도록 설정 */
 }
 
 .reset-filters-button {
-    background-color: #f3f3f3; /* 버튼 배경 색상 */
-    color: #000000; /* 버튼 글자 색상 */
-    font-size: 12px; /* 버튼 글자 크기 */
-    padding: 10px; /* 버튼 내 여백 */
-    border: none; /* 버튼 테두리 제거 */
-    border-radius: 4px; /* 둥근 모서리 설정 */
-    cursor: pointer; /* 마우스를 올렸을 때 포인터 모양 변경 */
+  background-color: #f3f3f3; /* 버튼 배경 색상 */
+  color: #000000; /* 버튼 글자 색상 */
+  font-size: 12px; /* 버튼 글자 크기 */
+  padding: 10px; /* 버튼 내 여백 */
+  border: none; /* 버튼 테두리 제거 */
+  border-radius: 4px; /* 둥근 모서리 설정 */
+  cursor: pointer; /* 마우스를 올렸을 때 포인터 모양 변경 */
 }
 
 /* 카드 리스트 스타일 */
 .card-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
-    min-height: 600px; /* 사이드바와 동일한 최소 높이 설정 */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  min-height: 600px; /* 사이드바와 동일한 최소 높이 설정 */
 }
 
 /* 개별 카드 아이템 */
 .card-item {
-    display: flex;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #fff;
-    position: relative;
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+  position: relative;
 }
 
 /* 카드 이미지 스타일 */
 .card-image {
-    width: 120px;
-    height: 180px;
-    border-radius: 8px;
-    margin-right: 20px;
+  width: 120px;
+  height: 180px;
+  border-radius: 8px;
+  margin-right: 20px;
 }
 
 /* 카드 상세 정보 */
 .card-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-details h4 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: bold;
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .card-details p {
-    margin: 0;
-    color: #666;
-    font-size: 12px;
+  margin: 0;
+  color: #666;
+  font-size: 12px;
 }
 
 /* 카드 혜택 스타일 */
 .card-features {
-    display: flex;
-    gap: 30px; /* 각 항목 간격을 넓게 조정 */
-    margin: 20px 0;
-    flex-wrap: wrap; /* 줄 바꿈을 허용하여 여러 줄에 나올 수 있도록 설정 */
-    align-items: center; /* 항목들이 수직 가운데 정렬 */
+  display: flex;
+  gap: 30px; /* 각 항목 간격을 넓게 조정 */
+  margin: 20px 0;
+  flex-wrap: wrap; /* 줄 바꿈을 허용하여 여러 줄에 나올 수 있도록 설정 */
+  align-items: center; /* 항목들이 수직 가운데 정렬 */
 }
 
 /* 혜택 개별 아이템 스타일 */
 .feature-item {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* 아이콘과 텍스트 간격 최소화 */
-    flex-basis: calc(33% - 20px); /* 3열 배치를 위한 너비 조정 */
-    max-width: 300px; /* 최대 너비 설정 */
-    text-align: left; /* 텍스트를 왼쪽 정렬 */
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 아이콘과 텍스트 간격 최소화 */
+  flex-basis: calc(33% - 20px); /* 3열 배치를 위한 너비 조정 */
+  max-width: 300px; /* 최대 너비 설정 */
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
 }
 
 /* 혜택 아이콘 스타일 */
 .feature-icon {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 혜택 텍스트 스타일 */
 .feature-text {
-    display: flex;
-    flex-direction: column;
-    white-space: normal;
+  display: flex;
+  flex-direction: column;
+  white-space: normal;
 }
 
 .feature-title {
-    font-weight: bold;
-    font-size: 11px; /* 제목 글꼴 크기 */
-    color: #333;
-    line-height: 1.3; /* 줄 간격을 넓혀서 가독성 향상 */
+  font-weight: bold;
+  font-size: 11px; /* 제목 글꼴 크기 */
+  color: #333;
+  line-height: 1.3; /* 줄 간격을 넓혀서 가독성 향상 */
 }
 
 .feature-description {
-    font-size: 10px;
-    color: #888;
-    line-height: 1.3;
-    margin-top: 2px; /* 제목과 설명 사이 간격 */
+  font-size: 10px;
+  color: #888;
+  line-height: 1.3;
+  margin-top: 2px; /* 제목과 설명 사이 간격 */
 }
 
 /* 카드 하단 버튼 */
 .card-buttons {
-    display: flex;
-    gap: 10px;
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
 }
 
-.details-button, .apply-button {
-    padding: 6px 12px;
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
-    height: 30px;
-    border-radius: 4px; /* 둥근 모서리 설정 */
+.details-button,
+.apply-button {
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  height: 30px;
+  border-radius: 4px; /* 둥근 모서리 설정 */
 }
 
 /* 버튼 색상 */
 .details-button {
-    background-color: #000;
-    color: #fff;
+  background-color: #000;
+  color: #fff;
 }
 
 .apply-button {
-    background-color: #007bff;
-    color: #fff;
+  background-color: #007bff;
+  color: #fff;
 }
 
 .details-button:hover {
-    background-color: #333;
+  background-color: #333;
 }
 
 .apply-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 /* 페이지네이션 스타일 */
 .pagination {
-    display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    margin-top: 20px; /* 상단 여백 */
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  margin-top: 20px; /* 상단 여백 */
 }

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, Row, Col, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import FlightCard from "./FlightCard";
-import PassengerForm from "./PassengerForm";
-import BookerInfo from "./BookerInfo";
+import FlightCard from "../components/FlightCard";
+import PassengerForm from "../components/PassengerForm";
+import BookerInfo from "../components/BookerInfo";
 
 const { Text, Title } = Typography;
 
@@ -138,32 +138,9 @@ const ReservationConfirmation = () => {
 
   return (
     <div className="flex justify-center w-full">
-      <div className="w-full max-w-[950px] px-4">
+      <div className="w-full max-w-[950px] mx-auto p-5 pt-8 min-h-[80vh] bg-white">
         <Row gutter={[24, 24]}>
           <Col span={16}>
-            {/* <Card>
-              <div className="p-5">
-                <Title level={3} className="mb-5">
-                  예약편 확인
-                </Title>
-
-                {flights.outbound && (
-                  <FlightCard
-                    flightData={flights.outbound}
-                    isVisible={showGoingFlightDetails}
-                    onToggle={handleToggleGoingFlight}
-                  />
-                )}
-
-                {flights.inbound && (
-                  <FlightCard
-                    flightData={flights.inbound}
-                    isVisible={showReturningFlightDetails}
-                    onToggle={handleToggleReturningFlight}
-                  />
-                )}
-              </div>
-            </Card> */}
             <Card>
               <div className="p-5">
                 <Title level={3} className="mb-5">
