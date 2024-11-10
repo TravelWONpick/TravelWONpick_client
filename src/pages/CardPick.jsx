@@ -49,7 +49,7 @@ const CardPick = () => {
   }, []);
 
   const filterCards = () => {
-    return cards.filter(card => {
+    return cards.filter((card) => {
       const typeMatch = selectedType ? card.type === selectedType : true;
       const feeMatch = selectedAnnualFee
           ? (selectedAnnualFee === '1만원 이하' && card.annualFee <= 10000) ||
@@ -66,146 +66,225 @@ const CardPick = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const filteredCards = filterCards();
-  const paginatedCards = filteredCards.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const paginatedCards = filteredCards.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const toggleSection = section => {
-    setToggleState(prevState => ({
+  const toggleSection = (section) => {
+    setToggleState((prevState) => ({
       ...prevState,
       [section]: !prevState[section],
     }));
   };
 
   const handleTypeClick = (type) => {
-    setSelectedType(prevType => (prevType === type ? null : type));
+    setSelectedType((prevType) => (prevType === type ? null : type));
   };
 
   const handleFeeClick = (fee) => {
-    setSelectedAnnualFee(prevFee => (prevFee === fee ? null : fee));
+    setSelectedAnnualFee((prevFee) => (prevFee === fee ? null : fee));
   };
 
   const handleBenefitsClick = (benefit) => {
     if (selectedBenefits.includes(benefit)) {
-      setSelectedBenefits(prev => prev.filter(b => b !== benefit));
+      setSelectedBenefits((prev) => prev.filter((b) => b !== benefit));
     } else if (selectedBenefits.length < 3) {
-      setSelectedBenefits(prev => [...prev, benefit]);
+      setSelectedBenefits((prev) => [...prev, benefit]);
     }
   };
 
-  const handleRemoveFilter = filter => {
+  const handleRemoveFilter = (filter) => {
     if (filter === selectedType) setSelectedType(null);
     else if (filter === selectedAnnualFee) setSelectedAnnualFee(null);
-    else setSelectedBenefits(prev => prev.filter(b => b !== filter));
+    else setSelectedBenefits((prev) => prev.filter((b) => b !== filter));
   };
 
   return (
-      <div className="card-pick">
-        <h1>카드 PICK</h1>
+    <div className="card-pick">
+      <h2>카드 PICK</h2>
 
-        <div className="content">
-          <aside className="sidebar">
-            {/* 카드 종류 필터 */}
-            <h3 onClick={() => toggleSection('type')}>
-              카드 종류 <span className="toggle-icon">{toggleState.type ? <UpOutlined /> : <DownOutlined />}</span>
-            </h3>
-            {toggleState.type && (
-                <div className="filter-tags">
-                  <Tag onClick={() => handleTypeClick('신용카드')} color={selectedType === '신용카드' ? 'blue' : 'default'}>
-                    신용카드
+      <div className="content">
+        <aside className="sidebar">
+          {/* 카드 종류 필터 */}
+          <h3 onClick={() => toggleSection("type")}>
+            카드 종류{" "}
+            <span className="toggle-icon">
+              {toggleState.type ? <UpOutlined /> : <DownOutlined />}
+            </span>
+          </h3>
+          {toggleState.type && (
+            <div className="filter-tags">
+              <Tag
+                onClick={() => handleTypeClick("신용카드")}
+                color={selectedType === "신용카드" ? "blue" : "default"}
+              >
+                신용카드
+              </Tag>
+              <Tag
+                onClick={() => handleTypeClick("체크카드")}
+                color={selectedType === "체크카드" ? "blue" : "default"}
+              >
+                체크카드
+              </Tag>
+            </div>
+          )}
+
+          {/* 연회비 필터 */}
+          <h3 onClick={() => toggleSection("fee")}>
+            연회비{" "}
+            <span className="toggle-icon">
+              {toggleState.fee ? <UpOutlined /> : <DownOutlined />}
+            </span>
+          </h3>
+          {toggleState.fee && (
+            <div className="filter-tags">
+              {["1만원 이하", "1만원 ~ 3만원", "3만원 ~ 5만원", "상관없음"].map(
+                (fee) => (
+                  <Tag
+                    key={fee}
+                    onClick={() => handleFeeClick(fee)}
+                    color={selectedAnnualFee === fee ? "blue" : "default"}
+                  >
+                    {fee}
                   </Tag>
-                  <Tag onClick={() => handleTypeClick('체크카드')} color={selectedType === '체크카드' ? 'blue' : 'default'}>
-                    체크카드
-                  </Tag>
-                </div>
-            )}
-
-            {/* 연회비 필터 */}
-            <h3 onClick={() => toggleSection('fee')}>
-              연회비 <span className="toggle-icon">{toggleState.fee ? <UpOutlined /> : <DownOutlined />}</span>
-            </h3>
-            {toggleState.fee && (
-                <div className="filter-tags">
-                  {['1만원 이하', '1만원 ~ 3만원', '3만원 ~ 5만원', '상관없음'].map(fee => (
-                      <Tag key={fee} onClick={() => handleFeeClick(fee)} color={selectedAnnualFee === fee ? 'blue' : 'default'}>
-                        {fee}
-                      </Tag>
-                  ))}
-                </div>
-            )}
-
-            {/* 혜택 필터 */}
-            <h3 onClick={() => toggleSection('benefits')}>
-              원하는 혜택 (최대 3개) <span className="toggle-icon">{toggleState.benefits ? <UpOutlined /> : <DownOutlined />}</span>
-            </h3>
-            {toggleState.benefits && (
-                <div className="filter-tags">
-                  {['모든 가맹점', '대중교통', '통신', '주유/자동차', '쇼핑/마트', '외식', '온라인', 'OTT/배달', '관리비', '커피', '교육/육아', '영화/문화', '숙박/발렛파킹', '병원', '공항 라운지', '애완동물', '레저/스포츠'].map(benefit => (
-                      <Tag key={benefit} onClick={() => handleBenefitsClick(benefit)} color={selectedBenefits.includes(benefit) ? 'blue' : 'default'}>
-                        {benefit}
-                      </Tag>
-                  ))}
-                </div>
-            )}
-          </aside>
-
-          {/* 카드 목록과 필터 적용 */}
-          <div className="main-content">
-            <div className="selected-filters">
-              {[selectedType, selectedAnnualFee, ...selectedBenefits].map((filter, index) => (
-                  filter && (
-                      <Tag key={index} closable onClose={() => handleRemoveFilter(filter)}>
-                        {filter}
-                      </Tag>
-                  )
-              ))}
-              {(selectedType || selectedAnnualFee || selectedBenefits.length > 0) && (
-                  <Button className="reset-filters-button" onClick={() => {
-                    setSelectedType(null);
-                    setSelectedAnnualFee(null);
-                    setSelectedBenefits([]);
-                  }}>
-                    필터 초기화
-                  </Button>
+                )
               )}
             </div>
+          )}
 
-            <div className="card-list">
-              {paginatedCards.map((card, index) => (
-                  <div key={index} className="card-item">
-                    <img src={card.image} alt={card.title} className="card-image" />
-                    <div className="card-details">
-                      <h4>{card.title}</h4>
-                      <p>{card.description}</p>
-                      <div className="card-features">
-                        {card.benefits.map((benefit, i) => (
-                            <div key={i} className="feature-item">
-                              <img src={benefit.image} alt={benefit.name} className="feature-icon" />
-                              <div className="feature-text">
-                                <span className="feature-title">{benefit.name}</span>
-                                <span className="feature-description">{benefit.detail}</span>
-                              </div>
-                            </div>
-                        ))}
-                      </div>
-                      <div className="card-buttons">
-                        <button className="details-button" onClick={() => window.open(card.detailsLink, '_blank')}>자세히보기</button>
-                        <button className="apply-button" onClick={() => window.open(card.applyLink, '_blank')}>카드신청</button>
-                      </div>
-                    </div>
-                  </div>
+          {/* 혜택 필터 */}
+          <h3 onClick={() => toggleSection("benefits")}>
+            원하는 혜택 (최대 3개){" "}
+            <span className="toggle-icon">
+              {toggleState.benefits ? <UpOutlined /> : <DownOutlined />}
+            </span>
+          </h3>
+          {toggleState.benefits && (
+            <div className="filter-tags">
+              {[
+                "모든 가맹점",
+                "대중교통",
+                "통신",
+                "주유/자동차",
+                "쇼핑/마트",
+                "외식",
+                "온라인",
+                "OTT/배달",
+                "관리비",
+                "커피",
+                "교육/육아",
+                "영화/문화",
+                "숙박/발렛파킹",
+                "병원",
+                "공항 라운지",
+                "애완동물",
+                "레저/스포츠",
+              ].map((benefit) => (
+                <Tag
+                  key={benefit}
+                  onClick={() => handleBenefitsClick(benefit)}
+                  color={
+                    selectedBenefits.includes(benefit) ? "blue" : "default"
+                  }
+                >
+                  {benefit}
+                </Tag>
               ))}
-              {filteredCards.length > pageSize && (
-                  <div className="pagination">
-                    <Pagination current={currentPage} pageSize={pageSize} total={filteredCards.length} onChange={handlePageChange} />
-                  </div>
-              )}
             </div>
+          )}
+        </aside>
+
+        {/* 카드 목록과 필터 적용 */}
+        <div className="main-content">
+          <div className="selected-filters">
+            {[selectedType, selectedAnnualFee, ...selectedBenefits].map(
+              (filter, index) =>
+                filter && (
+                  <Tag
+                    key={index}
+                    closable
+                    onClose={() => handleRemoveFilter(filter)}
+                  >
+                    {filter}
+                  </Tag>
+                )
+            )}
+            {(selectedType ||
+              selectedAnnualFee ||
+              selectedBenefits.length > 0) && (
+              <Button
+                className="reset-filters-button"
+                onClick={() => {
+                  setSelectedType(null);
+                  setSelectedAnnualFee(null);
+                  setSelectedBenefits([]);
+                }}
+              >
+                필터 초기화
+              </Button>
+            )}
+          </div>
+
+          <div className="card-list">
+            {paginatedCards.map((card, index) => (
+              <div key={index} className="card-item">
+                <img src={card.image} alt={card.title} className="card-image" />
+                <div className="card-details">
+                  <h4>{card.title}</h4>
+                  <p>{card.description}</p>
+                  <div className="card-features">
+                    {card.benefits.map((benefit, i) => (
+                      <div key={i} className="feature-item">
+                        <img
+                          src={benefit.image}
+                          alt={benefit.name}
+                          className="feature-icon"
+                        />
+                        <div className="feature-text">
+                          <span className="feature-title">{benefit.name}</span>
+                          <span className="feature-description">
+                            {benefit.detail}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="card-buttons">
+                    <button
+                      className="details-button"
+                      onClick={() => window.open(card.detailsLink, "_blank")}
+                    >
+                      자세히보기
+                    </button>
+                    <button
+                      className="apply-button"
+                      onClick={() => window.open(card.applyLink, "_blank")}
+                    >
+                      카드신청
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {filteredCards.length > pageSize && (
+              <div className="pagination">
+                <Pagination
+                  current={currentPage}
+                  pageSize={pageSize}
+                  total={filteredCards.length}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

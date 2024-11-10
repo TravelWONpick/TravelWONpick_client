@@ -17,13 +17,13 @@ import FlightDetail from "./pages/FlightDetail";
 import Reservation from "./pages/Reservation";
 import ReservationConfirmation from "./pages/ReservationConfirmation";
 import Payment from "./pages/Payment";
-import Passenger from './pages/Passenger';
-import PassengerRegister from './pages/PassengerRegister';
-import PassengerUpdate from './pages/PassengerUpdate';
-import Info from './pages/Info';
-import InfoUpdate from './pages/InfoUpdate';
-import Success from './pages/Success';
-import Fail from './pages/Fail';
+import Passenger from "./pages/Passenger";
+import PassengerRegister from "./pages/PassengerRegister";
+import PassengerUpdate from "./pages/PassengerUpdate";
+import Info from "./pages/Info";
+import InfoUpdate from "./pages/InfoUpdate";
+import Success from "./pages/Success";
+import Fail from "./pages/Fail";
 
 
 function App() {
@@ -49,14 +49,14 @@ function MainContent() {
         <Route path="/pricePick/" element={<PricePick />} />
         <Route path="/pricePick/reservation/" element={<Reservation />} />
         <Route
-          path="/pricePick/reservationConfirmation/"
+          path="/pricePick/reservation-confirmation/"
           element={<ReservationConfirmation />}
         />
-        <Route path="/pricePick/payment/" element={<Payment />}
-        />
+        <Route path="/pricePick/payment/" element={<Payment />} />
         <Route path="/cardPick/" element={<CardPick />} />
         <Route path="/event/" element={<Event />} />
-          <Route path="/event-detail/:id" element={<EventDetail />} /> {/* :id 추가 */}
+        <Route path="/event-detail/:id" element={<EventDetail />} />{" "}
+        {/* :id 추가 */}
         <Route path="/event-detail" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/my/flight" element={<Flight />} />

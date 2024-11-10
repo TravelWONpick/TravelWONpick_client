@@ -39,61 +39,61 @@ const Event = () => {
         fetchEvents();
     }, []);
 
-    const filteredEvents = events.filter(event => event.status === filter);
-    const startIndex = (currentPage - 1) * pageSize;
-    const currentEvents = filteredEvents.slice(startIndex, startIndex + pageSize);
+  const filteredEvents = events.filter((event) => event.status === filter);
+  const startIndex = (currentPage - 1) * pageSize;
+  const currentEvents = filteredEvents.slice(startIndex, startIndex + pageSize);
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
-    const handleFilterChange = (status) => {
-        setFilter(status);
-        setCurrentPage(1);
-    };
+  const handleFilterChange = (status) => {
+    setFilter(status);
+    setCurrentPage(1);
+  };
 
-    return (
-        <div className="event-page">
-            <h1>이벤트</h1>
-            <div className="event-filter">
-                <button
-                    className={`filter-button ${filter === 'active' ? 'active' : ''}`}
-                    onClick={() => handleFilterChange('active')}
-                >
-                    진행 중 이벤트
-                </button>
-                <button
-                    className={`filter-button ${filter === 'inactive' ? 'active' : ''}`}
-                    onClick={() => handleFilterChange('inactive')}
-                >
-                    종료된 이벤트
-                </button>
-            </div>
-            <div className="event-list">
-                {currentEvents.map(event => {
-                    console.log("Event Date:", event.startDate, event.endDate); // 확인용 로그
-                    return (
-                        <EventCard
-                            key={event.id}
-                            id={event.id}
-                            title={event.title}
-                            startDate={event.startDate}
-                            endDate={event.endDate}
-                            previewImgSrc={event.previewImage}
-                        />
-                    );
-                })}
-            </div>
-            <Pagination
-                current={currentPage}
-                pageSize={pageSize}
-                total={filteredEvents.length}
-                onChange={handlePageChange}
-                className="pagination"
-                style={{ marginTop: '20px' }}
+  return (
+    <div className="event-page">
+      <h2>이벤트</h2>
+      <div className="event-filter">
+        <button
+          className={`filter-button ${filter === "active" ? "active" : ""}`}
+          onClick={() => handleFilterChange("active")}
+        >
+          진행 중 이벤트
+        </button>
+        <button
+          className={`filter-button ${filter === "inactive" ? "active" : ""}`}
+          onClick={() => handleFilterChange("inactive")}
+        >
+          종료된 이벤트
+        </button>
+      </div>
+      <div className="event-list">
+        {currentEvents.map((event) => {
+          console.log("Event Date:", event.startDate, event.endDate); // 확인용 로그
+          return (
+            <EventCard
+              key={event.id}
+              id={event.id}
+              title={event.title}
+              startDate={event.startDate}
+              endDate={event.endDate}
+              previewImgSrc={event.previewImage}
             />
-        </div>
-    );
+          );
+        })}
+      </div>
+      <Pagination
+        current={currentPage}
+        pageSize={pageSize}
+        total={filteredEvents.length}
+        onChange={handlePageChange}
+        className="pagination"
+        style={{ marginTop: "20px" }}
+      />
+    </div>
+  );
 };
 
 export default Event;

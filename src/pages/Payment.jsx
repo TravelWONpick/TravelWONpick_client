@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Button, Row, Col, Typography, Space } from "antd";
-import FlightCard from "./FlightCard";
+import FlightCard from "../components/FlightCard";
 
 const { Title, Text } = Typography;
 
@@ -61,16 +61,19 @@ const Payment = () => {
   };
 
   const date = (timeStr) => {
-    return new Date(timeStr).toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    }).replace(/\. /g, '.').slice(0, -1);
+    return new Date(timeStr)
+      .toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .replace(/\. /g, ".")
+      .slice(0, -1);
   };
 
   return (
     <div className="flex justify-center w-full bg-white">
-      <div className="w-full max-w-[950px] px-4 py-8">
+      <div className="w-full max-w-[950px] mx-auto p-5 pt-8 min-h-[80vh] bg-white">
         <Row gutter={[24, 24]}>
           <Col span={16}>
             {/* 예약편 정보 */}
@@ -79,7 +82,7 @@ const Payment = () => {
                 <Title level={3} className="mb-5 font-bold text-[#333]">
                   예약편 정보
                 </Title>
-                
+
                 {/* 가는편 */}
                 <FlightCard
                   flightData={mockData.flights.outbound}
@@ -104,16 +107,28 @@ const Payment = () => {
                 </Title>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Text type="secondary" className="text-[#888]">이름</Text>
-                    <div className="font-medium">{mockData.bookerInfo.name}</div>
+                    <Text type="secondary" className="text-[#888]">
+                      이름
+                    </Text>
+                    <div className="font-medium">
+                      {mockData.bookerInfo.name}
+                    </div>
                   </div>
                   <div>
-                    <Text type="secondary" className="text-[#888]">이메일</Text>
-                    <div className="font-medium">{mockData.bookerInfo.email}</div>
+                    <Text type="secondary" className="text-[#888]">
+                      이메일
+                    </Text>
+                    <div className="font-medium">
+                      {mockData.bookerInfo.email}
+                    </div>
                   </div>
                   <div>
-                    <Text type="secondary" className="text-[#888]">연락처</Text>
-                    <div className="font-medium">{mockData.bookerInfo.phone}</div>
+                    <Text type="secondary" className="text-[#888]">
+                      연락처
+                    </Text>
+                    <div className="font-medium">
+                      {mockData.bookerInfo.phone}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -126,7 +141,7 @@ const Payment = () => {
                   탑승객 정보
                 </Title>
                 {Object.entries(mockData.passengers).map(([key, passenger]) => (
-                  <div 
+                  <div
                     key={key}
                     className="border border-solid border-[#e3e3e3] rounded-lg p-4 mb-4 last:mb-0"
                   >
@@ -135,23 +150,33 @@ const Payment = () => {
                     </Title>
                     <div className="grid grid-cols-2 gap-4 mt-4">
                       <div>
-                        <Text type="secondary" className="text-[#888]">영문 성</Text>
+                        <Text type="secondary" className="text-[#888]">
+                          영문 성
+                        </Text>
                         <div className="font-medium">{passenger.lastName}</div>
                       </div>
                       <div>
-                        <Text type="secondary" className="text-[#888]">영문 이름</Text>
+                        <Text type="secondary" className="text-[#888]">
+                          영문 이름
+                        </Text>
                         <div className="font-medium">{passenger.firstName}</div>
                       </div>
                       <div>
-                        <Text type="secondary" className="text-[#888]">생년월일</Text>
+                        <Text type="secondary" className="text-[#888]">
+                          생년월일
+                        </Text>
                         <div className="font-medium">{passenger.birthDate}</div>
                       </div>
                       <div>
-                        <Text type="secondary" className="text-[#888]">성별</Text>
+                        <Text type="secondary" className="text-[#888]">
+                          성별
+                        </Text>
                         <div className="font-medium">{passenger.gender}</div>
                       </div>
                       <div>
-                        <Text type="secondary" className="text-[#888]">연락처</Text>
+                        <Text type="secondary" className="text-[#888]">
+                          연락처
+                        </Text>
                         <div className="font-medium">{passenger.phone}</div>
                       </div>
                     </div>
@@ -173,17 +198,20 @@ const Payment = () => {
                   {mockData.totalPrice.toLocaleString()}원
                 </p>
                 <Text className="text-xs text-gray-500 block mb-4">
-                  {(mockData.totalPrice / Object.keys(mockData.passengers).length).toLocaleString()}원 x{" "}
-                  {Object.keys(mockData.passengers).length}명
+                  {(
+                    mockData.totalPrice /
+                    Object.keys(mockData.passengers).length
+                  ).toLocaleString()}
+                  원 x {Object.keys(mockData.passengers).length}명
                 </Text>
-                <Button 
-                  type="primary" 
+                <Button
+                  type="primary"
                   className="w-full mt-5 h-10 bg-[#007bff] hover:bg-[#0056b3]"
                 >
                   결제하기
                 </Button>
                 <Text className="text-xs text-gray-500 block mt-2">
-                우리카드 결제조건(이용실적 충족시)
+                  우리카드 결제조건(이용실적 충족시)
                 </Text>
               </div>
             </Card>
