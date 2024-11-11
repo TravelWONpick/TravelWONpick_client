@@ -8,6 +8,8 @@ import {
 import { Button, Form, Input, Typography, Modal } from "antd";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+
 const { Title, Text } = Typography;
 
 const Login = () => {
@@ -48,25 +50,114 @@ const Login = () => {
     setIsAllFieldsFilled(false);
   };
 
+  const handlePhoneChange = (e) => {
+    let { value } = e.target;
+    value = value.replace(/[^0-9]/g, "");
+    if (value.length <= 11) {
+      if (value.length > 3 && value.length <= 7) {
+        value = `${value.slice(0, 3)}-${value.slice(3)}`;
+      } else if (value.length > 7) {
+        value = `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7)}`;
+      }
+      form.setFieldsValue({ phone: value });
+    }
+  };
+
   const handleFieldsChange = (_, allFields) => {
     const allFieldsFilled = allFields.every((field) => field.value);
     setIsAllFieldsFilled(allFieldsFilled);
   };
 
-  const handleEmailSend = () => {
-    setIsEmailSent(true);
-    setShowVerification(true);
-    setVerificationMessage(`${email} (으)로 인증번호를 전송했습니다.`);
+  const handleEmailSend = async () => {
+    try {
+      const phoneWithoutHyphen = form.getFieldValue("phone").replace(/-/g, ""); // 하이픈 제거
+      const response = await axios.post("http://localhost:8080/auth/verifyuser", {
+        email: form.getFieldValue("email"),
+        password: form.getFieldValue("password"),
+        name: form.getFieldValue("name"),
+        phonenumber: phoneWithoutHyphen, // 하이픈 제거된 전화번호 사용
+      });
+
+      if (response.status === 200) {
+        setIsEmailSent(true);
+        setShowVerification(true);
+        setVerificationMessage(`${email} (으)로 인증번호를 전송했습니다.`);
+      }
+    } catch (error) {
+      console.error("인증번호 전송 중 오류가 발생했습니다: ", error);
+      setVerificationMessage("인증번호 전송에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const handleVerificationConfirm = () => {
-    setVerificationConfirmed(true);
-    setVerificationMessage("이메일 인증이 확인되었습니다.");
+  const handleVerificationConfirm = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/auth/verifysuccess", {
+        email: form.getFieldValue("email"),
+        confirmationCode: form.getFieldValue("verification"), // 사용자가 입력한 인증번호
+      });
+
+      if (response.status === 200) {
+        setVerificationConfirmed(true);
+        setVerificationMessage("이메일 인증이 확인되었습니다.");
+        form.setFields([
+          { name: "name", disabled: true },
+          { name: "phone", disabled: true },
+          { name: "password", disabled: true },
+          { name: "confirmPassword", disabled: true },
+        ]);
+      }
+    } catch (error) {
+      console.error("인증번호 확인 중 오류가 발생했습니다: ", error);
+      setVerificationMessage("인증번호가 일치하지 않습니다. 다시 확인해주세요.");
+    }
   };
+
+  const handleSignupSubmit = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/auth/signup", {
+        email: form.getFieldValue("email"),
+        password: form.getFieldValue("password"),
+        name: form.getFieldValue("name"),
+        phonenumber: form.getFieldValue("phone").replace(/-/g, ""), // "-"를 제거한 휴대폰 번호
+        notification: true // 기본적으로 알림을 허용합니다.
+      });
+
+      if (response.status === 200) {
+        Modal.success({
+          title: "회원가입 성공",
+          content: "회원가입이 완료되었습니다.",
+        });
+        handleCloseModal(); // 모달을 닫음
+      }
+    } catch (error) {
+      console.error("회원가입 중 오류가 발생했습니다: ", error);
+      Modal.error({
+        title: "회원가입 실패",
+        content: "회원가입 중 오류가 발생했습니다. 다시 시도해주세요.",
+      });
+    }
+  };
+
+  const handleLoginSubmit = async (values) => {
+    try {
+      const { email, password } = values; // 폼에서 가져온 이메일과 비밀번호 값
+      const response = await axios.post("http://localhost:8080/auth/login", {
+        email,
+        password,
+      });
+      if (response.status === 200) {
+        console.log("로그인 성공:", response.data);
+        // 필요한 후속 처리
+      }
+    } catch (error) {
+      console.error("로그인 중 오류가 발생했습니다:", error.response?.data);
+    }
+  };
+
 
   // 공통 인풋 스타일
   const inputStyle = {
@@ -151,6 +242,7 @@ const Login = () => {
             <Form.Item style={{ marginBottom: "15px" }}>
               <Button
                 type="primary"
+                onClick={handleLoginSubmit}
                 htmlType="submit"
                 block
                 style={{
@@ -206,29 +298,62 @@ const Login = () => {
           >
             <Form.Item
               label={
-                <Text style={{ fontSize: "14px", color: "#888" }}>이름</Text>
+                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>이름</Text>
               }
               name="name"
               rules={[{ required: true, message: "이름을 입력해주세요" }]}
               style={{ marginBottom: "20px" }}
               labelCol={{ span: 24 }}
+              required={false}
             >
               <Input
                 placeholder="이름을 입력해주세요"
                 style={{ ...inputStyle }}
+                disabled={verificationConfirmed}
               />
             </Form.Item>
 
             <Form.Item
               label={
-                <Text style={{ fontSize: "14px", color: "#888" }}>
+                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
+                  휴대폰번호
+                </Text>
+              }
+              name="phone"
+              rules={[
+                { required: true, message: "휴대폰 번호를 입력하세요!" },
+                {
+                  pattern: /^\d{3}-\d{4}-\d{4}$/,
+                  message: "휴대폰 번호 형식이 올바르지 않습니다. (010-1234-5678)"
+                }
+              ]}
+              style={{ marginBottom: "20px" }}
+              labelCol={{ span: 24 }}
+              required={false}
+            >
+              <Input
+                placeholder="000-0000-0000"
+                style={{ ...inputStyle }}
+                maxLength={13}
+                onChange={handlePhoneChange}
+                disabled={verificationConfirmed}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label={
+                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
                   비밀번호
                 </Text>
               }
               name="password"
-              rules={[{ required: true, message: "비밀번호를 입력해주세요" }]}
+              rules={[
+                { required: true, message: "비밀번호를 입력하세요!" },
+                { min: 6, message: "비밀번호를 6자리 이상 입력해주세요." }
+              ]}
               style={{ marginBottom: "20px" }}
               labelCol={{ span: 24 }}
+              required={false}
             >
               <Input
                 type={passwordVisible ? "text" : "password"}
@@ -246,26 +371,26 @@ const Login = () => {
 
             <Form.Item
               label={
-                <Text style={{ fontSize: "14px", color: "#888" }}>
+                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
                   비밀번호 재확인
                 </Text>
               }
               name="confirmPassword"
               rules={[
                 { required: true, message: "비밀번호를 다시 입력해주세요" },
+                { min: 6, message: "비밀번호를 6자리 이상 입력해주세요." },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
                     if (!value || getFieldValue("password") === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(
-                      new Error("비밀번호가 일치하지 않습니다.")
-                    );
+                    return Promise.reject(new Error("비밀번호가 일치하지 않습니다."));
                   },
                 }),
               ]}
               style={{ marginBottom: "20px" }}
               labelCol={{ span: 24 }}
+              required={false}
             >
               <Input
                 type={confirmPasswordVisible ? "text" : "password"}
@@ -285,12 +410,13 @@ const Login = () => {
 
             <Form.Item
               label={
-                <Text style={{ fontSize: "14px", color: "#888" }}>이메일</Text>
+                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>이메일</Text>
               }
               name="email"
               rules={[{ required: true, message: "이메일을 입력해주세요" }]}
               style={{ marginBottom: "20px" }}
               labelCol={{ span: 24 }}
+              required={false}
             >
               <Input
                 placeholder="email@example.com"
@@ -316,7 +442,7 @@ const Login = () => {
             {showVerification && (
               <Form.Item
                 label={
-                  <Text style={{ fontSize: "14px", color: "#0039FF" }}>
+                  <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
                     인증번호
                   </Text>
                 }
@@ -324,6 +450,7 @@ const Login = () => {
                 rules={[{ required: true, message: "인증번호를 입력해주세요" }]}
                 style={{ marginBottom: "20px" }}
                 labelCol={{ span: 24 }}
+                required={false}
               >
                 <Input
                   placeholder="인증번호"
@@ -376,6 +503,7 @@ const Login = () => {
               </Button>
               <Button
                 type="primary"
+                onClick={handleSignupSubmit}
                 htmlType="submit"
                 style={{
                   ...buttonStyle,

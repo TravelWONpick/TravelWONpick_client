@@ -11,9 +11,9 @@ const { ItemGroup } = Menu;
 const FlightDetail = () => {
   const purchaseColumns = [
     { title: "성명", dataIndex: "name", key: "name", align: "center" },
-    { title: "좌수", dataIndex: "seats", key: "seats", align: "center" },
+    { title: "매수", dataIndex: "seats", key: "seats", align: "center" },
     {
-      title: "항공권가",
+      title: "항공운임",
       dataIndex: "ticketPrice",
       key: "ticketPrice",
       align: "center",
@@ -25,7 +25,7 @@ const FlightDetail = () => {
       align: "center",
     },
     {
-      title: "총 결제액",
+      title: "총결제금액",
       dataIndex: "totalPrice",
       key: "totalPrice",
       align: "center",
@@ -41,25 +41,52 @@ const FlightDetail = () => {
     },
     { title: "여정", dataIndex: "route", key: "route", align: "center" },
     {
-      title: "탑승일",
-      dataIndex: "boardingDate",
-      key: "boardingDate",
+      title: "출발",
+      dataIndex: "departure",
+      key: "departure",
       align: "center",
     },
     {
-      title: "탑승시간",
-      dataIndex: "boardingTime",
-      key: "boardingTime",
+      title: "도착",
+      dataIndex: "arrival",
+      key: "arrival",
       align: "center",
     },
-    { title: "좌석", dataIndex: "seat", key: "seat", align: "center" },
+    { title: "예약좌석", dataIndex: "seat", key: "seat", align: "center" },
+  ];
+
+  const passengerColumns = [
+    {
+      title: "영문 이름",
+      dataIndex: "passengerName",
+      key: "passengerName",
+      align: "center",
+    },
+    {
+      title: "성별",
+      dataIndex: "gender",
+      key: "gender",
+      align: "center",
+    },
+    {
+      title: "생년월일",
+      dataIndex: "birthDate",
+      key: "birthDate",
+      align: "center",
+    },
+    {
+      title: "전화번호",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+      align: "center",
+    },
   ];
 
   const purchaseData = [
     {
       key: "1",
       name: "김상민",
-      seats: "3",
+      seats: "2",
       ticketPrice: "430,000",
       discount: "50,000",
       totalPrice: "380,000",
@@ -69,19 +96,36 @@ const FlightDetail = () => {
   const scheduleData = [
     {
       key: "1",
-      flightNumber: "RS502",
-      route: "서울/인천(ICN) → 나리타(NRT)",
-      boardingDate: "2024.4.18 (목)",
-      boardingTime: "2024.4.18 09:05",
-      seat: "3석",
+      flightNumber: "RS529",
+      route: "서울/인천(ICN) → 나트랑(CXR)",
+      departure: "2024.06.19 (수) 02:00",
+      arrival: "2024.06.19 (수) 09:05",
+      seat: "2석",
     },
     {
       key: "2",
-      flightNumber: "RS503",
-      route: "나리타(NRT) → 서울/인천(ICN)",
-      boardingDate: "2024.4.21 (일)",
-      boardingTime: "2024.4.21 19:55",
-      seat: "3석",
+      flightNumber: "RS530",
+      route: "나트랑(CXR) → 서울/인천(ICN)",
+      departure: "2024.06.24 (월) 02:00",
+      arrival: "2024.06.24 (월) 09:05",
+      seat: "2석",
+    },
+  ];
+
+  const passengerData = [
+    {
+      key: "1",
+      passengerName: "PARK / JANGWOO",
+      gender: "남성",
+      birthDate: "2024.06.19",
+      phoneNumber: "010-1234-5678",
+    },
+    {
+      key: "2",
+      passengerName: "KIM / SANGMIN",
+      gender: "남성",
+      birthDate: "2021.03.20",
+      phoneNumber: "010-1245-8888",
     },
   ];
 
@@ -97,9 +141,7 @@ const FlightDetail = () => {
         paddingTop: "30px",
       }}
     >
-      <h2 className="text-2xl font-bold pb-5">
-        "OOO님, 즐거운 비행 되시길 바랍니다!"
-      </h2>
+      <h2 className="text-2xl font-bold pb-5">"OOO님, 즐거운 비행 되시길 바랍니다!"</h2>
       <Layout>
         <Sider width={200} style={{ background: "white" }}>
           <Menu
@@ -214,6 +256,42 @@ const FlightDetail = () => {
             <Table
               columns={scheduleColumns}
               dataSource={scheduleData}
+              pagination={false}
+              bordered
+              style={{
+                marginBottom: "30px",
+                backgroundColor: "white",
+              }}
+              components={{
+                header: {
+                  cell: ({ children, ...restProps }) => (
+                    <th
+                      {...restProps}
+                      style={{
+                        backgroundColor: "#007BFF",
+                        color: "white",
+                        textAlign: "center",
+                      }}
+                    >
+                      {children}
+                    </th>
+                  ),
+                },
+              }}
+            />
+            <Title
+              level={5}
+              style={{
+                fontWeight: "bold",
+                marginBottom: "16px",
+                fontSize: "20px",
+              }}
+            >
+              탑승객 정보
+            </Title>
+            <Table
+              columns={passengerColumns}
+              dataSource={passengerData}
               pagination={false}
               bordered
               style={{
