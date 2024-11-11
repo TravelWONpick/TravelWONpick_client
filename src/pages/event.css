@@ -1,179 +1,180 @@
 /* 이벤트 페이지 전체 스타일 */
 .event-page {
-    width: 100%; /* 페이지 전체 너비 */
-    max-width: 950px; /* 최대 너비 950px */
-    margin: 0 auto; /* 페이지 가운데 정렬 */
-    padding-top: 20px; /* 상단 여백 */
-    font-family: Arial, sans-serif; /* 기본 폰트 */
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 30px;
+  min-height: 80vh;
+  font-family: Arial, sans-serif; /* 기본 폰트 */
 }
 
 /* 페이지 제목 스타일 */
-.event-page h1 {
-    text-align: left; /* 왼쪽 정렬 */
-    margin-left: 10px; /* 왼쪽 여백 */
-    font-size: 2em; /* 제목 크기 */
-    font-weight: bold; /* 두꺼운 글꼴 */
+.event-page h2 {
+  font-size: 24px; /* 제목 크기 */
+  font-weight: bold; /* 두꺼운 글꼴 */
+  padding-bottom: 10px;
 }
 
 /* 필터 버튼 스타일 */
 .event-filter {
-    display: flex;
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    margin: 10px 0 20px 10px; /* 위쪽과 아래쪽 여백, 왼쪽 여백 */
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  margin: 10px 0 20px 10px; /* 위쪽과 아래쪽 여백, 왼쪽 여백 */
 }
 
 .filter-button {
-    padding: 5px 50px; /* 버튼 안쪽 여백 */
-    border: 1px solid #ddd; /* 테두리 색상 */
-    background-color: #f9f9f9; /* 배경색 */
-    color: #555; /* 텍스트 색상 */
-    cursor: pointer; /* 커서 포인터로 변경 */
-    transition: background-color 0.3s, color 0.3s; /* 호버 시 부드럽게 변환 */
-    font-size: 1em; /* 글자 크기 */
+  padding: 5px 50px; /* 버튼 안쪽 여백 */
+  border: 1px solid #ddd; /* 테두리 색상 */
+  background-color: #f9f9f9; /* 배경색 */
+  color: #555; /* 텍스트 색상 */
+  cursor: pointer; /* 커서 포인터로 변경 */
+  transition: background-color 0.3s, color 0.3s; /* 호버 시 부드럽게 변환 */
+  font-size: 1em; /* 글자 크기 */
 }
 
 .filter-button:first-child {
-    border-top-left-radius: 8px; /* 첫 번째 버튼 왼쪽 모서리 둥글게 */
-    border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px; /* 첫 번째 버튼 왼쪽 모서리 둥글게 */
+  border-bottom-left-radius: 8px;
 }
 
 .filter-button:last-child {
-    border-top-right-radius: 8px; /* 마지막 버튼 오른쪽 모서리 둥글게 */
-    border-bottom-right-radius: 8px;
-    border-left: none; /* 왼쪽 테두리 제거 */
+  border-top-right-radius: 8px; /* 마지막 버튼 오른쪽 모서리 둥글게 */
+  border-bottom-right-radius: 8px;
+  border-left: none; /* 왼쪽 테두리 제거 */
 }
 
 .filter-button.active {
-    background-color: #333; /* 활성 버튼 배경색 */
-    color: #fff; /* 활성 버튼 텍스트 색상 */
-    border-color: #333; /* 활성 버튼 테두리 색상 */
+  background-color: #333; /* 활성 버튼 배경색 */
+  color: #fff; /* 활성 버튼 텍스트 색상 */
+  border-color: #333; /* 활성 버튼 테두리 색상 */
 }
 
 .filter-button:hover {
-    background-color: #555; /* 호버 시 배경색 */
-    color: #fff; /* 호버 시 텍스트 색상 */
+  background-color: #555; /* 호버 시 배경색 */
+  color: #fff; /* 호버 시 텍스트 색상 */
 }
 
 /* 이벤트 리스트 스타일 */
 .event-list {
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    gap: 20px; /* 카드 사이 간격 */
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  gap: 20px; /* 카드 사이 간격 */
 }
 
 /* 개별 이벤트 카드 스타일 */
 .event-card {
-    display: flex; /* 이미지와 텍스트를 가로로 배치 */
-    align-items: center; /* 세로 가운데 정렬 */
-    border: 1px solid #ddd; /* 카드 테두리 */
-    border-radius: 8px; /* 모서리 둥글게 */
-    overflow: hidden; /* 카드 밖 내용 숨기기 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    background-color: #fff; /* 배경색 */
-    padding: 30px 15px; /* 카드 내부 여백 */
-    transition: transform 0.3s; /* 호버 시 확대 효과 */
+  display: flex; /* 이미지와 텍스트를 가로로 배치 */
+  align-items: center; /* 세로 가운데 정렬 */
+  border: 1px solid #ddd; /* 카드 테두리 */
+  border-radius: 8px; /* 모서리 둥글게 */
+  overflow: hidden; /* 카드 밖 내용 숨기기 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  background-color: #fff; /* 배경색 */
+  padding: 30px 15px; /* 카드 내부 여백 */
+  transition: transform 0.3s; /* 호버 시 확대 효과 */
 }
 
 .event-card:hover {
-    transform: scale(1.03); /* 호버 시 카드 확대 */
+  transform: scale(1.03); /* 호버 시 카드 확대 */
 }
 
 .event-card img {
-    width: 400px; /* 이미지 너비 */
-    height: auto; /* 높이 자동 조절 */
-    object-fit: cover; /* 이미지 크기에 맞게 채우기 */
-    border-radius: 4px; /* 모서리 둥글게 */
-    margin-right: 30px; /* 이미지와 텍스트 사이 간격 */
+  width: 400px; /* 이미지 너비 */
+  height: auto; /* 높이 자동 조절 */
+  object-fit: cover; /* 이미지 크기에 맞게 채우기 */
+  border-radius: 4px; /* 모서리 둥글게 */
+  margin-right: 30px; /* 이미지와 텍스트 사이 간격 */
 }
 
 .event-details {
-    flex: 1; /* 텍스트 영역 가변적으로 너비 차지 */
-    text-align: left; /* 왼쪽 정렬 */
+  flex: 1; /* 텍스트 영역 가변적으로 너비 차지 */
+  text-align: left; /* 왼쪽 정렬 */
 }
 
 /* 텍스트 스타일 */
 .event-title {
-    font-size: 1.2em; /* 제목 글자 크기 */
-    font-weight: bold; /* 두꺼운 글자 */
-    margin-bottom: 5px; /* 하단 여백 */
-    color: #333; /* 제목 색상 */
+  font-size: 1.2em; /* 제목 글자 크기 */
+  font-weight: bold; /* 두꺼운 글자 */
+  margin-bottom: 5px; /* 하단 여백 */
+  color: #333; /* 제목 색상 */
 }
 
 .event-description {
-    font-size: 0.9em; /* 설명 글자 크기 */
-    color: #666; /* 설명 색상 */
-    margin-bottom: 10px; /* 하단 여백 */
+  font-size: 0.9em; /* 설명 글자 크기 */
+  color: #666; /* 설명 색상 */
+  margin-bottom: 10px; /* 하단 여백 */
 }
 
 .event-date {
-    font-size: 0.8em; /* 날짜 글자 크기 */
-    color: #999; /* 날짜 색상 */
+  font-size: 0.8em; /* 날짜 글자 크기 */
+  color: #999; /* 날짜 색상 */
 }
 
 /* Event Detail 스타일 */
 .event-detail {
-    max-width: 800px; /* 중앙 정렬 너비 */
-    margin: 30px auto; /* 상단 여백 추가 및 페이지 중앙 정렬 */
-    padding: 20px; /* 내부 여백 */
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    border-radius: 8px;
+  max-width: 800px; /* 중앙 정렬 너비 */
+  margin: 30px auto; /* 상단 여백 추가 및 페이지 중앙 정렬 */
+  padding: 20px; /* 내부 여백 */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  border-radius: 8px;
 }
 
 .event-detail-header {
-    display: flex;
-    justify-content: space-between; /* 제목과 날짜 같은 행에 배치 */
-    align-items: center;
-    padding: 15px;
-    margin-bottom: 20px;
-    background-color: #F5F5F7; /* 연한 배경 */
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between; /* 제목과 날짜 같은 행에 배치 */
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f5f5f7; /* 연한 배경 */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .event-detail-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #333;
-    text-align: left;
-    margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+  margin: 0;
 }
 
 .event-detail-date {
-    font-size: 0.8em;
-    color: #777;
-    text-align: right;
-    margin: 0;
+  font-size: 0.8em;
+  color: #777;
+  text-align: right;
+  margin: 0;
 }
 
 .event-detail-image {
-    width: 100%;
-    margin: 20px 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .event-detail-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.2em;
-    text-align: center;
-    transition: background-color 0.3s;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2em;
+  text-align: center;
+  transition: background-color 0.3s;
 }
 
 .event-detail-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 /* 페이지네이션 스타일 */
 .pagination {
-    display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    margin-top: 20px; /* 상단 여백 */
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  margin-top: 20px; /* 상단 여백 */
 }
