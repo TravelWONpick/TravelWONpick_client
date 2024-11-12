@@ -365,7 +365,9 @@ const Reservation = () => {
                     span={2}
                     style={{ textAlign: "center", marginTop: "30px" }}
                   >
-                    <div style={{ color: "#666" }}>→</div>
+                    <div style={{ color: "#666" }}>
+                      {tripType === "round" ? "⇄" : "→"}
+                    </div>
                   </Col>
 
                   <Col span={8} style={{ textAlign: "center" }}>

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Row, Col, Typography } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FlightCard from "../components/FlightCard";
@@ -16,16 +15,42 @@ import {
 const { Text, Title } = Typography;
 
 const ReservationConfirmation = () => {
+  //페이지 넘어가면 맨위로 스크롤 되는 useEffect
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    // 선택된 인원 수만큼 빈 승객 폼 초기화
+    const initializePassengers = () => {
+      const currentPassengerCount = passengers.length;
+      if (currentPassengerCount < adultCount) {
+        for (let i = currentPassengerCount; i < adultCount; i++) {
+          dispatch(
+            addPassenger({
+              lastName: "",
+              firstName: "",
+              birthDate: "",
+              gender: "",
+              phone: "",
+            })
+          );
+        }
+      }
+    };
+
+    initializePassengers();
+  }, []);
+
   const dispatch = useDispatch();
-  // Redux store에서 데이터 가져오기
   const { selectedOutbound, selectedReturn, adultCount, tripType, totalPrice } =
     useSelector((state) => state.flight.flightInfo);
   const { passengers } = useSelector((state) => state.flight.passengerInfo);
 
-  // 상세 정보 표시 여부를 위한 state 추가
-  const [showGoingFlightDetails, setShowGoingFlightDetails] = useState(true); // 기본값을 true로 설정
+  const [showGoingFlightDetails, setShowGoingFlightDetails] = useState(false);
   const [showReturningFlightDetails, setShowReturningFlightDetails] =
-    useState(true); // 기본값을 true로 설정
+    useState(false);
 
   const [bookerInfo, setBookerInfo] = useState({
     name: "",
@@ -35,32 +60,12 @@ const ReservationConfirmation = () => {
 
   const navigate = useNavigate();
 
-  // toggle 핸들러 수정
   const handleToggleGoingFlight = () => {
     setShowGoingFlightDetails((prev) => !prev);
   };
 
   const handleToggleReturningFlight = () => {
     setShowReturningFlightDetails((prev) => !prev);
-  };
-
-  const handleAddPassenger = () => {
-    if (passengers.length < 3) {
-      // 최대 3명으로 제한
-      dispatch(
-        addPassenger({
-          lastName: "",
-          firstName: "",
-          birthDate: "",
-          gender: "",
-          phone: "",
-        })
-      );
-    }
-  };
-
-  const handleDeletePassenger = (index) => {
-    dispatch(removePassenger(index));
   };
 
   const handlePassengerFormChange = (index, formData) => {
@@ -98,29 +103,17 @@ const ReservationConfirmation = () => {
       return;
     }
 
-    // Redux store에 승객 정보 저장
     dispatch(
       setFlightSelection({
         selectedOutbound,
         selectedReturn,
         adultCount,
         tripType,
-        passengers, // 승객 정보 추가
+        passengers,
       })
     );
 
-    // 저장 후 결제 페이지로 이동
     navigate("/pricePick/payment");
-
-    // 저장된 데이터 확인용 로그
-    console.log("결제 페이지로 전달되는 정보:", {
-      selectedOutbound,
-      selectedReturn,
-      adultCount,
-      tripType,
-      totalPrice,
-      passengers,
-    });
   };
 
   return (
@@ -170,7 +163,7 @@ const ReservationConfirmation = () => {
             </div>
 
             {/* 탑승객 정보 입력 폼들 */}
-            {passengers.map((passenger, index) => (
+            {passengers.slice(0, adultCount).map((passenger, index) => (
               <PassengerForm
                 key={index}
                 passengerNumber={index + 1}
@@ -178,26 +171,10 @@ const ReservationConfirmation = () => {
                 onFormChange={(formData) =>
                   handlePassengerFormChange(index, formData)
                 }
-                onDelete={() => handleDeletePassenger(index)}
-                isDeleteVisible={passengers.length > 1}
+                onDelete={() => {}} // 삭제 기능 제거
+                isDeleteVisible={false} // 삭제 버튼 숨김
               />
             ))}
-
-            {/* 탑승객 추가 버튼 */}
-            {passengers.length < 3 && ( // 최대 3명으로 제한
-              <Button
-                type="dashed"
-                onClick={handleAddPassenger}
-                style={{
-                  width: "100%",
-                  marginTop: "20px",
-                  height: "50px",
-                }}
-                icon={<PlusOutlined />}
-              >
-                탑승객 추가하기 ({passengers.length}/3)
-              </Button>
-            )}
           </Col>
 
           <Col span={8} style={{ position: "sticky", top: 20 }}>
