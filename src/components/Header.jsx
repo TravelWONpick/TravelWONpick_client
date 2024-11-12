@@ -1,12 +1,41 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
-import { Tabs } from 'antd';
+import { Tabs, Dropdown, Menu, message, Button } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 import linkImg from '../assets/link_img.png';
 import logoImg from '../assets/logo.png';
+import axios from 'axios';
 
 const Header = () => {
   const navigate = useNavigate();
   const [activeKey, setActiveKey] = useState(null);  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('accessToken');
+    const storedUserName = localStorage.getItem('userName');
+    if (token && storedUserName) {
+      setUserName(storedUserName);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    const accessToken = sessionStorage.getItem('accessToken');
+    try {
+      await axios.post('http://localhost:8080/auth/logout', { accessToken });
+      message.success('로그아웃 되었습니다.');
+      navigate('/');
+      sessionStorage.removeItem('accessToken');
+      localStorage.removeItem('userName');
+      setIsLoggedIn(false);
+      setUserName('');
+    } catch (error) {
+      console.error('로그아웃 중 오류가 발생했습니다:', error);
+      message.error('로그아웃 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
 
   const onChange = (key) => {
     setActiveKey(key);  
@@ -72,6 +101,17 @@ const Header = () => {
     },
   ];
 
+  const menu = (
+    <Menu>
+      <Menu.Item onClick={() => navigate('/my/flight')}>
+        마이페이지
+      </Menu.Item>
+      <Menu.Item onClick={handleLogout}>
+        로그아웃
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className="border-b-2 border-gray-200">
       <div className="flex justify-center w-full">
@@ -97,8 +137,17 @@ const Header = () => {
               />
             </div>
 
-            <div className="w-16 text-base">
-              <Link to="/login">로그인</Link>
+            <div className="w-32 text-base flex items-center justify-end">
+              {isLoggedIn ? (
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <Button type="text" className="user-info flex items-center">
+                    <span className="mr-1">{userName}님</span>
+                    <DownOutlined />
+                  </Button>
+                </Dropdown>
+              ) : (
+                <Link to="/login">로그인</Link>
+              )}
             </div>
           </div>
         </div>

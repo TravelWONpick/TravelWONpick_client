@@ -6,8 +6,7 @@ import {
   EyeTwoTone,
 } from "@ant-design/icons";
 import { Button, Form, Input, Typography, Modal } from "antd";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const { Title, Text } = Typography;
@@ -23,10 +22,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [verificationMessage, setVerificationMessage] = useState("");
   const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-  };
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -70,34 +66,62 @@ const Login = () => {
 
   const handleEmailSend = async () => {
     try {
-      const phoneWithoutHyphen = form.getFieldValue("phone").replace(/-/g, ""); // 하이픈 제거
+      const phoneWithoutHyphen = form.getFieldValue("phone").replace(/-/g, "");
       const response = await axios.post("http://localhost:8080/auth/verifyuser", {
         email: form.getFieldValue("email"),
         password: form.getFieldValue("password"),
         name: form.getFieldValue("name"),
-        phonenumber: phoneWithoutHyphen, // 하이픈 제거된 전화번호 사용
+        phonenumber: phoneWithoutHyphen,
       });
 
       if (response.status === 200) {
         setIsEmailSent(true);
         setShowVerification(true);
         setVerificationMessage(`${email} (으)로 인증번호를 전송했습니다.`);
+        // 이메일 필드의 에러 메시지 초기화
+        form.setFields([
+          {
+            name: 'email',
+            errors: [],
+          },
+        ]);
       }
     } catch (error) {
-      console.error("인증번호 전송 중 오류가 발생했습니다: ", error);
-      setVerificationMessage("인증번호 전송에 실패했습니다. 다시 시도해주세요.");
+      // 서버로부터 받은 에러 메시지 추출
+      let errorMessage = "인증번호 전송에 실패했습니다. 다시 시도해주세요.";
+
+      if (error.response && error.response.data) {
+        if (error.response.data.message) {
+          errorMessage = error.response.data.message;
+        }
+      }
+
+      // 이메일 필드에 에러 메시지 설정
+      form.setFields([
+        {
+          name: 'email',
+          errors: [errorMessage],
+        },
+      ]);
     }
   };
 
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
+    form.setFields([
+      {
+        name: 'email',
+        errors: [],
+      },
+    ]);
   };
 
   const handleVerificationConfirm = async () => {
     try {
       const response = await axios.post("http://localhost:8080/auth/verifysuccess", {
         email: form.getFieldValue("email"),
-        confirmationCode: form.getFieldValue("verification"), // 사용자가 입력한 인증번호
+        confirmationCode: form.getFieldValue("verification"),
       });
 
       if (response.status === 200) {
@@ -122,8 +146,8 @@ const Login = () => {
         email: form.getFieldValue("email"),
         password: form.getFieldValue("password"),
         name: form.getFieldValue("name"),
-        phonenumber: form.getFieldValue("phone").replace(/-/g, ""), // "-"를 제거한 휴대폰 번호
-        notification: true // 기본적으로 알림을 허용합니다.
+        phonenumber: form.getFieldValue("phone").replace(/-/g, ""),
+        notification: true,
       });
 
       if (response.status === 200) {
@@ -131,40 +155,53 @@ const Login = () => {
           title: "회원가입 성공",
           content: "회원가입이 완료되었습니다.",
         });
-        handleCloseModal(); // 모달을 닫음
+        handleCloseModal();
       }
     } catch (error) {
-      console.error("회원가입 중 오류가 발생했습니다: ", error);
-      Modal.error({
-        title: "회원가입 실패",
-        content: "회원가입 중 오류가 발생했습니다. 다시 시도해주세요.",
-      });
+      console.error("회원가입 중 오류가 발생했습니다:", error);
     }
   };
 
   const handleLoginSubmit = async (values) => {
     try {
-      const { email, password } = values; // 폼에서 가져온 이메일과 비밀번호 값
+      const { email, password } = values;
+
+      if (!email || !password) {
+        console.error("이메일 또는 비밀번호가 비어 있습니다.");
+        return;
+      }
+
       const response = await axios.post("http://localhost:8080/auth/login", {
         email,
         password,
       });
-      if (response.status === 200) {
-        console.log("로그인 성공:", response.data);
-        // 필요한 후속 처리
+
+      if (response.status === 200 && response.data && response.data.data) {
+        const { accessToken, name } = response.data.data;
+        if (accessToken) {
+
+          // accessToken을 sessionStorage에 저장
+          sessionStorage.setItem("accessToken", accessToken);
+
+          // 사용자 이름을 localStorage에 저장
+          localStorage.setItem("userName", name);
+
+          navigate("/");
+        } else {
+          console.error("서버에서 accessToken을 받지 못했습니다.");
+        }
+      } else {
+        console.error("로그인 중 문제가 발생했습니다. 응답을 확인해 주세요.");
       }
     } catch (error) {
       console.error("로그인 중 오류가 발생했습니다:", error.response?.data);
     }
   };
 
-
-  // 공통 인풋 스타일
   const inputStyle = {
     height: "45px",
   };
 
-  // 공통 버튼 스타일
   const buttonStyle = {
     height: "45px",
     fontSize: "16px",
@@ -207,7 +244,7 @@ const Login = () => {
           <Form
             name="login"
             initialValues={{ remember: true }}
-            onFinish={onFinish}
+            onFinish={handleLoginSubmit}
           >
             <Form.Item
               name="email"
@@ -217,6 +254,7 @@ const Login = () => {
                 prefix={<UserOutlined />}
                 placeholder="email@example.com"
                 style={{ ...inputStyle }}
+                onChange={handleEmailChange}
               />
             </Form.Item>
 
@@ -242,7 +280,6 @@ const Login = () => {
             <Form.Item style={{ marginBottom: "15px" }}>
               <Button
                 type="primary"
-                onClick={handleLoginSubmit}
                 htmlType="submit"
                 block
                 style={{
@@ -284,7 +321,7 @@ const Login = () => {
               </Text>
             </div>
           }
-          visible={isModalVisible}
+          open={isModalVisible}
           onCancel={handleCloseModal}
           footer={null}
           width={400}
@@ -463,7 +500,7 @@ const Login = () => {
                         padding: "0 8px",
                         marginRight: "-8px",
                         backgroundColor: "#0039FF",
-                        color: "#white",
+                        color: "white",
                       }}
                     >
                       인증번호 확인
