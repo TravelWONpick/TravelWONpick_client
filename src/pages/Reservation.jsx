@@ -4,6 +4,14 @@ import { DateRange } from "react-date-range";
 import { ko } from "date-fns/locale";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setFlightSelection,
+  setSelectedOutbound,
+  setSelectedReturn,
+  setAdultCount,
+  setTripType,
+} from "../store/flightSlice";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./Reservation.css";
@@ -134,6 +142,10 @@ const AdultCounter = ({ value, onChange }) => {
 };
 
 const Reservation = () => {
+  const dispatch = useDispatch();
+  const { selectedOutbound, selectedReturn, adultCount, tripType } =
+    useSelector((state) => state.flight.flightInfo);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -148,14 +160,14 @@ const Reservation = () => {
       key: "selection",
     },
   ]);
-  const [tripType, setTripType] = useState("round");
+  // const [tripType, setTripType] = useState("round");
   const [departure] = useState(departure_airport_code || "");
   const [destination] = useState(arrival_airport_code || "");
-  const [adultCount, setAdultCount] = useState(1);
+  // const [adultCount, setAdultCount] = useState(1);
   const [outboundFlights, setOutboundFlights] = useState([]);
   const [returnFlights, setReturnFlights] = useState([]);
-  const [selectedOutbound, setSelectedOutbound] = useState(null);
-  const [selectedReturn, setSelectedReturn] = useState(null);
+  // const [selectedOutbound, setSelectedOutbound] = useState(null);
+  // const [selectedReturn, setSelectedReturn] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // 공항 코드에 따른 도시 이름 매핑
@@ -171,12 +183,6 @@ const Reservation = () => {
   };
 
   useEffect(() => {
-    // if (!sp_id || !arrival_airport_code || !departure_airport_code) {
-    //   message.error("잘못된 접근입니다.");
-    //   navigate("/pricePick");
-    //   return;
-    // }
-
     searchFlights();
   }, [sp_id, arrival_airport_code, departure_airport_code]);
 
@@ -225,28 +231,38 @@ const Reservation = () => {
   };
 
   const handleOutboundSelect = (flight) => {
-    setSelectedOutbound(flight);
+    dispatch(setSelectedOutbound(flight));
     message.success(`가는편 항공편이 선택되었습니다: ${flight.flightNumber}`);
   };
 
   const handleReturnSelect = (flight) => {
-    setSelectedReturn(flight);
+    dispatch(setSelectedReturn(flight));
     message.success(`오는편 항공편이 선택되었습니다: ${flight.flightNumber}`);
   };
 
   const handleComplete = () => {
-    // 선택된 항공편 정보를 다음 페이지로 전달
-    const selectedFlights = {
-      outbound: selectedOutbound,
-      return: tripType === "round" ? selectedReturn : null,
-      adultCount: adultCount,
-      tripType: tripType,
-    };
+    dispatch(
+      setFlightSelection({
+        selectedOutbound,
+        selectedReturn,
+        adultCount,
+        tripType,
+      })
+    );
+    navigate("/pricePick/reservation-confirmation");
+    console.log(selectedOutbound, selectedReturn, adultCount, tripType); // 지워
+  };
 
-    // 다음 페이지로 이동 (예: 예약 상세 페이지)
-    navigate("/pricePick/reservation-confirmation", {
-      state: selectedFlights,
-    });
+  const handleAdultCountChange = (count) => {
+    dispatch(setAdultCount(count));
+  };
+
+  const handleTripTypeChange = (type) => {
+    dispatch(setTripType(type));
+    if (type === "oneway") {
+      dispatch(setSelectedReturn(null));
+      setReturnFlights([]);
+    }
   };
 
   return (
@@ -265,14 +281,14 @@ const Reservation = () => {
           <Button
             type={tripType === "round" ? "primary" : "default"}
             style={{ width: "100px" }}
-            onClick={() => setTripType("round")}
+            onClick={() => handleTripTypeChange("round")}
           >
             왕복
           </Button>
           <Button
             type={tripType === "oneway" ? "primary" : "default"}
             style={{ width: "100px" }}
-            onClick={() => setTripType("oneway")}
+            onClick={() => handleTripTypeChange("oneway")}
           >
             편도
           </Button>
@@ -386,7 +402,10 @@ const Reservation = () => {
                 >
                   인원 선택
                 </h3>
-                <AdultCounter value={adultCount} onChange={setAdultCount} />
+                <AdultCounter
+                  value={adultCount}
+                  onChange={handleAdultCountChange}
+                />
               </div>
 
               <div
