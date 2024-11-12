@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -24,15 +26,16 @@ import InfoUpdate from "./pages/InfoUpdate";
 import Success from "./pages/Success";
 import Fail from "./pages/Fail";
 
-
 function App() {
-    return (
-        <BrowserRouter>
-            <MainContent />
-            <div className="mt-20"></div>
-            <Footer />
-        </BrowserRouter>
-    );
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <MainContent />
+        <div className="mt-20"></div>
+        <Footer />
+      </BrowserRouter>
+    </Provider>
+  );
 }
 
 function MainContent() {
