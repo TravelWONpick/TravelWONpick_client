@@ -55,7 +55,7 @@ const Flight = () => {
       boardingDate: "2024.6.15(수) 21:50",
       route: "서울/인천(ICN) → 나리타(NRT)",
       seat: "3",
-      status: "발권완료",
+      status: "왕복",
     },
   ];
 
