@@ -1,43 +1,107 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Menu, Typography, Button, Row, Col, Card, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
 const { ItemGroup } = Menu;
 
-const initialData = [
-  {
-    key: "1",
-    name: "KIM / SANGMIN",
-    gender: "남성",
-    birthDate: "1994.05.31",
-    phone: "010-1234-5678",
-  },
-  {
-    key: "2",
-    name: "PARK / SANGMIN",
-    gender: "남성",
-    birthDate: "1997.02.12",
-    phone: "010-1423-5678",
-  },
-];
+// const initialData = [
+//   {
+//     key: "1",
+//     name: "KIM / SANGMIN",
+//     gender: "남성",
+//     birthDate: "1994.05.31",
+//     phone: "010-1234-5678",
+//   },
+//   {
+//     key: "2",
+//     name: "PARK / SANGMIN",
+//     gender: "남성",
+//     birthDate: "1997.02.12",
+//     phone: "010-1423-5678",
+//   },
+// ];
 
 const Passenger = () => {
-  const [data, setData] = useState(initialData);
+  // const [data, setData] = useState(initialData);
+  const [data, setData] = useState([]); // initialData 대신 빈 배열로 초기화
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedKey, setSelectedKey] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+  const [error, setError] = useState(null); // 에러 상태 추가
   const navigate = useNavigate();
+
+  // API로부터 탑승객 데이터 가져오기
+  const fetchPassengers = async () => {
+    try {
+      const accessToken = sessionStorage.getItem("accessToken");
+      console.log("accessToken:", accessToken); // 토큰 출력
+
+      if (!accessToken) {
+        throw new Error("액세스 토큰이 없습니다.");
+      }
+      const response = await axios.get("http://localhost:8080/my/passenger", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      });
+
+      // response.data.data가 배열 형태로 오므로 직접 매핑
+      const formattedData = response.data.data.map((passenger) => ({
+        key: passenger.id.toString(),
+        name: `${passenger.lastName} / ${passenger.firstName}`,
+        gender: passenger.gender === "MALE" ? "남성" : "여성",
+        birthDate: passenger.birth,
+        phone: passenger.phoneNumber,
+      }));
+
+      setData(formattedData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("탑승객 정보 조회 중 오류가 발생했습니다:", error);
+      setError("탑승객 정보를 불러오는데 실패했습니다.");
+      setIsLoading(false);
+    }
+  };
+
+  // 컴포넌트 마운트 시 데이터 가져오기
+  useEffect(() => {
+    fetchPassengers();
+  }, []);
 
   const showDeleteModal = (key) => {
     setSelectedKey(key);
     setIsModalVisible(true);
   };
 
-  const handleDelete = () => {
-    const updatedData = data.filter((record) => record.key !== selectedKey);
-    setData(updatedData);
-    setIsModalVisible(false);
+  const handleDelete = async () => {
+    try {
+      const accessToken = sessionStorage.getItem("accessToken");
+
+      // DELETE API 호출 - url 파라미터 이름을 up_id로 수정
+      await axios.delete(`http://localhost:8080/my/passenger/${selectedKey}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      });
+
+      // 성공적으로 삭제되면 목록 다시 불러오기
+      await fetchPassengers();
+
+      // 모달 닫기
+      setIsModalVisible(false);
+
+      // 성공 메시지 표시
+      alert("탑승객 정보가 삭제되었습니다.");
+    } catch (error) {
+      console.error("탑승객 삭제 중 오류가 발생했습니다:", error);
+      alert(error.response?.data?.message || "탑승객 삭제에 실패했습니다.");
+      setIsModalVisible(false);
+    }
   };
 
   const handleCancel = () => {
@@ -48,9 +112,28 @@ const Passenger = () => {
     navigate("/my/passenger/register");
   };
 
-  const handleUpdatePassenger = () => {
-    navigate("/my/passenger/update");
+  const handleUpdatePassenger = (record) => {
+    navigate("/my/passenger/update", {
+      state: {
+        id: record.key, // 탑승객 ID
+        lastName: record.name.split(" / ")[0],
+        firstName: record.name.split(" / ")[1],
+        gender: record.gender,
+        birthDate: record.birthDate,
+        phone: record.phone,
+      },
+    });
   };
+
+  // 로딩 중 표시
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // 에러 표시
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <Layout
@@ -181,7 +264,7 @@ const Passenger = () => {
                   <Col>
                     <Button
                       style={{ marginRight: "8px" }}
-                      onClick={handleUpdatePassenger}
+                      onClick={() => handleUpdatePassenger(record)} // record 전달
                     >
                       수정
                     </Button>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu, Typography, Input, Button, Row, Col, Card } from "antd";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -9,6 +10,7 @@ const { ItemGroup } = Menu;
 const PassengerUpdate = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [passengerId, setPassengerId] = useState(null);
 
   const [form, setForm] = useState({
     lastName: "",
@@ -25,7 +27,9 @@ const PassengerUpdate = () => {
 
   useEffect(() => {
     if (location.state) {
-      const { lastName, firstName, gender, birthDate, phone } = location.state;
+      const { id, lastName, firstName, gender, birthDate, phone } =
+        location.state;
+      setPassengerId(id); // ID 저장
       setForm({ lastName, firstName, gender, birthDate, phone });
     }
   }, [location.state]);
@@ -58,12 +62,49 @@ const PassengerUpdate = () => {
     navigate("/my/passenger");
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.gender) {
       setErrorMessage({ ...errorMessage, gender: "성별을 선택해 주세요." });
-    } else {
-      console.log("Form saved:", form);
-      navigate("/my/passenger", { state: form });
+      return;
+    }
+
+    // 모든 필수 필드가 입력되었는지 확인
+    if (!form.firstName || !form.lastName || !form.birthDate || !form.phone) {
+      alert("모든 정보를 입력해 주세요.");
+      return;
+    }
+
+    try {
+      const accessToken = sessionStorage.getItem("accessToken");
+
+      // API 요청에 맞게 데이터 포맷 변환
+      const requestData = {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        birth: form.birthDate.replace(/\./g, "-"), // YYYY.MM.DD -> YYYY-MM-DD
+        gender: form.gender === "남성" ? "MALE" : "FEMALE",
+        phoneNumber: form.phone,
+      };
+
+      // PATCH 요청 보내기
+      await axios.patch(
+        `http://localhost:8080/my/passenger/${passengerId}`,
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      alert("탑승객 정보가 수정되었습니다.");
+      navigate("/my/passenger");
+    } catch (error) {
+      console.error("탑승객 정보 수정 중 오류가 발생했습니다:", error);
+      alert(
+        error.response?.data?.message || "탑승객 정보 수정에 실패했습니다."
+      );
     }
   };
 

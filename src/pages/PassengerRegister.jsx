@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Menu, Typography, Input, Button, Row, Col, Card } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -50,11 +51,49 @@ const PassengerRegister = () => {
     navigate("/my/passenger");
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    // 입력 값 검증
     if (!form.gender) {
       setErrorMessage({ ...errorMessage, gender: "성별을 선택해 주세요." });
-    } else {
-      console.log("Form saved:", form);
+      return;
+    }
+
+    // 모든 필수 필드가 입력되었는지 확인
+    if (!form.firstName || !form.lastName || !form.birthDate || !form.phone) {
+      alert("모든 정보를 입력해 주세요.");
+      return;
+    }
+
+    try {
+      const accessToken = sessionStorage.getItem("accessToken");
+
+      // API 요청에 맞게 데이터 포맷 변환
+      const requestData = {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        birth: form.birthDate.replace(/\./g, "-"), // YYYY.MM.DD -> YYYY-MM-DD
+        gender: form.gender === "남성" ? "MALE" : "FEMALE",
+        phoneNumber: form.phone,
+      };
+
+      const response = await axios.post(
+        "http://localhost:8080/my/passenger",
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      if (response.data.status === 200) {
+        alert("탑승객 정보가 등록되었습니다.");
+        navigate("/my/passenger"); // 목록 페이지로 이동
+      }
+    } catch (error) {
+      console.error("탑승객 등록 중 오류가 발생했습니다:", error);
+      alert(error.response?.data?.message || "탑승객 등록에 실패했습니다.");
     }
   };
 
