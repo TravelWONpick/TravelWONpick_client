@@ -2,37 +2,52 @@ import React, { useState } from "react";
 import { Card, Button, Row, Col, Typography, Space } from "antd";
 import { useSelector } from "react-redux";
 import FlightCard from "../components/FlightCard";
+import { useNavigate } from "react-router-dom"; // useNavigate 추가
 
 const { Title, Text } = Typography;
 
 const Payment = () => {
-  const [showOutboundDetails, setShowOutboundDetails] = useState(false);
-  const [showInboundDetails, setShowInboundDetails] = useState(false);
-
+    const [showOutboundDetails, setShowOutboundDetails] = useState(false);
+    const [showInboundDetails, setShowInboundDetails] = useState(false);
+    const navigate = useNavigate();
   // Redux store에서 데이터 가져오기
-  const { selectedOutbound, selectedReturn, adultCount, tripType, totalPrice } =
-    useSelector((state) => state.flight.flightInfo);
+    const { selectedOutbound, selectedReturn, adultCount, tripType, totalPrice } =
+      useSelector((state) => state.flight.flightInfo);
 
-  const { passengers } = useSelector((state) => state.flight.passengerInfo);
+    const { passengers } = useSelector((state) => state.flight.passengerInfo);
 
-  // 임시 예약자 정보 (API 연동 전까지 사용)
-  const bookerInfo = {
-    name: "홍길동",
-    email: "hong@example.com",
-    phone: "010-1234-5678",
-  };
+    // 임시 예약자 정보 (API 연동 전까지 사용)
+    const bookerInfo = {
+      name: "홍길동",
+      email: "hong@example.com",
+      phone: "010-1234-5678",
+    };
 
-  return (
-    <div className="flex justify-center w-full bg-white">
-      <div className="w-full max-w-[950px] mx-auto p-5 pt-8 min-h-[80vh] bg-white">
-        <Row gutter={[24, 24]}>
-          <Col span={16}>
-            {/* 예약편 정보 */}
-            <Card className="border border-solid border-[#e3e3e3] rounded-lg">
-              <div className="p-5">
-                <Title level={3} className="mb-5 font-bold text-[#333]">
-                  예약편 정보
-                </Title>
+    const date = (timeStr) => {
+        return new Date(timeStr)
+            .toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+            })
+            .replace(/\. /g, ".")
+            .slice(0, -1);
+    };
+
+    return (
+        <div className="flex justify-center w-full bg-white">
+            <div className="w-full max-w-[950px] mx-auto p-5 pt-8 min-h-[80vh] bg-white">
+                <Row gutter={[24, 24]}>
+                    <Col span={16}>
+                        {/* 예약편 정보 */}
+                        <Card className="border border-solid border-[#e3e3e3] rounded-lg">
+                            <div className="p-5">
+                                <Title
+                                    level={3}
+                                    className="mb-5 font-bold text-[#333]"
+                                >
+                                    예약편 정보
+                                </Title>
 
                 {/* 가는편 */}
                 {selectedOutbound && (
@@ -153,8 +168,16 @@ const Payment = () => {
                   명
                 </Text>
                 <Button
-                  type="primary"
-                  className="w-full mt-5 h-10 bg-[#007bff] hover:bg-[#0056b3]"
+                    type="primary"
+                    className="w-full mt-5 h-10 bg-[#007bff] hover:bg-[#0056b3]"
+                    onClick={() =>
+                        navigate("/checkout", {
+                            state: {
+                                totalPrice: totalPrice,
+                                passengerCount: adultCount
+                            },
+                        })
+                    } // navigate로 경로와 상태 전달
                 >
                   결제하기
                 </Button>

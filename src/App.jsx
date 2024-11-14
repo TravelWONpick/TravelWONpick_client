@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./store/store";
+import { PersistGate } from "redux-persist/integration/react"; // PersistGate 임포트
+import { store, persistor } from "./store/store"; // persistor 가져오기
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -25,6 +26,7 @@ import Info from "./pages/Info";
 import InfoUpdate from "./pages/InfoUpdate";
 import Success from "./pages/Success";
 import Fail from "./pages/Fail";
+import Checkout from "./pages/Checkout"
 import UserGet from "./pages/UserGet";
 import Monitoring from "./pages/Monitoring";
 import LogDashBoard from "./pages/LogDashBoard";
@@ -32,11 +34,13 @@ import LogDashBoard from "./pages/LogDashBoard";
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <MainContent />
-        <div className="mt-20"></div>
-        <Footer />
-      </BrowserRouter>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <MainContent />
+          <div className="mt-20"></div>
+          <Footer />
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   );
 }
@@ -73,6 +77,7 @@ function MainContent() {
         <Route path="/my/info/update" element={<InfoUpdate />} />
         <Route path="/success" element={<Success />} />
         <Route path="/fail" element={<Fail />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/admin/userget" element={<UserGet />} />
         <Route path="/admin/monitoring" element={<Monitoring />} />
         <Route path="/admin/log-dashboard" element={<LogDashBoard />} />
