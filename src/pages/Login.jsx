@@ -177,11 +177,12 @@ const Login = () => {
       });
 
       if (response.status === 200 && response.data && response.data.data) {
-        const { accessToken, name } = response.data.data;
+        const { accessToken, name, isAdmin } = response.data.data;
         if (accessToken) {
 
-          // accessToken을 sessionStorage에 저장
+          // accessToken,isAdmin 을 sessionStorage에 저장
           sessionStorage.setItem("accessToken", accessToken);
+          sessionStorage.setItem("isAdmin", isAdmin);
 
           // 사용자 이름을 localStorage에 저장
           localStorage.setItem("userName", name);

@@ -12,6 +12,7 @@ const Header = () => {
   const [activeKey, setActiveKey] = useState("1");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const path = location.pathname;
@@ -27,22 +28,28 @@ const Header = () => {
 
     const token = sessionStorage.getItem("accessToken");
     const storedUserName = localStorage.getItem("userName");
+    const storedIsAdmin = sessionStorage.getItem('isAdmin') === 'true';
+
     if (token && storedUserName) {
       setUserName(storedUserName);
       setIsLoggedIn(true);
+      setIsAdmin(storedIsAdmin);
     }
   }, [location]);
 
   const handleLogout = async () => {
     const accessToken = sessionStorage.getItem("accessToken");
     try {
-      await axios.post("http://localhost:8080/auth/logout", { accessToken });
-      message.success("로그아웃 되었습니다.");
-      navigate("/");
-      sessionStorage.removeItem("accessToken");
-      localStorage.removeItem("userName");
+      await axios.post('http://localhost:8080/auth/logout', { accessToken });
+      message.success('로그아웃 되었습니다.');
+      navigate('/');
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('isAdmin');
+      localStorage.removeItem('userName');
       setIsLoggedIn(false);
-      setUserName("");
+      setUserName('');
+      setIsAdmin(false);
+
     } catch (error) {
       console.error("로그아웃 중 오류가 발생했습니다:", error);
       message.error("로그아웃 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -111,10 +118,14 @@ const Header = () => {
   ];
 
   const menu = (
-      <Menu>
-        <Menu.Item onClick={() => navigate("/my/flight")}>마이페이지</Menu.Item>
-        <Menu.Item onClick={handleLogout}>로그아웃</Menu.Item>
-      </Menu>
+    <Menu>
+      <Menu.Item onClick={() => navigate(isAdmin ? '/admin/userget' : '/my/flight')}>
+        {isAdmin ? '관리자 페이지' : '마이페이지'}
+      </Menu.Item>
+      <Menu.Item onClick={handleLogout}>
+        로그아웃
+      </Menu.Item>
+    </Menu>
   );
 
   return (
