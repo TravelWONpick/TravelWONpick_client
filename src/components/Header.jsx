@@ -1,159 +1,159 @@
-import React, { useState, useEffect } from 'react'; 
-import { Link, useNavigate } from 'react-router-dom';
-import { Tabs, Dropdown, Menu, message, Button } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import linkImg from '../assets/link_img.png';
-import logoImg from '../assets/logo.png';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Tabs, Dropdown, Menu, message, Button } from "antd";
+import { DownOutlined } from "@ant-design/icons";
+import linkImg from "../assets/link_img.png";
+import logoImg from "../assets/logo.png";
+import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [activeKey, setActiveKey] = useState(null);  
+  const location = useLocation();
+  const [activeKey, setActiveKey] = useState("1");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    const token = sessionStorage.getItem('accessToken');
-    const storedUserName = localStorage.getItem('userName');
+    const path = location.pathname;
+    if (path.startsWith("/pricePick")) {
+      setActiveKey("1");
+    } else if (path.startsWith("/cardPick")) {
+      setActiveKey("2");
+    } else if (path.startsWith("/event")) {
+      setActiveKey("3");
+    } else {
+      setActiveKey(null);
+    }
+
+    const token = sessionStorage.getItem("accessToken");
+    const storedUserName = localStorage.getItem("userName");
     if (token && storedUserName) {
       setUserName(storedUserName);
       setIsLoggedIn(true);
     }
-  }, []);
+  }, [location]);
 
   const handleLogout = async () => {
-    const accessToken = sessionStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem("accessToken");
     try {
-      await axios.post('http://localhost:8080/auth/logout', { accessToken });
-      message.success('로그아웃 되었습니다.');
-      navigate('/');
-      sessionStorage.removeItem('accessToken');
-      localStorage.removeItem('userName');
+      await axios.post("http://localhost:8080/auth/logout", { accessToken });
+      message.success("로그아웃 되었습니다.");
+      navigate("/");
+      sessionStorage.removeItem("accessToken");
+      localStorage.removeItem("userName");
       setIsLoggedIn(false);
-      setUserName('');
+      setUserName("");
     } catch (error) {
-      console.error('로그아웃 중 오류가 발생했습니다:', error);
-      message.error('로그아웃 중 오류가 발생했습니다. 다시 시도해주세요.');
+      console.error("로그아웃 중 오류가 발생했습니다:", error);
+      message.error("로그아웃 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const onTabClick = (key) => {
+    if (key === activeKey) {
+      // 이미 활성화된 탭을 클릭한 경우, 강제로 해당 경로로 navigate
+      switch (key) {
+        case "1": // 특가 PICK
+          navigate("/pricePick", { replace: true });
+          break;
+        case "3": // 이벤트
+          navigate("/event", { replace: true });
+          break;
+        default:
+          break;
+      }
     }
   };
 
   const onChange = (key) => {
-    setActiveKey(key);  
+    setActiveKey(key);
     switch (key) {
-      case '1':
-        navigate('/pricePick');
+      case "1":
+        navigate("/pricePick");
         break;
-      case '2':
-        navigate('/cardPick');
+      case "2":
+        navigate("/cardPick");
         break;
-      case '3':
-        navigate('/event');
-        break;
-      case '4':
-        window.open('https://pc.wooricard.com/dcpc/yh1/fpf/fpf01/H1FPF201S00.do', '_blank', 'noopener noreferrer');
+      case "3":
+        navigate("/event");
         break;
       default:
         break;
     }
   };
 
-  // 로고 클릭 시 activeKey 초기화
   const handleLogoClick = () => {
     setActiveKey(null);
-    navigate('/');
+    navigate("/");
   };
 
   const items = [
+    { key: "1", label: "특가 PICK" },
+    { key: "2", label: "카드 PICK" },
+    { key: "3", label: "이벤트" },
     {
-      key: '1',
-      label: '특가 PICK',
-      children: null,
-    },
-    {
-      key: '2',
-      label: '카드 PICK',
-      children: null,
-    },
-    {
-      key: '3',
-      label: '이벤트',
-      children: null,
-    },
-    {
-      key: '4',
+      key: "4",
       label: (
-        <a 
-          href="https://pc.wooricard.com/dcpc/yh1/fpf/fpf01/H1FPF201S00.do" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          onClick={(e) => e.preventDefault()}
-          className="flex items-center"
-        >
-          <span>해외이용의 정석</span>
-          <img
-            src={linkImg}
-            alt="link"
-            className="w-4 h-4 ml-1"
-          />
-        </a>
+          <a
+              href="https://pc.wooricard.com/dcpc/yh1/fpf/fpf01/H1FPF201S00.do"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.preventDefault()}
+              className="flex items-center"
+          >
+            <span>해외이용의 정석</span>
+            <img src={linkImg} alt="link" className="w-4 h-4 ml-1" />
+          </a>
       ),
-      children: null,
     },
   ];
 
   const menu = (
-    <Menu>
-      <Menu.Item onClick={() => navigate('/my/flight')}>
-        마이페이지
-      </Menu.Item>
-      <Menu.Item onClick={handleLogout}>
-        로그아웃
-      </Menu.Item>
-    </Menu>
+      <Menu>
+        <Menu.Item onClick={() => navigate("/my/flight")}>마이페이지</Menu.Item>
+        <Menu.Item onClick={handleLogout}>로그아웃</Menu.Item>
+      </Menu>
   );
 
   return (
-    <div className="border-b-2 border-gray-200">
-      <div className="flex justify-center w-full">
-        <div className="w-full max-w-[950px]">
-          <div className="flex items-center h-15 px-4">
-            <div className='w-40'>
-              <div onClick={handleLogoClick} className="cursor-pointer">
-                <img
-                  src={logoImg}
-                  alt="logo"
-                  style={{ width: '250px', height: 'auto'}}
+      <div className="border-b-2 border-gray-200">
+        <div className="flex justify-center w-full">
+          <div className="w-full max-w-[950px]">
+            <div className="flex items-center h-15 px-4">
+              <div className="w-40">
+                <div onClick={handleLogoClick} className="cursor-pointer">
+                  <img src={logoImg} alt="logo" style={{ width: "250px", height: "auto" }} />
+                </div>
+              </div>
+
+              <div className="flex justify-center w-full [&_.ant-tabs-nav]:mb-0">
+                <Tabs
+                    activeKey={activeKey}
+                    items={items}
+                    onChange={onChange}
+                    onTabClick={onTabClick} // onTabClick 추가
+                    className="font-bold"
+                    size="large"
                 />
               </div>
-            </div>
 
-            <div className="flex justify-center w-full [&_.ant-tabs-nav]:mb-0">
-              <Tabs
-                activeKey={activeKey} 
-                items={items}
-                onChange={onChange}
-                className="font-bold"
-                size="large"
-              />
-            </div>
-
-            <div className="w-32 text-base flex items-center justify-end">
-              {isLoggedIn ? (
-                <Dropdown overlay={menu} trigger={['click']}>
-                  <Button type="text" className="user-info flex items-center">
-                    <span className="mr-1">{userName}님</span>
-                    <DownOutlined />
-                  </Button>
-                </Dropdown>
-              ) : (
-                <Link to="/login">로그인</Link>
-              )}
+              <div className="w-32 text-base flex items-center justify-end">
+                {isLoggedIn ? (
+                    <Dropdown overlay={menu} trigger={["click"]}>
+                      <Button type="text" className="user-info flex items-center">
+                        <span className="mr-1">{userName}님</span>
+                        <DownOutlined />
+                      </Button>
+                    </Dropdown>
+                ) : (
+                    <Link to="/login">로그인</Link>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
-}
+};
 
 export default Header;
