@@ -25,6 +25,9 @@ import Info from "./pages/Info";
 import InfoUpdate from "./pages/InfoUpdate";
 import Success from "./pages/Success";
 import Fail from "./pages/Fail";
+import UserGet from "./pages/UserGet";
+import Monitoring from "./pages/Monitoring";
+import LogDashBoard from "./pages/LogDashBoard";
 
 function App() {
   return (
@@ -70,6 +73,9 @@ function MainContent() {
         <Route path="/my/info/update" element={<InfoUpdate />} />
         <Route path="/success" element={<Success />} />
         <Route path="/fail" element={<Fail />} />
+        <Route path="/admin/userget" element={<UserGet />} />
+        <Route path="/admin/monitoring" element={<Monitoring />} />
+        <Route path="/admin/log-dashboard" element={<LogDashBoard />} />
       </Routes>
     </div>
   );

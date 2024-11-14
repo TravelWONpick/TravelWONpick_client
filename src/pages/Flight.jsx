@@ -20,7 +20,7 @@ const Flight = () => {
         >
           {text}
         </Link>
-      ), // 밑줄 추가 및 링크 설정
+      ), 
     },
     {
       title: "탑승일",
