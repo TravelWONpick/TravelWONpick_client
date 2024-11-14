@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Layout, Typography } from "antd";
 import successImage from "../assets/success.gif";
@@ -17,6 +18,14 @@ const api = axios.create({
 export function Success() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const { selectedOutbound, selectedReturn } = useSelector((state) => state.flight.flightInfo);
+    const passengers = useSelector((state) => state.flight.passengerInfo.passengers);
+   // 필요한 flightId와 seatCount 추출
+    const outboundFlightId = selectedOutbound ? selectedOutbound.flightId : null;
+    const returnFlightId = selectedReturn ? selectedReturn.flightId : null;
+    const seatCount = passengers.length; // seatCount는 승객 수로 계산
+    console.log(selectedOutbound, selectedReturn, passengers);
+    
 
     useEffect(() => {
         async function validateAndConfirmPayment() {
@@ -44,11 +53,15 @@ export function Success() {
                     return;
                 }
 
+                
                 // 2. 결제 승인 요청
                 const confirmResponse = await api.post("/payments/confirm", {
                     orderId: paymentData.orderId,
                     amount: paymentData.amount,
-                    paymentKey: paymentData.paymentKey
+                    paymentKey: paymentData.paymentKey,
+                    depFlightId: outboundFlightId,
+                    arrFlightId: returnFlightId,
+                    seatCount: seatCount
                 });
                 console.log(confirmResponse.data);
                 

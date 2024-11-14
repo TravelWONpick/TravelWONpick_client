@@ -1,5 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react"; // PersistGate 임포트
+import { store, persistor } from "./store/store"; // persistor 가져오기
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,7 +15,6 @@ import Event from "./pages/Event";
 import Login from "./pages/Login";
 import EventDetail from "./pages/EventDetail";
 import Flight from "./pages/Flight";
-import Flight2 from "./pages/Flight2";
 import FlightDetail from "./pages/FlightDetail";
 import Reservation from "./pages/Reservation";
 import ReservationConfirmation from "./pages/ReservationConfirmation";
@@ -25,16 +27,22 @@ import InfoUpdate from "./pages/InfoUpdate";
 import Success from "./pages/Success";
 import Fail from "./pages/Fail";
 import Checkout from "./pages/Checkout"
-
+import UserGet from "./pages/UserGet";
+import Monitoring from "./pages/Monitoring";
+import LogDashBoard from "./pages/LogDashBoard";
 
 function App() {
-    return (
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-            <MainContent />
-            <div className="mt-20"></div>
-            <Footer />
+          <MainContent />
+          <div className="mt-20"></div>
+          <Footer />
         </BrowserRouter>
-    );
+      </PersistGate>
+    </Provider>
+  );
 }
 
 function MainContent() {
@@ -61,7 +69,6 @@ function MainContent() {
         <Route path="/event-detail" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/my/flight" element={<Flight />} />
-        <Route path="/my/flight2" element={<Flight2 />} />
         <Route path="/my/flight-detail" element={<FlightDetail />} />
         <Route path="/my/passenger" element={<Passenger />} />
         <Route path="/my/passenger/register" element={<PassengerRegister />} />
@@ -71,6 +78,9 @@ function MainContent() {
         <Route path="/success" element={<Success />} />
         <Route path="/fail" element={<Fail />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/admin/userget" element={<UserGet />} />
+        <Route path="/admin/monitoring" element={<Monitoring />} />
+        <Route path="/admin/log-dashboard" element={<LogDashBoard />} />
       </Routes>
     </div>
   );

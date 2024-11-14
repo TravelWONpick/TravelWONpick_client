@@ -1,6 +1,7 @@
 import React from 'react';
 import Slider from "react-slick";
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom'; // useNavigate 추가
 import './main.css';
 
 // 커스텀 화살표 컴포넌트
@@ -25,6 +26,8 @@ CustomNextArrow.propTypes = {
 };
 
 const MainPage = () => {
+    const navigate = useNavigate(); // useNavigate 추가
+
     const settings = {
         dots: true,
         infinite: true,
@@ -68,6 +71,10 @@ const MainPage = () => {
         }
     ];
 
+    const handleCardClick = () => {
+        navigate('/pricePick'); // 클릭 시 pricePick 페이지로 이동
+    };
+
     return (
         <div className="main-page">
             {/* 상단 배너 */}
@@ -88,7 +95,12 @@ const MainPage = () => {
                 <h2 className="flight-deals-title section-title">특가 항공권</h2>
                 <div className="flight-deals">
                     {flightDeals.map((deal, index) => (
-                        <div key={index} className="flight-deal-card">
+                        <div
+                            key={index}
+                            className="flight-deal-card"
+                            onClick={handleCardClick} // 클릭 이벤트 추가
+                            style={{ cursor: 'pointer' }}
+                        >
                             <img src={deal.imgSrc} alt={deal.destination} className="flight-image" />
                             <div className="flight-info">
                                 <div className="flight-text">
