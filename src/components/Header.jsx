@@ -51,13 +51,15 @@ const Header = () => {
 
   const onTabClick = (key) => {
     if (key === activeKey) {
-      // 이미 활성화된 탭을 클릭한 경우, 강제로 해당 경로로 navigate
+      // 이미 활성화된 탭을 클릭한 경우
       switch (key) {
         case "1": // 특가 PICK
           navigate("/pricePick", { replace: true });
+          window.location.reload(); // 강제 새로고침
           break;
         case "3": // 이벤트
           navigate("/event", { replace: true });
+          window.location.reload(); // 강제 새로고침
           break;
         default:
           break;

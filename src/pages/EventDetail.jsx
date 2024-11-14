@@ -1,6 +1,6 @@
 // EventDetail.jsx
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
 import axios from 'axios';
 import './event.css';
 
@@ -8,6 +8,7 @@ const baseUrl = "http://localhost:8080";
 
 const EventDetail = () => {
     const { id } = useParams();
+    const navigate = useNavigate(); // navigate 함수 생성
     const [eventDetail, setEventDetail] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -51,6 +52,10 @@ const EventDetail = () => {
         })
         : '날짜 없음';
 
+    const handleNavigateToPricePick = () => {
+        navigate('/pricePick'); // 특가픽 페이지로 이동
+    };
+
     return (
         <div className="event-detail">
             <div className="event-detail-header">
@@ -60,7 +65,12 @@ const EventDetail = () => {
                 </span>
             </div>
             <img src={eventDetail.image} alt={eventDetail.title} className="event-detail-image" />
-            <button className="event-detail-button">항공권 예약하러 가기</button>
+            <button
+                className="event-detail-button"
+                onClick={handleNavigateToPricePick} // 버튼 클릭 이벤트 추가
+            >
+                항공권 예약하러 가기
+            </button>
         </div>
     );
 };
