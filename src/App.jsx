@@ -24,6 +24,7 @@ import Info from "./pages/Info";
 import InfoUpdate from "./pages/InfoUpdate";
 import Success from "./pages/Success";
 import Fail from "./pages/Fail";
+import Checkout from "./pages/Checkout"
 
 
 function App() {
@@ -69,6 +70,7 @@ function MainContent() {
         <Route path="/my/info/update" element={<InfoUpdate />} />
         <Route path="/success" element={<Success />} />
         <Route path="/fail" element={<Fail />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </div>
   );

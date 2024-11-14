@@ -133,7 +133,7 @@ const ReservationConfirmation = () => {
     }
 
     // 모든 검증이 통과되면 다음 페이지로 이동
-    // navigate('/payment', { state: { flights, bookerInfo, passengers: passengerForms, totalPrice } });
+    navigate('/pricePick/payment', { state: { flights, bookerInfo, passengers: passengerForms, totalPrice } });
   };
 
   return (
