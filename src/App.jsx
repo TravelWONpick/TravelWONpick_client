@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store/store";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -25,59 +26,63 @@ import Info from "./pages/Info";
 import InfoUpdate from "./pages/InfoUpdate";
 import Success from "./pages/Success";
 import Fail from "./pages/Fail";
+import Checkout from "./pages/Checkout";
 import UserGet from "./pages/UserGet";
 import Monitoring from "./pages/Monitoring";
 import LogDashBoard from "./pages/LogDashBoard";
 
 function App() {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <MainContent />
-        <div className="mt-20"></div>
-        <Footer />
-      </BrowserRouter>
-    </Provider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <MainContent />
+            <div className="mt-20"></div>
+            <Footer />
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
   );
 }
 
 function MainContent() {
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  const isLoginPage = location.pathname.includes("/login"); // Login 페이지 확인
 
   return (
-    <div className="App">
-      {!isLoginPage && <Header />}{" "}
-      {/* 로그인 페이지가 아닌 경우에만 Header를 렌더링 */}
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/pricePick/" element={<PricePick />} />
-        <Route path="/pricePick/reservation/" element={<Reservation />} />
-        <Route
-          path="/pricePick/reservation-confirmation/"
-          element={<ReservationConfirmation />}
-        />
-        <Route path="/pricePick/payment/" element={<Payment />} />
-        <Route path="/cardPick/" element={<CardPick />} />
-        <Route path="/event/" element={<Event />} />
-        <Route path="/event-detail/:id" element={<EventDetail />} />{" "}
-        {/* :id 추가 */}
-        <Route path="/event-detail" element={<EventDetail />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/my/flight" element={<Flight />} />
-        <Route path="/my/flight-detail" element={<FlightDetail />} />
-        <Route path="/my/passenger" element={<Passenger />} />
-        <Route path="/my/passenger/register" element={<PassengerRegister />} />
-        <Route path="/my/passenger/update" element={<PassengerUpdate />} />
-        <Route path="/my/info" element={<Info />} />
-        <Route path="/my/info/update" element={<InfoUpdate />} />
-        <Route path="/success" element={<Success />} />
-        <Route path="/fail" element={<Fail />} />
-        <Route path="/admin/userget" element={<UserGet />} />
-        <Route path="/admin/monitoring" element={<Monitoring />} />
-        <Route path="/admin/log-dashboard" element={<LogDashBoard />} />
-      </Routes>
-    </div>
+      <div className="App">
+        {!isLoginPage && <Header />} {/* Login 페이지에서는 Header 숨김 */}
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/pricePick/" element={<PricePick />} />
+          <Route path="/pricePick/reservation/" element={<Reservation />} />
+          <Route
+              path="/pricePick/reservation-confirmation/"
+              element={<ReservationConfirmation />}
+          />
+          <Route path="/pricePick/payment/" element={<Payment />} />
+          <Route path="/cardPick/" element={<CardPick />} />
+          <Route path="/event/" element={<Event />} />
+          <Route path="/event-detail/:id" element={<EventDetail />} />
+          <Route path="/my/flight" element={<Flight />} />
+          <Route
+              path="/my/flight-detail/:reservationId"
+              element={<FlightDetail />}
+          />
+          <Route path="/my/passenger" element={<Passenger />} />
+          <Route path="/my/passenger/register" element={<PassengerRegister />} />
+          <Route path="/my/passenger/update" element={<PassengerUpdate />} />
+          <Route path="/my/info" element={<Info />} />
+          <Route path="/my/info/update" element={<InfoUpdate />} />
+          <Route path="/login" element={<Login />} /> {/* /login 경로 추가 */}
+          <Route path="/success" element={<Success />} />
+          <Route path="/fail" element={<Fail />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/admin/userget" element={<UserGet />} />
+          <Route path="/admin/monitoring" element={<Monitoring />} />
+          <Route path="/admin/log-dashboard" element={<LogDashBoard />} />
+        </Routes>
+      </div>
   );
 }
 

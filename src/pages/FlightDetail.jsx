@@ -1,323 +1,360 @@
-// FlightDetail.jsx
-
-import React from "react";
-import { Layout, Menu, Typography, Table } from "antd";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Layout, Menu, Typography, Table, Spin, message } from "antd";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
 const { ItemGroup } = Menu;
 
 const FlightDetail = () => {
-  const purchaseColumns = [
-    { title: "성명", dataIndex: "name", key: "name", align: "center" },
-    { title: "매수", dataIndex: "seats", key: "seats", align: "center" },
-    {
-      title: "항공운임",
-      dataIndex: "ticketPrice",
-      key: "ticketPrice",
-      align: "center",
-    },
-    {
-      title: "할인금액",
-      dataIndex: "discount",
-      key: "discount",
-      align: "center",
-    },
-    {
-      title: "총결제금액",
-      dataIndex: "totalPrice",
-      key: "totalPrice",
-      align: "center",
-    },
-  ];
+    const { reservationId } = useParams();
+    const [loading, setLoading] = useState(true);
+    const [purchaseData, setPurchaseData] = useState([]);
+    const [scheduleData, setScheduleData] = useState([]);
+    const [passengerData, setPassengerData] = useState([]);
 
-  const scheduleColumns = [
-    {
-      title: "편명",
-      dataIndex: "flightNumber",
-      key: "flightNumber",
-      align: "center",
-    },
-    { title: "여정", dataIndex: "route", key: "route", align: "center" },
-    {
-      title: "출발",
-      dataIndex: "departure",
-      key: "departure",
-      align: "center",
-    },
-    {
-      title: "도착",
-      dataIndex: "arrival",
-      key: "arrival",
-      align: "center",
-    },
-    { title: "예약좌석", dataIndex: "seat", key: "seat", align: "center" },
-  ];
+    useEffect(() => {
+        const fetchDetails = async () => {
+            const token = sessionStorage.getItem("accessToken");
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            };
+            try {
+                const [flightResponse, passengerResponse] = await Promise.all([
+                    axios.get(`http://localhost:8080/my/flight/${reservationId}/flight-detail`, { headers }),
+                    axios.get(`http://localhost:8080/my/flight/${reservationId}/passenger-detail`, { headers }),
+                ]);
 
-  const passengerColumns = [
-    {
-      title: "영문 이름",
-      dataIndex: "passengerName",
-      key: "passengerName",
-      align: "center",
-    },
-    {
-      title: "성별",
-      dataIndex: "gender",
-      key: "gender",
-      align: "center",
-    },
-    {
-      title: "생년월일",
-      dataIndex: "birthDate",
-      key: "birthDate",
-      align: "center",
-    },
-    {
-      title: "전화번호",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      align: "center",
-    },
-  ];
+                if (flightResponse.data?.status === 200) {
+                    const flightData = flightResponse.data.data;
+                    setPurchaseData([
+                        {
+                            key: "1",
+                            name: localStorage.getItem("userName") || "사용자",
+                            seats: flightData.seatCount,
+                            ticketPrice: flightData.originPrice.toLocaleString(),
+                            discount: flightData.discount.toLocaleString(),
+                            totalPrice: flightData.amount.toLocaleString(),
+                        },
+                    ]);
 
-  const purchaseData = [
-    {
-      key: "1",
-      name: "김상민",
-      seats: "2",
-      ticketPrice: "430,000",
-      discount: "50,000",
-      totalPrice: "380,000",
-    },
-  ];
+                    setScheduleData([
+                        {
+                            key: "1",
+                            flightNumber: flightData.outFlightNumber,
+                            route: flightData.outJourney,
+                            departure: flightData.outDepartureTime,
+                            arrival: flightData.outArrivalTime,
+                            seat: `${flightData.seatCount}석`,
+                        },
+                        {
+                            key: "2",
+                            flightNumber: flightData.inFlightNumber,
+                            route: flightData.inJourney,
+                            departure: flightData.inDepartureTime,
+                            arrival: flightData.inArrivalTime,
+                            seat: `${flightData.seatCount}석`,
+                        },
+                    ]);
+                }
 
-  const scheduleData = [
-    {
-      key: "1",
-      flightNumber: "RS529",
-      route: "서울/인천(ICN) → 나트랑(CXR)",
-      departure: "2024.06.19 (수) 02:00",
-      arrival: "2024.06.19 (수) 09:05",
-      seat: "2석",
-    },
-    {
-      key: "2",
-      flightNumber: "RS530",
-      route: "나트랑(CXR) → 서울/인천(ICN)",
-      departure: "2024.06.24 (월) 02:00",
-      arrival: "2024.06.24 (월) 09:05",
-      seat: "2석",
-    },
-  ];
+                if (passengerResponse.data?.status === 200) {
+                    setPassengerData(
+                        passengerResponse.data.data.map((passenger, index) => ({
+                            key: index + 1,
+                            passengerName: `${passenger.lastName} / ${passenger.firstName}`,
+                            gender: passenger.gender === "FEMALE" ? "여성" : "남성",
+                            birthDate: passenger.birth,
+                            phoneNumber: passenger.phoneNumber,
+                        }))
+                    );
+                }
+            } catch (error) {
+                console.error("API 호출 중 오류 발생:", error);
+                message.error("데이터를 불러오는 데 실패했습니다.");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  const passengerData = [
-    {
-      key: "1",
-      passengerName: "PARK / JANGWOO",
-      gender: "남성",
-      birthDate: "2024.06.19",
-      phoneNumber: "010-1234-5678",
-    },
-    {
-      key: "2",
-      passengerName: "KIM / SANGMIN",
-      gender: "남성",
-      birthDate: "2021.03.20",
-      phoneNumber: "010-1245-8888",
-    },
-  ];
+        fetchDetails();
+    }, [reservationId]);
+
+    const purchaseColumns = [
+        { title: "성명", dataIndex: "name", key: "name", align: "center" },
+        { title: "매수", dataIndex: "seats", key: "seats", align: "center" },
+        {
+            title: "항공운임",
+            dataIndex: "ticketPrice",
+            key: "ticketPrice",
+            align: "center",
+        },
+        {
+            title: "할인금액",
+            dataIndex: "discount",
+            key: "discount",
+            align: "center",
+        },
+        {
+            title: "총결제금액",
+            dataIndex: "totalPrice",
+            key: "totalPrice",
+            align: "center",
+        },
+    ];
+
+    const scheduleColumns = [
+        {
+            title: "편명",
+            dataIndex: "flightNumber",
+            key: "flightNumber",
+            align: "center",
+        },
+        { title: "여정", dataIndex: "route", key: "route", align: "center" },
+        {
+            title: "출발",
+            dataIndex: "departure",
+            key: "departure",
+            align: "center",
+        },
+        {
+            title: "도착",
+            dataIndex: "arrival",
+            key: "arrival",
+            align: "center",
+        },
+        { title: "예약좌석", dataIndex: "seat", key: "seat", align: "center" },
+    ];
+
+    const passengerColumns = [
+        {
+            title: "영문 이름",
+            dataIndex: "passengerName",
+            key: "passengerName",
+            align: "center",
+        },
+        {
+            title: "성별",
+            dataIndex: "gender",
+            key: "gender",
+            align: "center",
+        },
+        {
+            title: "생년월일",
+            dataIndex: "birthDate",
+            key: "birthDate",
+            align: "center",
+        },
+        {
+            title: "전화번호",
+            dataIndex: "phoneNumber",
+            key: "phoneNumber",
+            align: "center",
+        },
+    ];
+
+    if (loading) {
+        return (
+            <Layout style={{ minHeight: "80vh", justifyContent: "center", alignItems: "center" }}>
+                <Spin tip="로딩 중..." size="large" />
+            </Layout>
+        );
+    }
 
   return (
-    <Layout
-      style={{
-        minHeight: "80vh",
-        background: "white",
-        width: "100%",
-        maxWidth: "950px",
-        margin: "0 auto",
-        padding: "20px",
-        paddingTop: "30px",
-      }}
-    >
-      <h2 className="text-2xl font-bold pb-5">"OOO님, 즐거운 비행 되시길 바랍니다!"</h2>
-      <Layout>
-        <Sider width={200} style={{ background: "white" }}>
-          <Menu
-            mode="vertical"
-            defaultSelectedKeys={["1"]}
-            style={{ borderRight: 0 }}
-          >
-            <ItemGroup
-              key="g1"
-              title={
-                <Text strong style={{ fontSize: "18px", fontWeight: "bold" }}>
-                  나의 예약
-                </Text>
-              }
-            >
-              <Menu.Item key="1">
-                <Link
-                  to="/my/flight"
-                  style={{
-                    fontSize: "14px",
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  항공
-                </Link>
-              </Menu.Item>
-            </ItemGroup>
-            <ItemGroup
-              key="g2"
-              title={
-                <Text strong style={{ fontSize: "18px", fontWeight: "bold" }}>
-                  정보관리
-                </Text>
-              }
-            >
-              <Menu.Item key="2">
-                <Link
-                  to="/my/passenger"
-                  style={{
-                    fontSize: "14px",
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  탑승객 정보
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="3">
-                <Link
-                  to="/my/info"
-                  style={{
-                    fontSize: "14px",
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  나의 회원정보
-                </Link>
-              </Menu.Item>
-            </ItemGroup>
-          </Menu>
-        </Sider>
-        <Layout style={{ background: "white" }}>
-          <Content style={{ padding: "24px", paddingTop: "8px" }}>
-            <Title
-              level={5}
-              style={{
-                fontWeight: "bold",
-                marginBottom: "16px",
-                fontSize: "20px",
-              }}
-            >
-              항공권 구매정보
-            </Title>
-            <Table
-              columns={purchaseColumns}
-              dataSource={purchaseData}
-              pagination={false}
-              bordered
-              style={{
-                marginBottom: "30px",
-                backgroundColor: "white",
-              }}
-              components={{
-                header: {
-                  cell: ({ children, ...restProps }) => (
-                    <th
-                      {...restProps}
-                      style={{
-                        backgroundColor: "#007BFF",
-                        color: "white",
-                        textAlign: "center",
-                      }}
-                    >
-                      {children}
-                    </th>
-                  ),
-                },
-              }}
-            />
-            <Title
-              level={5}
-              style={{
-                fontWeight: "bold",
-                marginBottom: "16px",
-                fontSize: "20px",
-              }}
-            >
-              여정
-            </Title>
-            <Table
-              columns={scheduleColumns}
-              dataSource={scheduleData}
-              pagination={false}
-              bordered
-              style={{
-                marginBottom: "30px",
-                backgroundColor: "white",
-              }}
-              components={{
-                header: {
-                  cell: ({ children, ...restProps }) => (
-                    <th
-                      {...restProps}
-                      style={{
-                        backgroundColor: "#007BFF",
-                        color: "white",
-                        textAlign: "center",
-                      }}
-                    >
-                      {children}
-                    </th>
-                  ),
-                },
-              }}
-            />
-            <Title
-              level={5}
-              style={{
-                fontWeight: "bold",
-                marginBottom: "16px",
-                fontSize: "20px",
-              }}
-            >
-              탑승객 정보
-            </Title>
-            <Table
-              columns={passengerColumns}
-              dataSource={passengerData}
-              pagination={false}
-              bordered
-              style={{
-                backgroundColor: "white",
-              }}
-              components={{
-                header: {
-                  cell: ({ children, ...restProps }) => (
-                    <th
-                      {...restProps}
-                      style={{
-                        backgroundColor: "#007BFF",
-                        color: "white",
-                        textAlign: "center",
-                      }}
-                    >
-                      {children}
-                    </th>
-                  ),
-                },
-              }}
-            />
-          </Content>
-        </Layout>
+      <Layout
+          style={{
+              minHeight: "80vh",
+              background: "white",
+              width: "100%",
+              maxWidth: "950px",
+              margin: "0 auto",
+              padding: "20px",
+              paddingTop: "30px",
+          }}
+      >
+          <h2 className="text-2xl font-bold pb-5">
+              {localStorage.getItem("userName")
+                  ? `${localStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
+                  : "OOO님, 즐거운 비행 되시길 바랍니다!"}
+          </h2>
+          <Layout>
+              <Sider width={200} style={{background: "white"}}>
+                  <Menu
+                      mode="vertical"
+                      defaultSelectedKeys={["1"]}
+                      style={{borderRight: 0}}
+                  >
+                      <ItemGroup
+                          key="g1"
+                          title={
+                              <Text strong style={{fontSize: "18px", fontWeight: "bold"}}>
+                                  나의 예약
+                              </Text>
+                          }
+                      >
+                          <Menu.Item key="1">
+                              <Link
+                                  to="/my/flight"
+                                  style={{
+                                      fontSize: "14px",
+                                      color: "inherit",
+                                      textDecoration: "none",
+                                  }}
+                              >
+                                  항공
+                              </Link>
+                          </Menu.Item>
+                      </ItemGroup>
+                      <ItemGroup
+                          key="g2"
+                          title={
+                              <Text strong style={{fontSize: "18px", fontWeight: "bold"}}>
+                                  정보관리
+                              </Text>
+                          }
+                      >
+                          <Menu.Item key="2">
+                              <Link
+                                  to="/my/passenger"
+                                  style={{
+                                      fontSize: "14px",
+                                      color: "inherit",
+                                      textDecoration: "none",
+                                  }}
+                              >
+                                  탑승객 정보
+                              </Link>
+                          </Menu.Item>
+                          <Menu.Item key="3">
+                              <Link
+                                  to="/my/info"
+                                  style={{
+                                      fontSize: "14px",
+                                      color: "inherit",
+                                      textDecoration: "none",
+                                  }}
+                              >
+                                  나의 회원정보
+                              </Link>
+                          </Menu.Item>
+                      </ItemGroup>
+                  </Menu>
+              </Sider>
+              <Layout style={{background: "white"}}>
+                  <Content style={{padding: "24px", paddingTop: "8px"}}>
+                      <Title
+                          level={5}
+                          style={{
+                              fontWeight: "bold",
+                              marginBottom: "16px",
+                              fontSize: "20px",
+                          }}
+                      >
+                          항공권 구매정보
+                      </Title>
+                      <Table
+                          columns={purchaseColumns}
+                          dataSource={purchaseData}
+                          pagination={false}
+                          bordered
+                          style={{
+                              marginBottom: "30px",
+                              backgroundColor: "white",
+                          }}
+                          components={{
+                              header: {
+                                  cell: ({children, ...restProps}) => (
+                                      <th
+                                          {...restProps}
+                                          style={{
+                                              backgroundColor: "#007BFF",
+                                              color: "white",
+                                              textAlign: "center",
+                                          }}
+                                      >
+                                          {children}
+                                      </th>
+                                  ),
+                              },
+                          }}
+                      />
+                      <Title
+                          level={5}
+                          style={{
+                              fontWeight: "bold",
+                              marginBottom: "16px",
+                              fontSize: "20px",
+                          }}
+                      >
+                          여정
+                      </Title>
+                      <Table
+                          columns={scheduleColumns}
+                          dataSource={scheduleData}
+                          pagination={false}
+                          bordered
+                          style={{
+                              marginBottom: "30px",
+                              backgroundColor: "white",
+                          }}
+                          components={{
+                              header: {
+                                  cell: ({children, ...restProps}) => (
+                                      <th
+                                          {...restProps}
+                                          style={{
+                                              backgroundColor: "#007BFF",
+                                              color: "white",
+                                              textAlign: "center",
+                                          }}
+                                      >
+                                          {children}
+                                      </th>
+                                  ),
+                              },
+                          }}
+                      />
+                      <Title
+                          level={5}
+                          style={{
+                              fontWeight: "bold",
+                              marginBottom: "16px",
+                              fontSize: "20px",
+                          }}
+                      >
+                          탑승객 정보
+                      </Title>
+                      <Table
+                          columns={passengerColumns}
+                          dataSource={passengerData}
+                          pagination={false}
+                          bordered
+                          style={{
+                              backgroundColor: "white",
+                          }}
+                          components={{
+                              header: {
+                                  cell: ({children, ...restProps}) => (
+                                      <th
+                                          {...restProps}
+                                          style={{
+                                              backgroundColor: "#007BFF",
+                                              color: "white",
+                                              textAlign: "center",
+                                          }}
+                                      >
+                                          {children}
+                                      </th>
+                                  ),
+                              },
+                          }}
+                      />
+                  </Content>
+              </Layout>
+          </Layout>
       </Layout>
-    </Layout>
   );
 };
 
