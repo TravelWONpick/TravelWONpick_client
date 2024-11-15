@@ -148,17 +148,19 @@ const Passenger = () => {
       }}
     >
       <h2 className="text-2xl font-bold pb-5">
-        "OOO님, 즐거운 비행 되시길 바랍니다!"
+        {localStorage.getItem("userName")
+            ? `${localStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
+            : "OOO님, 즐거운 비행 되시길 바랍니다!"}
       </h2>
       <Layout>
-        <Sider width={200} style={{ background: "white" }}>
+        <Sider width={200} style={{background: "white"}}>
           <Menu
-            mode="vertical"
-            defaultSelectedKeys={["2"]}
-            style={{ borderRight: 0 }}
+              mode="vertical"
+              defaultSelectedKeys={["2"]}
+              style={{borderRight: 0}}
           >
             <ItemGroup
-              key="g1"
+                key="g1"
               title={
                 <Text strong style={{ fontSize: "18px", fontWeight: "bold" }}>
                   나의 예약

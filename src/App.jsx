@@ -26,7 +26,7 @@ import Info from "./pages/Info";
 import InfoUpdate from "./pages/InfoUpdate";
 import Success from "./pages/Success";
 import Fail from "./pages/Fail";
-import Checkout from "./pages/Checkout"
+import Checkout from "./pages/Checkout";
 import UserGet from "./pages/UserGet";
 import Monitoring from "./pages/Monitoring";
 import LogDashBoard from "./pages/LogDashBoard";
@@ -66,7 +66,10 @@ function MainContent() {
         <Route path="/event/" element={<Event />} />
         <Route path="/event-detail/:id" element={<EventDetail />} />{" "}
         {/* :id 추가 */}
-        <Route path="/event-detail" element={<EventDetail />} />
+        <Route
+            path="/my/flight-detail/:reservationId"
+            element={<FlightDetail />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/my/flight" element={<Flight />} />
         <Route path="/my/flight-detail" element={<FlightDetail />} />

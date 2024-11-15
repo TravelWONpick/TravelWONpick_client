@@ -28,7 +28,7 @@ const Header = () => {
 
     const token = sessionStorage.getItem("accessToken");
     const storedUserName = localStorage.getItem("userName");
-    const storedIsAdmin = sessionStorage.getItem('isAdmin') === 'true';
+    const storedIsAdmin = sessionStorage.getItem("isAdmin") === "true";
 
     if (token && storedUserName) {
       setUserName(storedUserName);
@@ -40,16 +40,15 @@ const Header = () => {
   const handleLogout = async () => {
     const accessToken = sessionStorage.getItem("accessToken");
     try {
-      await axios.post('http://localhost:8080/auth/logout', { accessToken });
-      message.success('로그아웃 되었습니다.');
-      navigate('/');
-      sessionStorage.removeItem('accessToken');
-      sessionStorage.removeItem('isAdmin');
-      localStorage.removeItem('userName');
+      await axios.post("http://localhost:8080/auth/logout", { accessToken });
+      message.success("로그아웃 되었습니다.");
+      navigate("/");
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.removeItem("isAdmin");
+      localStorage.removeItem("userName");
       setIsLoggedIn(false);
-      setUserName('');
+      setUserName("");
       setIsAdmin(false);
-
     } catch (error) {
       console.error("로그아웃 중 오류가 발생했습니다:", error);
       message.error("로그아웃 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -107,7 +106,6 @@ const Header = () => {
               href="https://pc.wooricard.com/dcpc/yh1/fpf/fpf01/H1FPF201S00.do"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.preventDefault()}
               className="flex items-center"
           >
             <span>해외이용의 정석</span>
@@ -118,14 +116,14 @@ const Header = () => {
   ];
 
   const menu = (
-    <Menu>
-      <Menu.Item onClick={() => navigate(isAdmin ? '/admin/userget' : '/my/flight')}>
-        {isAdmin ? '관리자 페이지' : '마이페이지'}
-      </Menu.Item>
-      <Menu.Item onClick={handleLogout}>
-        로그아웃
-      </Menu.Item>
-    </Menu>
+      <Menu>
+        <Menu.Item
+            onClick={() => navigate(isAdmin ? "/admin/userget" : "/my/flight")}
+        >
+          {isAdmin ? "관리자 페이지" : "마이페이지"}
+        </Menu.Item>
+        <Menu.Item onClick={handleLogout}>로그아웃</Menu.Item>
+      </Menu>
   );
 
   return (
@@ -135,7 +133,11 @@ const Header = () => {
             <div className="flex items-center h-15 px-4">
               <div className="w-40">
                 <div onClick={handleLogoClick} className="cursor-pointer">
-                  <img src={logoImg} alt="logo" style={{ width: "250px", height: "auto" }} />
+                  <img
+                      src={logoImg}
+                      alt="logo"
+                      style={{ width: "250px", height: "auto" }}
+                  />
                 </div>
               </div>
 
