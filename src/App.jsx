@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react"; // PersistGate 임포트
 import { store, persistor } from "./store/store"; // persistor 가져오기
+import { message } from "antd"; // antd 메시지 사용
+import AdminRoute from "./components/AdminRoute";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -51,7 +53,7 @@ function MainContent() {
 
   return (
     <div className="App">
-      {!isLoginPage && <Header />}{" "}
+      {!isLoginPage && <Header />}
       {/* 로그인 페이지가 아닌 경우에만 Header를 렌더링 */}
       <Routes>
         <Route path="/" element={<MainPage />} />
@@ -67,8 +69,8 @@ function MainContent() {
         <Route path="/event-detail/:id" element={<EventDetail />} />{" "}
         {/* :id 추가 */}
         <Route
-            path="/my/flight-detail/:reservationId"
-            element={<FlightDetail />}
+          path="/my/flight-detail/:reservationId"
+          element={<FlightDetail />}
         />
         <Route path="/login" element={<Login />} />
         <Route path="/my/flight" element={<Flight />} />
@@ -81,9 +83,32 @@ function MainContent() {
         <Route path="/success" element={<Success />} />
         <Route path="/fail" element={<Fail />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/admin/userget" element={<UserGet />} />
-        <Route path="/admin/monitoring" element={<Monitoring />} />
-        <Route path="/admin/log-dashboard" element={<LogDashBoard />} />
+
+        {/* 관리자 전용 라우트 */}
+        <Route
+          path="/admin/userget"
+          element={
+            <AdminRoute>
+              <UserGet />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/monitoring"
+          element={
+            <AdminRoute>
+              <Monitoring />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/log-dashboard"
+          element={
+            <AdminRoute>
+              <LogDashBoard />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </div>
   );
