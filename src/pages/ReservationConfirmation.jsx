@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FlightCard from "../components/FlightCard";
 import PassengerForm from "../components/PassengerForm";
 import BookerInfo from "../components/BookerInfo";
+
 import {
   addPassenger,
   updatePassenger,
@@ -15,6 +16,7 @@ import {
 const { Text, Title } = Typography;
 
 const ReservationConfirmation = () => {
+
   //페이지 넘어가면 맨위로 스크롤 되는 useEffect
   useEffect(() => {
     window.scrollTo({
@@ -25,6 +27,7 @@ const ReservationConfirmation = () => {
     // 선택된 인원 수만큼 빈 승객 폼 초기화
     const initializePassengers = () => {
       const currentPassengerCount = passengers.length;
+      console.log(currentPassengerCount)
       if (currentPassengerCount < adultCount) {
         for (let i = currentPassengerCount; i < adultCount; i++) {
           dispatch(

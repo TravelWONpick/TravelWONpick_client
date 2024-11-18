@@ -82,7 +82,7 @@ const Info = () => {
                 // 상태 초기화
                 sessionStorage.removeItem("accessToken");
                 sessionStorage.removeItem("isAdmin");
-                localStorage.removeItem("userName");
+                sessionStorage.removeItem("userName");
 
                 // 페이지 리로드를 통해 Header 초기화
                 navigate("/");
@@ -119,8 +119,8 @@ const Info = () => {
             }}
         >
             <h2 className="text-2xl font-bold pb-5">
-                {localStorage.getItem("userName")
-                    ? `${localStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
+                {sessionStorage.getItem("userName")
+                    ? `${sessionStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
                     : "OOO님, 즐거운 비행 되시길 바랍니다!"}
             </h2>
             <Layout>

@@ -27,7 +27,7 @@ const Header = () => {
     }
 
     const token = sessionStorage.getItem("accessToken");
-    const storedUserName = localStorage.getItem("userName");
+    const storedUserName = sessionStorage.getItem("userName");
     const storedIsAdmin = sessionStorage.getItem("isAdmin") === "true";
 
     if (token && storedUserName) {
@@ -45,7 +45,7 @@ const Header = () => {
       navigate("/");
       sessionStorage.removeItem("accessToken");
       sessionStorage.removeItem("isAdmin");
-      localStorage.removeItem("userName");
+      sessionStorage.removeItem("userName");
       setIsLoggedIn(false);
       setUserName("");
       setIsAdmin(false);

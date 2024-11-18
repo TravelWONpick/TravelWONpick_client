@@ -4,6 +4,7 @@ import axios from 'axios';
 import EventCard from './EventCard';
 import { Pagination } from 'antd';
 import './event.css';
+import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
 
 // 백엔드 서버의 기본 URL
 const baseUrl = "http://localhost:8080";
@@ -52,6 +53,7 @@ const Event = () => {
     setCurrentPage(1);
   };
 
+  useSessionClearOnMain();
   return (
     <div className="event-page">
       <h2>이벤트</h2>
