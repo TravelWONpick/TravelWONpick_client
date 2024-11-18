@@ -5,6 +5,7 @@ import { Layout, Typography } from "antd";
 import successImage from "../assets/success.gif";
 import axios from "axios";
 
+
 const { Content } = Layout;
 const { Title } = Typography;
 
@@ -64,7 +65,7 @@ export function Success() {
                     seatCount: seatCount
                 });
                 console.log(confirmResponse.data);
-                
+            
             } catch (error) {
                 if (error.response) {
                     // 서버 응답이 있는 경우

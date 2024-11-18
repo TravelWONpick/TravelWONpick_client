@@ -93,8 +93,8 @@ const Flight = () => {
             }}
         >
             <h2 className="text-2xl font-bold pb-5">
-                {localStorage.getItem("userName")
-                    ? `${localStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
+                {sessionStorage.getItem("userName")
+                    ? `${sessionStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
                     : "OOO님, 즐거운 비행 되시길 바랍니다!"}
             </h2>
             <Layout>

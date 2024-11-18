@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Tag, Button, Pagination } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import './CardPick.css';
+import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
 
 const baseUrl = "http://localhost:8080"; // 백엔드 서버 URL
 
@@ -104,6 +105,7 @@ const CardPick = () => {
     else setSelectedBenefits((prev) => prev.filter((b) => b !== filter));
   };
 
+  useSessionClearOnMain();
   return (
     <div className="card-pick">
       <h2>카드 PICK</h2>

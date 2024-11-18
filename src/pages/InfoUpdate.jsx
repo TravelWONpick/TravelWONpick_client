@@ -104,7 +104,7 @@ const InfoUpdate = () => {
                 message.success("회원정보가 성공적으로 수정되었습니다.");
 
                 // 로컬스토리지에 userName 업데이트
-                localStorage.setItem("userName", form.name);
+                sessionStorage.setItem("userName", form.name);
 
                 navigate("/my/info");
             } else {
@@ -133,8 +133,8 @@ const InfoUpdate = () => {
             }}
         >
             <h2 className="text-2xl font-bold pb-5">
-                {localStorage.getItem("userName")
-                    ? `${localStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
+                {sessionStorage.getItem("userName")
+                    ? `${sessionStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
                     : "OOO님, 즐거운 비행 되시길 바랍니다!"}
             </h2>
             <Layout>
