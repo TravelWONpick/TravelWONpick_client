@@ -4,6 +4,7 @@ import { message } from "antd";
 
 const UserRoute = ({ children }) => {
   const isAdmin = sessionStorage.getItem("isAdmin") === "true";
+  const isUser = sessionStorage.getItem("accessToken");
 
   if (isAdmin) {
     // 관리자가 마이페이지에 접근하면 차단
@@ -11,6 +12,11 @@ const UserRoute = ({ children }) => {
     return <Navigate to="/" />; // 홈 페이지로 리디렉션
   }
 
+  if (isUser == null) {
+    message.error("로그인이 필요합니다.");
+    return <Navigate to="/" />;
+  }
+  
   return children; // 일반 사용자는 접근 가능
 };
 
