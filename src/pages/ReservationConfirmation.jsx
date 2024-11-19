@@ -4,20 +4,72 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FlightCard from "../components/FlightCard";
 import PassengerForm from "../components/PassengerForm";
-import BookerInfo from "../components/BookerInfo";
+import axios from "axios";
 
 import {
   addPassenger,
   updatePassenger,
-  removePassenger,
   setFlightSelection,
 } from "../store/flightSlice";
 
 const { Text, Title } = Typography;
 
-const ReservationConfirmation = () => {
+const baseUrl = "http://localhost:8080"; // 백엔드 서버 URL
 
-  //페이지 넘어가면 맨위로 스크롤 되는 useEffect
+const ReservationConfirmation = () => {
+  const dispatch = useDispatch();
+  const { selectedOutbound, selectedReturn, adultCount, tripType, totalPrice } =
+    useSelector((state) => state.flight.flightInfo);
+  const { passengers } = useSelector((state) => state.flight.passengerInfo);
+
+  const [showGoingFlightDetails, setShowGoingFlightDetails] = useState(false);
+  const [showReturningFlightDetails, setShowReturningFlightDetails] = useState(false);
+
+  const [bookerInfo, setBookerInfo] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const navigate = useNavigate();
+
+  // 전화번호를 000-0000-0000 형태로 변환하는 함수
+  const formatPhoneNumber = (phoneNumber) => {
+    const digits = phoneNumber.replace(/[^0-9]/g, "");
+    if (digits.length > 3 && digits.length <= 7) {
+      return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+    } else if (digits.length > 7) {
+      return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+    }
+    return digits;
+  };
+
+  // 사용자 정보 불러오기 (세션스토리지에서 액세스 토큰 사용)
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const accessToken = sessionStorage.getItem("accessToken");
+        if (accessToken) {
+          const response = await axios.get(`${baseUrl}/my/info`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+          const data = response.data.data;
+          // 예약자 정보 설정
+          setBookerInfo({
+            name: data.name,
+            email: data.email,
+            phone: formatPhoneNumber(data.phoneNumber),
+          });
+        }
+      } catch (error) {
+        console.error("사용자 정보를 불러오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
+  // 페이지 넘어가면 맨 위로 스크롤 되는 useEffect
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -27,7 +79,6 @@ const ReservationConfirmation = () => {
     // 선택된 인원 수만큼 빈 승객 폼 초기화
     const initializePassengers = () => {
       const currentPassengerCount = passengers.length;
-      console.log(currentPassengerCount)
       if (currentPassengerCount < adultCount) {
         for (let i = currentPassengerCount; i < adultCount; i++) {
           dispatch(
@@ -46,23 +97,6 @@ const ReservationConfirmation = () => {
     initializePassengers();
   }, []);
 
-  const dispatch = useDispatch();
-  const { selectedOutbound, selectedReturn, adultCount, tripType, totalPrice } =
-    useSelector((state) => state.flight.flightInfo);
-  const { passengers } = useSelector((state) => state.flight.passengerInfo);
-
-  const [showGoingFlightDetails, setShowGoingFlightDetails] = useState(false);
-  const [showReturningFlightDetails, setShowReturningFlightDetails] =
-    useState(false);
-
-  const [bookerInfo, setBookerInfo] = useState({
-    name: "",
-    email: "",
-    phone: "",
-  });
-
-  const navigate = useNavigate();
-
   const handleToggleGoingFlight = () => {
     setShowGoingFlightDetails((prev) => !prev);
   };
@@ -78,10 +112,6 @@ const ReservationConfirmation = () => {
         data: formData,
       })
     );
-  };
-
-  const handleBookerInfoChange = (newInfo) => {
-    setBookerInfo(newInfo);
   };
 
   const handlePayment = () => {
@@ -134,8 +164,7 @@ const ReservationConfirmation = () => {
                   <FlightCard
                     flightData={{
                       ...selectedOutbound,
-                      departurePlace:
-                        selectedOutbound.departurePlace || "출발지",
+                      departurePlace: selectedOutbound.departurePlace || "출발지",
                       arrivalPlace: selectedOutbound.arrivalPlace || "도착지",
                     }}
                     isVisible={showGoingFlightDetails}
@@ -156,14 +185,35 @@ const ReservationConfirmation = () => {
                 )}
               </div>
             </Card>
-
-            {/* 예약자 정보 입력 컴포넌트 */}
-            <div className="mt-6">
-              <BookerInfo
-                bookerInfo={bookerInfo}
-                onBookerInfoChange={handleBookerInfoChange}
-              />
-            </div>
+            
+            {/* 예약자 정보*/}
+            <Card className="mt-6 border border-solid border-[#e3e3e3] rounded-lg">
+              <div className="p-5">
+                <Title level={3} className="mb-5 font-bold text-[#333]">
+                  예약자 정보
+                </Title>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Text type="secondary" className="text-[#888]">
+                      이름
+                    </Text>
+                    <div className="font-medium">{bookerInfo.name}</div>
+                  </div>
+                  <div>
+                    <Text type="secondary" className="text-[#888]">
+                      이메일
+                    </Text>
+                    <div className="font-medium">{bookerInfo.email}</div>
+                  </div>
+                  <div>
+                    <Text type="secondary" className="text-[#888]">
+                      연락처
+                    </Text>
+                    <div className="font-medium">{bookerInfo.phone}</div>
+                  </div>
+                </div>
+              </div>
+            </Card>
 
             {/* 탑승객 정보 입력 폼들 */}
             {passengers.slice(0, adultCount).map((passenger, index) => (
@@ -171,9 +221,7 @@ const ReservationConfirmation = () => {
                 key={index}
                 passengerNumber={index + 1}
                 passengerData={passenger}
-                onFormChange={(formData) =>
-                  handlePassengerFormChange(index, formData)
-                }
+                onFormChange={(formData) => handlePassengerFormChange(index, formData)}
                 onDelete={() => {}} // 삭제 기능 제거
                 isDeleteVisible={false} // 삭제 버튼 숨김
               />
@@ -191,8 +239,7 @@ const ReservationConfirmation = () => {
                   {totalPrice.toLocaleString()}원
                 </p>
                 <Text className="text-xs text-gray-500 block mb-4">
-                  {(totalPrice / adultCount).toLocaleString()}원 x {adultCount}
-                  명
+                  {(totalPrice / adultCount).toLocaleString()}원 x {adultCount}명
                 </Text>
                 <Button
                   type="primary"

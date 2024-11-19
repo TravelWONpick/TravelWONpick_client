@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import { Card, Button, Row, Col, Tag, Input } from "antd";
+import { Card, Button, Row, Col, Tag, Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./Tabs.css";
 
@@ -73,14 +73,28 @@ const PricePick = () => {
     }
 
     const handleReservationClick = () => {
-      navigate(`/pricePick/reservation`, {
-        state: {
-          sp_id: item.id,
-          arrival_airport_code: item.arrival_airport_code,
-          departure_airport_code: item.departure_airport_code,
-        },
-      });
+      const accessToken = sessionStorage.getItem("accessToken");
+
+      if (!accessToken) {
+        Modal.warning({
+          title: "로그인이 필요합니다",
+          content: "예매하기를 이용하려면 먼저 로그인을 해주세요.",
+          centered: true,
+          onOk() {
+            navigate("/login");
+          },
+        });
+      } else {
+        navigate(`/pricePick/reservation`, {
+          state: {
+            sp_id: item.id,
+            arrival_airport_code: item.arrival_airport_code,
+            departure_airport_code: item.departure_airport_code,
+          },
+        });
+      }
     };
+
 
     return (
       <Card
