@@ -1,6 +1,7 @@
 import React from "react";
-import { Layout, Typography } from "antd";
+import { Layout, Typography, Button } from "antd";
 import failImage from "../assets/fail.gif";
+import insureImage from "../assets/insure.png";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -30,6 +31,27 @@ const Fail = () => {
         <Title level={3} style={{ marginTop: "20px" }}>
           결제를 실패했어요
         </Title>
+        <div style={{ marginTop: "20px" }}>
+          <Button type="default" href="/pricePick/payment">
+            돌아가기
+          </Button>
+        </div>
+        <div
+          style={{
+            marginTop: "40px",
+            backgroundColor: "#f9f9f9",
+            borderRadius: "10px",
+            textAlign: "center",
+          }}
+        >
+          <a href="https://b2b.travelover.co.kr/main/159530" target="_blank" rel="noopener noreferrer">
+            <img
+              src={insureImage}
+              alt="여행자보험 배너"
+              style={{ width: "100%", height: "auto", borderRadius: "10px" }}
+            />
+          </a>
+        </div>
       </Content>
     </Layout>
   );

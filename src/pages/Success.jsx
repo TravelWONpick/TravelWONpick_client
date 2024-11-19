@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Layout, Typography } from "antd";
+import { Layout, Typography, Button } from "antd";
 import successImage from "../assets/success.gif";
+import insureImage from "../assets/insure.png";
 import axios from "axios";
 
 
@@ -21,12 +22,12 @@ export function Success() {
     const [searchParams] = useSearchParams();
     const { selectedOutbound, selectedReturn } = useSelector((state) => state.flight.flightInfo);
     const passengers = useSelector((state) => state.flight.passengerInfo.passengers);
-   // 필요한 flightId와 seatCount 추출
+    // 필요한 flightId와 seatCount 추출
     const outboundFlightId = selectedOutbound ? selectedOutbound.flightId : null;
     const returnFlightId = selectedReturn ? selectedReturn.flightId : null;
     const seatCount = passengers.length; // seatCount는 승객 수로 계산
     console.log(selectedOutbound, selectedReturn, passengers);
-    
+
 
     useEffect(() => {
         async function validateAndConfirmPayment() {
@@ -48,13 +49,13 @@ export function Success() {
                 );
 
                 const validateRequestData = validateResponse.data.data; // BaseResponse의 data 필드에서 데이터 추출
-        
+
                 if (!validateRequestData.valid) {
                     navigate(`/fail?message=validation_failed`);
                     return;
                 }
 
-                
+
                 // 2. 결제 승인 요청
                 const confirmResponse = await api.post("/payments/confirm", {
                     orderId: paymentData.orderId,
@@ -66,7 +67,7 @@ export function Success() {
                     passengers: passengers
                 });
                 console.log(confirmResponse.data);
-            
+
             } catch (error) {
                 if (error.response) {
                     // 서버 응답이 있는 경우
@@ -130,6 +131,28 @@ export function Success() {
                     searchParams.get("amount")
                 ).toLocaleString()}원`}</p>
                 {/* <p>{`Payment Key: ${searchParams.get("paymentKey")}`}</p> */}
+
+                <div style={{ marginTop: "20px" }}>
+                    <Button type="default" href="/my/flight">
+                        예매내역
+                    </Button>
+                </div>
+                <div
+                    style={{
+                        marginTop: "40px",
+                        backgroundColor: "#f9f9f9",
+                        borderRadius: "10px",
+                        textAlign: "center",
+                    }}
+                >
+                    <a href="https://b2b.travelover.co.kr/main/159530" target="_blank" rel="noopener noreferrer">
+                        <img
+                            src={insureImage}
+                            alt="여행자보험 배너"
+                            style={{ width: "100%", height: "auto", borderRadius: "10px" }}
+                        />
+                    </a>
+                </div>
             </Content>
         </Layout>
     );
