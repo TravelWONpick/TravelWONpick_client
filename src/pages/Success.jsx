@@ -63,7 +63,8 @@ export function Success() {
                     paymentKey: paymentData.paymentKey,
                     depFlightId: outboundFlightId,
                     arrFlightId: returnFlightId,
-                    seatCount: seatCount
+                    seatCount: seatCount,
+                    passengers: passengers
                 });
                 console.log(confirmResponse.data);
 
