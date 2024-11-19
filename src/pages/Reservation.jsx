@@ -18,7 +18,7 @@ import "./Reservation.css";
 import { format, parseISO } from "date-fns";
 
 // 항공편 카드 컴포넌트
-const FlightCard = ({ flight, onSelect }) => {
+const FlightCard = ({ flight, onSelect, isSelected }) => {
   const departureTime = format(parseISO(flight.departureTime), "HH:mm");
   const arrivalTime = format(parseISO(flight.arrivalTime), "HH:mm");
 
@@ -33,7 +33,7 @@ const FlightCard = ({ flight, onSelect }) => {
   };
 
   return (
-    <Card style={{ marginTop: "10px", marginBottom: "10px" }}>
+    <Card style={{ marginTop: "10px", marginBottom: "10px", backgroundColor: isSelected ? "#d2e8fe" : "white" }}>
       <Row align="middle">
         <Col span={5}>
           <div style={{ fontWeight: "bold" }}>{flight.airline}</div>
@@ -450,8 +450,8 @@ const Reservation = () => {
                 <span
                   style={{
                     fontSize: "14px",
-                    color: "#52c41a",
-                    backgroundColor: "#f6ffed",
+                    color: "white",
+                    backgroundColor: "#007BFF",
                     padding: "4px 8px",
                     borderRadius: "4px",
                   }}
@@ -465,6 +465,7 @@ const Reservation = () => {
                 key={flight.flightId}
                 flight={flight}
                 onSelect={handleOutboundSelect}
+                isSelected={selectedOutbound?.flightId === flight.flightId}
               />
             ))}
           </div>
@@ -486,8 +487,8 @@ const Reservation = () => {
                   <span
                     style={{
                       fontSize: "14px",
-                      color: "#52c41a",
-                      backgroundColor: "#f6ffed",
+                      color: "white",
+                      backgroundColor: "#007BFF",
                       padding: "4px 8px",
                       borderRadius: "4px",
                     }}
@@ -501,6 +502,7 @@ const Reservation = () => {
                   key={flight.flightId}
                   flight={flight}
                   onSelect={handleReturnSelect}
+                  isSelected={selectedReturn?.flightId === flight.flightId}
                 />
               ))}
             </div>
