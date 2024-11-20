@@ -20,6 +20,7 @@ const FlightCard = ({ flightData, isVisible, onToggle }) => {
     departureAirportCode,
     arrivalAirportCode,
     baggage,
+    maxSeat
   } = flightData;
 
   // 날짜와 시간 포맷팅 (안전하게 처리)
@@ -89,6 +90,10 @@ const FlightCard = ({ flightData, isVisible, onToggle }) => {
             <div>
               <Text type="secondary">도착시간</Text>
               <div>{formattedArrivalTime}</div>
+            </div>
+            <div>
+              <Text type="secondary">잔여석</Text>
+              <div>{maxSeat}</div>
             </div>
             <div>
               <Text type="secondary">수하물</Text>

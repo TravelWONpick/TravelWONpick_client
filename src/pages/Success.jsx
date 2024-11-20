@@ -124,7 +124,7 @@ export function Success() {
                     }}
                 />
                 <Title level={3} style={{ marginTop: "20px" }}>
-                    결제를 완료했어요
+                    결제를 완료했어요.😄
                 </Title>
                 <p>{`주문번호: ${searchParams.get("orderId")}`}</p>
                 <p>{`결제 금액: ${Number(
