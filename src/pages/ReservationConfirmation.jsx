@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button, Row, Col, Typography } from "antd";
+import { Card, Button, Row, Col, Typography, Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FlightCard from "../components/FlightCard";
@@ -13,6 +13,8 @@ import {
 } from "../store/flightSlice";
 
 const { Text, Title } = Typography;
+
+const { Option } = Select;
 
 const baseUrl = "http://localhost:8080"; // 백엔드 서버 URL
 
@@ -30,6 +32,8 @@ const ReservationConfirmation = () => {
     email: "",
     phone: "",
   });
+
+  const [passengersList, setPassengersList] = useState([]);
 
   const navigate = useNavigate();
 
@@ -54,7 +58,7 @@ const ReservationConfirmation = () => {
             headers: { Authorization: `Bearer ${accessToken}` },
           });
           const data = response.data.data;
-          // 예약자 정보 설정
+          
           setBookerInfo({
             name: data.name,
             email: data.email,
@@ -68,6 +72,52 @@ const ReservationConfirmation = () => {
 
     fetchUserInfo();
   }, []);
+
+  // API로부터 탑승객 데이터 가져오기
+  const fetchPassengers = async () => {
+    try {
+      const accessToken = sessionStorage.getItem("accessToken");
+
+      if (!accessToken) {
+        throw new Error("액세스 토큰이 없습니다.");
+      }
+
+      const response = await axios.get(`${baseUrl}/my/passenger`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      });
+
+      // API 응답의 데이터 저장
+      setPassengersList(response.data.data);
+    } catch (error) {
+      console.error("탑승객 목록을 불러오는 데 실패했습니다:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPassengers();
+  }, []);
+
+  const handlePassengerSelect = (index, passengerIndex) => {
+    const selectedPassenger = passengersList[passengerIndex];
+    if (selectedPassenger) {
+      // 선택된 탑승객의 정보를 승객 폼에 자동으로 업데이트
+      dispatch(
+        updatePassenger({
+          index, // 해당 승객 폼에 업데이트
+          data: {
+            lastName: selectedPassenger.lastName,
+            firstName: selectedPassenger.firstName,
+            birthDate: selectedPassenger.birth,
+            gender: selectedPassenger.gender,
+            phone: selectedPassenger.phoneNumber,
+          },
+        })
+      );
+    }
+  };
 
   // 페이지 넘어가면 맨 위로 스크롤 되는 useEffect
   useEffect(() => {
@@ -185,7 +235,7 @@ const ReservationConfirmation = () => {
                 )}
               </div>
             </Card>
-            
+
             {/* 예약자 정보*/}
             <Card className="mt-6 border border-solid border-[#e3e3e3] rounded-lg">
               <div className="p-5">
@@ -221,9 +271,10 @@ const ReservationConfirmation = () => {
                 key={index}
                 passengerNumber={index + 1}
                 passengerData={passenger}
+                passengersList={passengersList}
+                handlePassengerSelect={handlePassengerSelect}
                 onFormChange={(formData) => handlePassengerFormChange(index, formData)}
-                onDelete={() => {}} // 삭제 기능 제거
-                isDeleteVisible={false} // 삭제 버튼 숨김
+                isDeleteVisible={false}
               />
             ))}
           </Col>

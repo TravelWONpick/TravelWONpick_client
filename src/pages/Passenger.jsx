@@ -37,7 +37,6 @@ const Passenger = () => {
   const fetchPassengers = async () => {
     try {
       const accessToken = sessionStorage.getItem("accessToken");
-      console.log("accessToken:", accessToken); // 토큰 출력
 
       if (!accessToken) {
         throw new Error("액세스 토큰이 없습니다.");

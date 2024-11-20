@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button, Row, Col, Typography, Input } from "antd";
+import { Card, Button, Row, Col, Typography, Input, Select } from "antd";
 
 const { Text, Title } = Typography;
+const { Option } = Select;
 
 const PassengerForm = ({
   onFormChange,
   passengerNumber,
   onDelete,
   isDeleteVisible = true,
+  passengerData,
+  passengersList,
+  handlePassengerSelect
 }) => {
   const [form, setForm] = useState({
     lastName: "",
@@ -23,6 +27,14 @@ const PassengerForm = ({
     gender: "",
   });
 
+  // passengerData가 변경될 때 form 업데이트 및 성별 버튼 자동 선택
+  useEffect(() => {
+    if (passengerData) {
+      setForm(passengerData);
+    }
+  }, [passengerData]);
+
+  // 폼의 변경사항을 부모 컴포넌트에 전달
   useEffect(() => {
     onFormChange(form);
   }, [form]);
@@ -47,8 +59,14 @@ const PassengerForm = ({
   };
 
   const handleGenderChange = (gender) => {
-    setForm({ ...form, gender });
-    setErrorMessage({ ...errorMessage, gender: "" });
+    setForm((prevForm) => ({
+      ...prevForm,
+      gender: gender,
+    }));
+    setErrorMessage((prevErrors) => ({
+      ...prevErrors,
+      gender: "",
+    }));
   };
 
   const handleBirthDateChange = (e) => {
@@ -60,7 +78,7 @@ const PassengerForm = ({
       } else if (value.length > 6) {
         value = `${value.slice(0, 4)}.${value.slice(4, 6)}.${value.slice(6)}`;
       }
-      setForm({ ...form, birthDate: value });
+      setForm((prevForm) => ({ ...prevForm, birthDate: value }));
     }
   };
 
@@ -73,7 +91,7 @@ const PassengerForm = ({
       } else if (value.length > 7) {
         value = `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7)}`;
       }
-      setForm({ ...form, phone: value });
+      setForm((prevForm) => ({ ...prevForm, phone: value }));
     }
   };
 
@@ -108,11 +126,23 @@ const PassengerForm = ({
               있습니다.
             </Text>
           </div>
+          <Select
+            placeholder="탑승객 선택"
+            style={{ width: "150px", marginLeft: "16px" }}
+            size="small"
+            onChange={(value) => handlePassengerSelect(passengerNumber - 1, value)}
+          >
+            {passengersList.map((passenger, passengerIndex) => (
+              <Option key={passengerIndex} value={passengerIndex}>
+                {`${passenger.lastName} ${passenger.firstName}`}
+              </Option>
+            ))}
+          </Select>
           {isDeleteVisible && (
             <Button
               danger
               onClick={() => onDelete(passengerNumber)}
-              style={{ marginLeft: "auto" }}
+              style={{ marginLeft: "16px" }}
             >
               삭제
             </Button>
@@ -186,18 +216,28 @@ const PassengerForm = ({
             >
               성별
             </Text>
-            <div style={{ display: "flex", gap: "1px", marginTop: "5px" }}>
+            <div style={{ display: "flex", gap: "8px", marginTop: "5px" }}>
               <Button
-                type={form.gender === "남성" ? "primary" : "default"}
+                type={form.gender === "남성" || form.gender === "MALE" ? "primary" : "default"}
                 onClick={() => handleGenderChange("남성")}
-                style={{ width: "100px", height: "40px" }}
+                style={{
+                  width: "100px",
+                  height: "40px",
+                  backgroundColor: form.gender === "남성" || form.gender === "MALE" ? "#007BFF" : "",
+                  color: form.gender === "남성" || form.gender === "MALE" ? "#fff" : "",
+                }}
               >
                 남성
               </Button>
               <Button
-                type={form.gender === "여성" ? "primary" : "default"}
+                type={form.gender === "여성" || form.gender === "FEMALE" ? "primary" : "default"}
                 onClick={() => handleGenderChange("여성")}
-                style={{ width: "100px", height: "40px" }}
+                style={{
+                  width: "100px",
+                  height: "40px",
+                  backgroundColor: form.gender === "여성" || form.gender === "FEMALE" ? "#007BFF" : "",
+                  color: form.gender === "여성" || form.gender === "FEMALE" ? "#fff" : "",
+                }}
               >
                 여성
               </Button>
@@ -214,6 +254,7 @@ const PassengerForm = ({
             </div>
           </Col>
         </Row>
+        {/* 생년월일 및 휴대폰 번호 입력 부분 */}
         <Row gutter={[32, 24]} style={{ marginBottom: "16px" }}>
           <Col span={8}>
             <Text
