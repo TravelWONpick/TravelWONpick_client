@@ -29,7 +29,7 @@ const Fail = () => {
           style={{ width: "300px", height: "300px", margin: "0 auto" }}
         />
         <Title level={3} style={{ marginTop: "20px" }}>
-          결제를 실패했어요
+          결제를 실패했어요.😢
         </Title>
         <div style={{ marginTop: "20px" }}>
           <Button type="default" href="/pricePick/payment">
