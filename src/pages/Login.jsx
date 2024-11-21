@@ -209,33 +209,30 @@ const Login = () => {
   };
 
   return (
-    <div className="border-b-2 border-gray-200">
-      <div className="flex justify-center w-full">
-        <div className="w-full max-w-[950px]">
-          <div className="flex items-center h-15 px-4">
-            <div className="w-40">
-              <Link to="/">
-                <img
-                  src="src/assets/logo.png"
-                  alt="우리카드 로고"
-                  style={{ width: "130px", height: "auto", paddingTop: "14px" }}
-                />
-              </Link>
-            </div>
+
+      <><div className="flex justify-center w-full">
+      <div className="w-full max-w-[950px]">
+        <div className="flex items-center h-15 px-4">
+          <div className="w-40">
+            <Link to="/">
+              <img
+                src="src/assets/logo.png"
+                alt="우리카드 로고"
+                style={{ width: "130px", height: "auto", paddingTop: "14px" }} />
+            </Link>
           </div>
         </div>
       </div>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "calc(100vh - 120px)",
-          flexDirection: "column",
-          position: "relative",
-        }}
-      >
+    </div><div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "calc(100vh - 120px)",
+        flexDirection: "column",
+        position: "relative",
+      }}
+    >
         <div style={{ maxWidth: "360px", width: "100%", textAlign: "left" }}>
           <Title level={3} style={{ marginBottom: "20px" }}>
             로그인하고
@@ -255,8 +252,7 @@ const Login = () => {
                 prefix={<UserOutlined />}
                 placeholder="email@example.com"
                 style={{ ...inputStyle }}
-                onChange={handleEmailChange}
-              />
+                onChange={handleEmailChange} />
             </Form.Item>
 
             <Form.Item
@@ -267,15 +263,12 @@ const Login = () => {
                 prefix={<LockOutlined />}
                 type={passwordVisible ? "text" : "password"}
                 placeholder="비밀번호를 입력하세요."
-                suffix={
-                  passwordVisible ? (
-                    <EyeTwoTone onClick={togglePasswordVisibility} />
-                  ) : (
-                    <EyeInvisibleOutlined onClick={togglePasswordVisibility} />
-                  )
-                }
-                style={{ ...inputStyle }}
-              />
+                suffix={passwordVisible ? (
+                  <EyeTwoTone onClick={togglePasswordVisibility} />
+                ) : (
+                  <EyeInvisibleOutlined onClick={togglePasswordVisibility} />
+                )}
+                style={{ ...inputStyle }} />
             </Form.Item>
 
             <Form.Item style={{ marginBottom: "15px" }}>
@@ -312,16 +305,14 @@ const Login = () => {
 
         {/* 회원가입 모달 */}
         <Modal
-          title={
-            <div>
-              <Title level={4} style={{ marginBottom: 0 }}>
-                아직 회원이 아니신가요?
-              </Title>
-              <Text style={{ fontSize: "14px", color: "gray" }}>
-                이메일 인증으로 간편하게 가입해 보세요!
-              </Text>
-            </div>
-          }
+          title={<div>
+            <Title level={4} style={{ marginBottom: 0 }}>
+              아직 회원이 아니신가요?
+            </Title>
+            <Text style={{ fontSize: "14px", color: "gray" }}>
+              이메일 인증으로 간편하게 가입해 보세요!
+            </Text>
+          </div>}
           open={isModalVisible}
           onCancel={handleCloseModal}
           footer={null}
@@ -335,9 +326,7 @@ const Login = () => {
             onFieldsChange={handleFieldsChange}
           >
             <Form.Item
-              label={
-                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>이름</Text>
-              }
+              label={<Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>이름</Text>}
               name="name"
               rules={[{ required: true, message: "이름을 입력해주세요" }]}
               style={{ marginBottom: "20px" }}
@@ -347,16 +336,13 @@ const Login = () => {
               <Input
                 placeholder="이름을 입력해주세요"
                 style={{ ...inputStyle }}
-                disabled={verificationConfirmed}
-              />
+                disabled={verificationConfirmed} />
             </Form.Item>
 
             <Form.Item
-              label={
-                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
-                  휴대폰번호
-                </Text>
-              }
+              label={<Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
+                휴대폰번호
+              </Text>}
               name="phone"
               rules={[
                 { required: true, message: "휴대폰 번호를 입력하세요!" },
@@ -374,16 +360,13 @@ const Login = () => {
                 style={{ ...inputStyle }}
                 maxLength={13}
                 onChange={handlePhoneChange}
-                disabled={verificationConfirmed}
-              />
+                disabled={verificationConfirmed} />
             </Form.Item>
 
             <Form.Item
-              label={
-                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
-                  비밀번호
-                </Text>
-              }
+              label={<Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
+                비밀번호
+              </Text>}
               name="password"
               rules={[
                 { required: true, message: "비밀번호를 입력하세요!" },
@@ -397,22 +380,17 @@ const Login = () => {
                 type={passwordVisible ? "text" : "password"}
                 placeholder="비밀번호를 입력해주세요"
                 style={{ ...inputStyle }}
-                suffix={
-                  passwordVisible ? (
-                    <EyeTwoTone onClick={togglePasswordVisibility} />
-                  ) : (
-                    <EyeInvisibleOutlined onClick={togglePasswordVisibility} />
-                  )
-                }
-              />
+                suffix={passwordVisible ? (
+                  <EyeTwoTone onClick={togglePasswordVisibility} />
+                ) : (
+                  <EyeInvisibleOutlined onClick={togglePasswordVisibility} />
+                )} />
             </Form.Item>
 
             <Form.Item
-              label={
-                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
-                  비밀번호 재확인
-                </Text>
-              }
+              label={<Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
+                비밀번호 재확인
+              </Text>}
               name="confirmPassword"
               rules={[
                 { required: true, message: "비밀번호를 다시 입력해주세요" },
@@ -434,22 +412,16 @@ const Login = () => {
                 type={confirmPasswordVisible ? "text" : "password"}
                 placeholder="비밀번호를 다시 입력해주세요"
                 style={{ ...inputStyle }}
-                suffix={
-                  confirmPasswordVisible ? (
-                    <EyeTwoTone onClick={toggleConfirmPasswordVisibility} />
-                  ) : (
-                    <EyeInvisibleOutlined
-                      onClick={toggleConfirmPasswordVisibility}
-                    />
-                  )
-                }
-              />
+                suffix={confirmPasswordVisible ? (
+                  <EyeTwoTone onClick={toggleConfirmPasswordVisibility} />
+                ) : (
+                  <EyeInvisibleOutlined
+                    onClick={toggleConfirmPasswordVisibility} />
+                )} />
             </Form.Item>
 
             <Form.Item
-              label={
-                <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>이메일</Text>
-              }
+              label={<Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>이메일</Text>}
               name="email"
               rules={[{ required: true, message: "이메일을 입력해주세요" }]}
               style={{ marginBottom: "20px" }}
@@ -460,30 +432,25 @@ const Login = () => {
                 placeholder="email@example.com"
                 onChange={handleEmailChange}
                 style={{ flex: 1 }}
-                suffix={
-                  <Button
-                    type="primary"
-                    onClick={handleEmailSend}
-                    style={{
-                      padding: "0 8px",
-                      marginRight: "-8px",
-                      backgroundColor: "#0039FF",
-                      color: "white",
-                    }}
-                  >
-                    {isEmailSent ? "재전송" : "전송"}
-                  </Button>
-                }
-              />
+                suffix={<Button
+                  type="primary"
+                  onClick={handleEmailSend}
+                  style={{
+                    padding: "0 8px",
+                    marginRight: "-8px",
+                    backgroundColor: "#0039FF",
+                    color: "white",
+                  }}
+                >
+                  {isEmailSent ? "재전송" : "전송"}
+                </Button>} />
             </Form.Item>
 
             {showVerification && (
               <Form.Item
-                label={
-                  <Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
-                    인증번호
-                  </Text>
-                }
+                label={<Text style={{ fontSize: "14px", color: "black", fontWeight: "bold" }}>
+                  인증번호
+                </Text>}
                 name="verification"
                 rules={[{ required: true, message: "인증번호를 입력해주세요" }]}
                 style={{ marginBottom: "20px" }}
@@ -493,21 +460,18 @@ const Login = () => {
                 <Input
                   placeholder="인증번호"
                   style={{ flex: 1 }}
-                  suffix={
-                    <Button
-                      type="primary"
-                      onClick={handleVerificationConfirm}
-                      style={{
-                        padding: "0 8px",
-                        marginRight: "-8px",
-                        backgroundColor: "#0039FF",
-                        color: "white",
-                      }}
-                    >
-                      인증번호 확인
-                    </Button>
-                  }
-                />
+                  suffix={<Button
+                    type="primary"
+                    onClick={handleVerificationConfirm}
+                    style={{
+                      padding: "0 8px",
+                      marginRight: "-8px",
+                      backgroundColor: "#0039FF",
+                      color: "white",
+                    }}
+                  >
+                    인증번호 확인
+                  </Button>} />
               </Form.Item>
             )}
 
@@ -556,8 +520,7 @@ const Login = () => {
             </Form.Item>
           </Form>
         </Modal>
-      </div>
-    </div>
+      </div></>
   );
 };
 

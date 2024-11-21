@@ -5,6 +5,7 @@ import { Layout, Typography, Button } from "antd";
 import successImage from "../assets/success.gif";
 import insureImage from "../assets/insure.png";
 import axios from "axios";
+import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
 
 
 const { Content } = Layout;
@@ -98,6 +99,8 @@ export function Success() {
         validateAndConfirmPayment();
     }, []);
 
+    useSessionClearOnMain();
+
     return (
         <Layout
             style={{
@@ -126,10 +129,10 @@ export function Success() {
                 <Title level={3} style={{ marginTop: "20px" }}>
                     결제를 완료했어요.😄
                 </Title>
-                <p>{`주문번호: ${searchParams.get("orderId")}`}</p>
+                {/* <p>{`주문번호: ${searchParams.get("orderId")}`}</p>
                 <p>{`결제 금액: ${Number(
                     searchParams.get("amount")
-                ).toLocaleString()}원`}</p>
+                ).toLocaleString()}원`}</p> */}
                 {/* <p>{`Payment Key: ${searchParams.get("paymentKey")}`}</p> */}
 
                 <div style={{ marginTop: "20px" }}>
@@ -139,7 +142,7 @@ export function Success() {
                 </div>
                 <div
                     style={{
-                        marginTop: "40px",
+                        marginTop: "10px",
                         backgroundColor: "#f9f9f9",
                         borderRadius: "10px",
                         textAlign: "center",
