@@ -18,7 +18,7 @@ import "./Reservation.css";
 import { format, parseISO } from "date-fns";
 
 // 항공편 카드 컴포넌트
-const FlightCard = ({ flight, onSelect }) => {
+const FlightCard = ({ flight, onSelect, isSelected }) => {
   const departureTime = format(parseISO(flight.departureTime), "HH:mm");
   const arrivalTime = format(parseISO(flight.arrivalTime), "HH:mm");
 
@@ -33,7 +33,7 @@ const FlightCard = ({ flight, onSelect }) => {
   };
 
   return (
-    <Card style={{ marginTop: "10px", marginBottom: "10px" }}>
+    <Card style={{ marginTop: "10px", marginBottom: "10px", backgroundColor: isSelected ? "#d2e8fe" : "white" }}>
       <Row align="middle">
         <Col span={5}>
           <div style={{ fontWeight: "bold" }}>{flight.airline}</div>
@@ -54,7 +54,7 @@ const FlightCard = ({ flight, onSelect }) => {
                 <span>{flight.departureAirportCode}</span>
               </div>
             </Col>
-            <Col span={24}>
+            <Col span={2}>
               <div
                 style={{ display: "flex", alignItems: "center", gap: "8px" }}
               >
@@ -70,13 +70,18 @@ const FlightCard = ({ flight, onSelect }) => {
         <Col span={5} style={{ textAlign: "center" }}>
           <div style={{ color: "#666" }}>{calculateDuration()}</div>
         </Col>
-        <Col span={5}>
+        <Col span={3}>
           <div style={{ fontWeight: "bold", fontSize: "18px" }}>
             {flight.specialPrice.toLocaleString()}원
           </div>
           <div style={{ fontSize: "12px", color: "#666" }}>우리카드</div>
         </Col>
-        <Col span={3} style={{ textAlign: "right" }}>
+        <Col span={3} style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ marginRight: "10px", fontWeight: "bold", fontSize: "14px", color: "#666" }}>
+            잔여석: {flight.maxSeat}
+          </div>
+        </Col>
+        <Col span={2} style={{ display: "flex", alignItems: "center" }}>
           <Button type="primary" onClick={() => onSelect(flight)}>
             선택
           </Button>
@@ -184,7 +189,7 @@ const Reservation = () => {
 
   useEffect(() => {
     searchFlights();
-  }, [sp_id, arrival_airport_code, departure_airport_code]);
+  }, [sp_id, arrival_airport_code, departure_airport_code,]);
 
   const handleSelect = (ranges) => {
     setSelectedRange([ranges.selection]);
@@ -315,8 +320,8 @@ const Reservation = () => {
               disabled={
                 tripType === "oneway"
                   ? {
-                      endDate: true,
-                    }
+                    endDate: true,
+                  }
                   : false
               }
             />
@@ -450,8 +455,8 @@ const Reservation = () => {
                 <span
                   style={{
                     fontSize: "14px",
-                    color: "#52c41a",
-                    backgroundColor: "#f6ffed",
+                    color: "black",
+                    backgroundColor: "#d2e8fe",
                     padding: "4px 8px",
                     borderRadius: "4px",
                   }}
@@ -465,6 +470,7 @@ const Reservation = () => {
                 key={flight.flightId}
                 flight={flight}
                 onSelect={handleOutboundSelect}
+                isSelected={selectedOutbound?.flightId === flight.flightId}
               />
             ))}
           </div>
@@ -486,8 +492,8 @@ const Reservation = () => {
                   <span
                     style={{
                       fontSize: "14px",
-                      color: "#52c41a",
-                      backgroundColor: "#f6ffed",
+                      color: "black",
+                      backgroundColor: "#d2e8fe",
                       padding: "4px 8px",
                       borderRadius: "4px",
                     }}
@@ -501,6 +507,7 @@ const Reservation = () => {
                   key={flight.flightId}
                   flight={flight}
                   onSelect={handleReturnSelect}
+                  isSelected={selectedReturn?.flightId === flight.flightId}
                 />
               ))}
             </div>

@@ -1,8 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react"; // PersistGate 임포트
-import { store, persistor } from "./store/store"; // persistor 가져오기
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store/store";
+import { message } from "antd";
+import AdminRoute from "./components/AdminRoute";
+import UserRoute from "./components/UserRoute";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -51,7 +54,7 @@ function MainContent() {
 
   return (
     <div className="App">
-      {!isLoginPage && <Header />}{" "}
+      {!isLoginPage && <Header />}
       {/* 로그인 페이지가 아닌 경우에만 Header를 렌더링 */}
       <Routes>
         <Route path="/" element={<MainPage />} />
@@ -64,26 +67,105 @@ function MainContent() {
         <Route path="/pricePick/payment/" element={<Payment />} />
         <Route path="/cardPick/" element={<CardPick />} />
         <Route path="/event/" element={<Event />} />
-        <Route path="/event-detail/:id" element={<EventDetail />} />{" "}
-        {/* :id 추가 */}
+        <Route path="/event-detail/:id" element={<EventDetail />} />
+
+        {/* 사용자 마이페이지 전용 라우트 */}
         <Route
-            path="/my/flight-detail/:reservationId"
-            element={<FlightDetail />}
+          path="/my/flight"
+          element={
+            <UserRoute>
+              <Flight />
+            </UserRoute>
+          }
         />
+        <Route
+          path="/my/flight-detail"
+          element={
+            <UserRoute>
+              <FlightDetail />
+            </UserRoute>
+          }
+        />
+        <Route
+          path="/my/flight-detail/:reservationId"
+          element={
+            <UserRoute>
+              <FlightDetail />
+            </UserRoute>
+          }
+        />
+        <Route
+          path="/my/passenger"
+          element={
+            <UserRoute>
+              <Passenger />
+            </UserRoute>
+          }
+        />
+        <Route
+          path="/my/passenger/register"
+          element={
+            <UserRoute>
+              <PassengerRegister />
+            </UserRoute>
+          }
+        />
+        <Route
+          path="/my/passenger/update"
+          element={
+            <UserRoute>
+              <PassengerUpdate />
+            </UserRoute>
+          }
+        />
+        <Route
+          path="/my/info"
+          element={
+            <UserRoute>
+              <Info />
+            </UserRoute>
+          }
+        />
+        <Route
+          path="/my/info/update"
+          element={
+            <UserRoute>
+              <InfoUpdate />
+            </UserRoute>
+          }
+        />
+
+        {/* 로그인 및 기타 페이지 */}
         <Route path="/login" element={<Login />} />
-        <Route path="/my/flight" element={<Flight />} />
-        <Route path="/my/flight-detail" element={<FlightDetail />} />
-        <Route path="/my/passenger" element={<Passenger />} />
-        <Route path="/my/passenger/register" element={<PassengerRegister />} />
-        <Route path="/my/passenger/update" element={<PassengerUpdate />} />
-        <Route path="/my/info" element={<Info />} />
-        <Route path="/my/info/update" element={<InfoUpdate />} />
         <Route path="/success" element={<Success />} />
         <Route path="/fail" element={<Fail />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/admin/userget" element={<UserGet />} />
-        <Route path="/admin/monitoring" element={<Monitoring />} />
-        <Route path="/admin/log-dashboard" element={<LogDashBoard />} />
+
+        {/* 관리자 전용 라우트 */}
+        <Route
+          path="/admin/userget"
+          element={
+            <AdminRoute>
+              <UserGet />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/monitoring"
+          element={
+            <AdminRoute>
+              <Monitoring />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/log-dashboard"
+          element={
+            <AdminRoute>
+              <LogDashBoard />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </div>
   );

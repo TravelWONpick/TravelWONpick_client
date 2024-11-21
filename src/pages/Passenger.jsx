@@ -37,7 +37,6 @@ const Passenger = () => {
   const fetchPassengers = async () => {
     try {
       const accessToken = sessionStorage.getItem("accessToken");
-      console.log("accessToken:", accessToken); // 토큰 출력
 
       if (!accessToken) {
         throw new Error("액세스 토큰이 없습니다.");
@@ -148,8 +147,8 @@ const Passenger = () => {
       }}
     >
       <h2 className="text-2xl font-bold pb-5">
-        {localStorage.getItem("userName")
-            ? `${localStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
+        {sessionStorage.getItem("userName")
+            ? `${sessionStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
             : "OOO님, 즐거운 비행 되시길 바랍니다!"}
       </h2>
       <Layout>

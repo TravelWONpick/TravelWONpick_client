@@ -184,8 +184,8 @@ const Login = () => {
           sessionStorage.setItem("accessToken", accessToken);
           sessionStorage.setItem("isAdmin", isAdmin);
 
-          // 사용자 이름을 localStorage에 저장
-          localStorage.setItem("userName", name);
+          // 사용자 이름을 sessionStorage 저장
+          sessionStorage.setItem("userName", name);
 
           navigate("/");
         } else {

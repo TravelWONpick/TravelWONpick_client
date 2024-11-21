@@ -31,7 +31,7 @@ const FlightDetail = () => {
                     setPurchaseData([
                         {
                             key: "1",
-                            name: localStorage.getItem("userName") || "사용자",
+                            name: sessionStorage.getItem("userName") || "사용자",
                             seats: flightData.seatCount,
                             ticketPrice: flightData.originPrice.toLocaleString(),
                             discount: flightData.discount.toLocaleString(),
@@ -175,8 +175,8 @@ const FlightDetail = () => {
           }}
       >
           <h2 className="text-2xl font-bold pb-5">
-              {localStorage.getItem("userName")
-                  ? `${localStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
+              {sessionStorage.getItem("userName")
+                  ? `${sessionStorage.getItem("userName")}님, 즐거운 비행 되시길 바랍니다!`
                   : "OOO님, 즐거운 비행 되시길 바랍니다!"}
           </h2>
           <Layout>
