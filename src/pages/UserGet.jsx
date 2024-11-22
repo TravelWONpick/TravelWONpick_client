@@ -36,10 +36,14 @@ const UserGet = () => {
     setIsModalVisible(true);
   };
 
+  const axiosInstance = axios.create({
+    baseURL: "http://localhost:8080",
+    timeout: 5000, // 5초
+  });
   const handleOk = async () => {
     if (selectedUser) {
       try {
-        const response = await axios.delete("http://localhost:8080/manager/member", {
+        const response = await axiosInstance.delete("http://localhost:8080/manager/member", {
           params: { email: selectedUser.email },
         });
 
@@ -62,6 +66,16 @@ const UserGet = () => {
     setIsModalVisible(false);
   };
 
+  const formatPhoneNumber = (phoneNumber) => {
+    const digits = phoneNumber.replace(/[^0-9]/g, "");
+    if (digits.length > 3 && digits.length <= 7) {
+      return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+    } else if (digits.length > 7) {
+      return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+    }
+    return digits;
+  };
+  
   return (
     <Layout
       style={{
@@ -155,7 +169,7 @@ const UserGet = () => {
                     <br />
                     <Text>이름: {user.name}</Text>
                     <br />
-                    <Text type="secondary">휴대폰번호: {user.phoneNumber}</Text>
+                    <Text type="secondary">휴대폰번호: {formatPhoneNumber(user.phoneNumber)}</Text>
                   </Col>
                   <Col>
                     <Button type="primary" onClick={() => showModal(user)}>탈퇴</Button>

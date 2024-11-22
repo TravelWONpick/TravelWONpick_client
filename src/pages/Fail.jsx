@@ -38,7 +38,7 @@ const Fail = () => {
         </div>
         <div
           style={{
-            marginTop: "40px",
+            marginTop: "10px",
             backgroundColor: "#f9f9f9",
             borderRadius: "10px",
             textAlign: "center",

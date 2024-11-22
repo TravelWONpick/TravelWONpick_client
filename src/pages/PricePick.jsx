@@ -198,7 +198,7 @@ const PricePick = () => {
   return (
     <div
       className="tabs-container"
-      style={{ maxWidth: "950px", margin: "0 auto", paddingTop: "30px" }}
+      style={{ maxWidth: "950px", margin: "0 auto", paddingTop: "30px", minHeight: "700px" }}
     >
       <div style={{ marginBottom: "20px" }}>
         <h2 style={{ fontWeight: "bold", fontSize: "24px" }}>특가 PICK</h2>
