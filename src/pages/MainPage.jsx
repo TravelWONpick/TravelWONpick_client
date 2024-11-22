@@ -51,31 +51,32 @@ const MainPage = () => {
     const flightDeals = [
         {
             destination: '국내',
-            price: '362,700원 ~',
+            price: '62,700원 ~',
             imgSrc: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/jeju.jpg"
         },
         {
             destination: '일본',
-            price: '284,900원 ~',
+            price: '219,000원 ~',
             imgSrc: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/japan.png"
         },
         {
             destination: '동남아',
-            price: '572,500원 ~',
+            price: '283,000원 ~',
             imgSrc: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/nhatrang.png"
         },
         {
-
             destination: '유럽&미주',
-            price: '901,400원 ~',
+            price: '522,000원 ~',
             imgSrc: "https://travelwonpick.s3.ap-northeast-2.amazonaws.com/main_img/usa.png"
         }
     ];
 
-    const handleCardClick = () => {
-        navigate('/pricePick'); // 클릭 시 pricePick 페이지로 이동
+    const handleCardClick = (category) => {
+        navigate('/pricePick', { state: { selectedCategory: category } });
     };
+
     useSessionClearOnMain();
+
     return (
         <div className="main-page">
             {/* 상단 배너 */}
@@ -99,7 +100,7 @@ const MainPage = () => {
                         <div
                             key={index}
                             className="flight-deal-card"
-                            onClick={handleCardClick} // 클릭 이벤트 추가
+                            onClick={() => handleCardClick(deal.destination)} // 클릭 시 카테고리 전달
                             style={{ cursor: 'pointer' }}
                         >
                             <img src={deal.imgSrc} alt={deal.destination} className="flight-image" />
@@ -114,8 +115,6 @@ const MainPage = () => {
                     ))}
                 </div>
             </div>
-
-
         </div>
     );
 };
