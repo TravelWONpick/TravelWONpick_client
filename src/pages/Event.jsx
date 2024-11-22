@@ -17,7 +17,7 @@ const Event = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await axios.get(`${baseUrl}/api/events`);
+            const response = await axios.get(`${baseUrl}/events`);
             const eventData = response.data?.data?.events || [];
             const updatedEvents = eventData.map(event => ({
                 ...event,
