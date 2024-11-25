@@ -35,7 +35,7 @@
 /* 메인 콘텐츠 */
 .main-content {
   flex: 1; /* 남은 공간을 차지하도록 설정 */
-  min-height: 800px; /* 사이드바와 동일한 최소 높이 설정 */
+  min-height: 820px; /* 사이드바와 동일한 최소 높이 설정 */
   padding: 0 20px 0 20px; /* 위쪽 여백은 0, 나머지는 20px 설정 */
   overflow-y: auto; /* 내용이 많아질 경우 스크롤 생성 */
   box-sizing: border-box; /* 패딩 포함 너비 계산 */

@@ -63,6 +63,10 @@ const Header = () => {
           navigate("/pricePick", { replace: true });
           window.location.reload(); // 강제 새로고침
           break;
+        case "2": // 카드 PICK
+          navigate("/cardPick", { replace: true });
+          window.location.reload(); // 강제 새로고침
+          break;
         case "3": // 이벤트
           navigate("/event", { replace: true });
           window.location.reload(); // 강제 새로고침
