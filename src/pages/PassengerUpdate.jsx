@@ -88,7 +88,7 @@ const PassengerUpdate = () => {
 
       // PATCH 요청 보내기
       await axios.patch(
-        `http://localhost:8080/my/passenger/${passengerId}`,
+        `${process.env.VITE_APP_API_URL}/my/passenger/${passengerId}`,
         requestData,
         {
           headers: {

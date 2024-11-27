@@ -7,8 +7,6 @@ import axios from "axios";
 
 const { Title, Text } = Typography;
 
-const baseUrl = "http://localhost:8080";
-
 const Payment = () => {
   const [showOutboundDetails, setShowOutboundDetails] = useState(false);
   const [showInboundDetails, setShowInboundDetails] = useState(false);
@@ -41,7 +39,7 @@ const Payment = () => {
       try {
         const accessToken = sessionStorage.getItem("accessToken");
         if (accessToken) {
-          const response = await axios.get(`${baseUrl}/my/info`, {
+          const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/info`, {
             headers: { Authorization: `Bearer ${accessToken}` },
           });
           const data = response.data.data;

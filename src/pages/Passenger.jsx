@@ -7,25 +7,7 @@ const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
 const { ItemGroup } = Menu;
 
-// const initialData = [
-//   {
-//     key: "1",
-//     name: "KIM / SANGMIN",
-//     gender: "남성",
-//     birthDate: "1994.05.31",
-//     phone: "010-1234-5678",
-//   },
-//   {
-//     key: "2",
-//     name: "PARK / SANGMIN",
-//     gender: "남성",
-//     birthDate: "1997.02.12",
-//     phone: "010-1423-5678",
-//   },
-// ];
-
 const Passenger = () => {
-  // const [data, setData] = useState(initialData);
   const [data, setData] = useState([]); // initialData 대신 빈 배열로 초기화
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedKey, setSelectedKey] = useState(null);
@@ -41,7 +23,7 @@ const Passenger = () => {
       if (!accessToken) {
         throw new Error("액세스 토큰이 없습니다.");
       }
-      const response = await axios.get("http://localhost:8080/my/passenger", {
+      const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/passenger`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -81,7 +63,7 @@ const Passenger = () => {
       const accessToken = sessionStorage.getItem("accessToken");
 
       // DELETE API 호출 - url 파라미터 이름을 up_id로 수정
-      await axios.delete(`http://localhost:8080/my/passenger/${selectedKey}`, {
+      await axios.delete(`${process.env.VITE_APP_API_URL}/my/passenger/${selectedKey}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

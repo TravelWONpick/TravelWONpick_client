@@ -6,9 +6,6 @@ import { Pagination } from 'antd';
 import './event.css';
 import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
 
-// 백엔드 서버의 기본 URL
-const baseUrl = "http://localhost:8080";
-
 const Event = () => {
     const [events, setEvents] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +14,7 @@ const Event = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await axios.get(`${baseUrl}/events`);
+            const response = await axios.get(`${process.env.VITE_APP_API_URL}/events`);
             const eventData = response.data?.data?.events || [];
             const updatedEvents = eventData.map(event => ({
                 ...event,

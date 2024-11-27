@@ -16,8 +16,6 @@ const { Text, Title } = Typography;
 
 const { Option } = Select;
 
-const baseUrl = "http://localhost:8080"; // 백엔드 서버 URL
-
 const ReservationConfirmation = () => {
   const dispatch = useDispatch();
   const { selectedOutbound, selectedReturn, adultCount, tripType, totalPrice } =
@@ -54,7 +52,7 @@ const ReservationConfirmation = () => {
       try {
         const accessToken = sessionStorage.getItem("accessToken");
         if (accessToken) {
-          const response = await axios.get(`${baseUrl}/my/info`, {
+          const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/info`, {
             headers: { Authorization: `Bearer ${accessToken}` },
           });
           const data = response.data.data;
@@ -82,7 +80,7 @@ const ReservationConfirmation = () => {
         throw new Error("액세스 토큰이 없습니다.");
       }
 
-      const response = await axios.get(`${baseUrl}/my/passenger`, {
+      const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/passenger`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

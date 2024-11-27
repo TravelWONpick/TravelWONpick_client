@@ -205,7 +205,7 @@ const Reservation = () => {
           ? format(selectedRange[0].endDate, "yyyy-MM-dd")
           : departureDate;
 
-      const url = `http://localhost:8080/special/${sp_id}?departureDate=${departureDate}&arrivalDate=${arrivalDate}&depAirportCode=${departure}&arrAirportCode=${destination}`;
+      const url = `${process.env.VITE_APP_API_URL}/special/${sp_id}?departureDate=${departureDate}&arrivalDate=${arrivalDate}&depAirportCode=${departure}&arrAirportCode=${destination}`;
 
       // URL 확인
       console.log("요청 URL:", url);

@@ -14,8 +14,6 @@ import {
 } from "antd";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-// 백엔드 서버의 기본 URL
-const baseUrl = "http://localhost:8080";
 
 const { Content, Sider } = Layout;
 const { Title, Text } = Typography;
@@ -47,7 +45,7 @@ const Info = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/my/info`, {
+                const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/info`, {
                     headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
                 });
                 const data = response.data.data;
@@ -72,7 +70,7 @@ const Info = () => {
 
     const handleModalOk = async () => {
         try {
-            const response = await axios.delete(`${baseUrl}/my/account`, {
+            const response = await axios.delete(`${process.env.VITE_APP_API_URL}/my/account`, {
                 headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
             });
             if (response.status === 200) {

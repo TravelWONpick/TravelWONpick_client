@@ -18,8 +18,6 @@ const { Content, Sider } = Layout;
 const { Title, Text } = Typography;
 const { ItemGroup } = Menu;
 
-const baseUrl = "http://localhost:8080";
-
 const InfoUpdate = () => {
     const [form, setForm] = useState({
         email: "",
@@ -34,7 +32,7 @@ const InfoUpdate = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/my/info`, {
+                const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/info`, {
                     headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
                 });
                 const { email, name, phoneNumber, notification } = response.data.data;
@@ -88,7 +86,7 @@ const InfoUpdate = () => {
     const handleSave = async () => {
         try {
             const response = await axios.patch(
-                `${baseUrl}/my/info`,
+                `${process.env.VITE_APP_API_URL}/my/info`,
                 {
                     email: form.email,
                     name: form.name,

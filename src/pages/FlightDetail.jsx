@@ -22,8 +22,8 @@ const FlightDetail = () => {
             };
             try {
                 const [flightResponse, passengerResponse] = await Promise.all([
-                    axios.get(`http://localhost:8080/my/flight/${reservationId}/flight-detail`, { headers }),
-                    axios.get(`http://localhost:8080/my/flight/${reservationId}/passenger-detail`, { headers }),
+                    axios.get(`${process.env.VITE_APP_API_URL}/my/flight/${reservationId}/flight-detail`, { headers }),
+                    axios.get(`${process.env.VITE_APP_API_URL}/my/flight/${reservationId}/passenger-detail`, { headers }),
                 ]);
 
                 if (flightResponse.data?.status === 200) {

@@ -77,7 +77,7 @@ const PassengerRegister = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:8080/my/passenger",
+        `${process.env.VITE_APP_API_URL}/my/passenger`,
         requestData,
         {
           headers: {

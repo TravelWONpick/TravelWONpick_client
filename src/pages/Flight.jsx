@@ -7,8 +7,6 @@ const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
 const { ItemGroup } = Menu;
 
-// 백엔드 서버의 기본 URL
-const baseUrl = "http://localhost:8080";
 
 const Flight = () => {
     const [reservations, setReservations] = useState([]);
@@ -22,7 +20,7 @@ const Flight = () => {
         };
 
         try {
-            const response = await axios.get(`${baseUrl}/my/flight`, { headers });
+            const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/flight`, { headers });
             if (response.data?.status === 200) {
                 setReservations(response.data?.data || []);
             } else {

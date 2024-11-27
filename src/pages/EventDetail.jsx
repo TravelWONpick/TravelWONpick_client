@@ -4,8 +4,6 @@ import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
 import axios from 'axios';
 import './event.css';
 
-const baseUrl = "http://localhost:8080";
-
 const EventDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate(); // navigate 함수 생성
@@ -15,7 +13,7 @@ const EventDetail = () => {
     useEffect(() => {
         const fetchEventDetail = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/events/${id}`);
+                const response = await axios.get(`${process.env.VITE_APP_API_URL}/events/${id}`);
                 setEventDetail(response.data.data);
                 setLoading(false);
             } catch (error) {

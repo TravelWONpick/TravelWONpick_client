@@ -5,7 +5,6 @@ import { useNavigate, useLocation } from "react-router-dom"; // useLocation 추�
 import "./Tabs.css";
 
 const { Search } = Input;
-const baseUrl = "http://localhost:8080"; // 백엔드 서버 URL
 
 const PricePick = () => {
   const [selectedCategory, setSelectedCategory] = useState("전체");
@@ -17,7 +16,7 @@ const PricePick = () => {
   // API를 통해 데이터를 가져오는 함수
   const fetchTravelData = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/special`);
+      const response = await axios.get(`${process.env.VITE_APP_API_URL}/special`);
       const data = response.data.data.specialPrices;
       setTravelData(data);
     } catch (error) {

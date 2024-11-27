@@ -17,7 +17,7 @@ const UserGet = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/manager/member");
+        const response = await axios.get(`${process.env.VITE_APP_API_URL}/manager/member`);
         if (response.status === 200 && response.data && response.data.data) {
           setUserList(response.data.data);
           setFilteredUserList(response.data.data);
