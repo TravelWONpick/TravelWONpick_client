@@ -9,7 +9,6 @@ COPY . .
 # vite.config.js 확인
 RUN cat vite.config.js
 # 빌드 실행
-COPY .env.production .env.production
 RUN npm run build
 # 실행 스테이지
 FROM nginx:alpine
