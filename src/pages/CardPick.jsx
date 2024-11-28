@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../components/axios';
 import { Tag, Button, Pagination } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import './CardPick.css';
@@ -21,7 +21,7 @@ const CardPick = () => {
   // API로부터 카드 데이터를 가져오는 함수
   const fetchCards = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/cards`);
+      const response = await api.get('/cards');
       const fetchedCards = response.data.cards.map(card => ({
         title: card.title,
         description: card.description,
