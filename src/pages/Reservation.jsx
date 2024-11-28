@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, Row, Col, Input, message } from "antd";
 import { DateRange } from "react-date-range";
 import { ko } from "date-fns/locale";
-import axios from "axios";
+import api from '../components/axios';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,7 +14,7 @@ import {
 } from "../store/flightSlice";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import "./Reservation.css";
+import "../css/Reservation.css";
 import { format, parseISO } from "date-fns";
 
 // 항공편 카드 컴포넌트
@@ -77,7 +77,7 @@ const FlightCard = ({ flight, onSelect, isSelected }) => {
           <div style={{ fontSize: "12px", color: "#666" }}>우리카드</div>
         </Col>
         <Col span={3} style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ marginRight: "10px", fontWeight: "bold", fontSize: "14px", color: "#666" }}>
+          <div style={{ marginRight: "10px", fontWeight: "bold", fontSize: "14px", color: "#666" }}>
             잔여석: {flight.maxSeat}
           </div>
         </Col>
@@ -205,30 +205,26 @@ const Reservation = () => {
           ? format(selectedRange[0].endDate, "yyyy-MM-dd")
           : departureDate;
 
-      const url = `${import.meta.env.VITE_APP_API_URL}/special/${sp_id}?departureDate=${departureDate}&arrivalDate=${arrivalDate}&depAirportCode=${departure}&arrAirportCode=${destination}`;
+      const params = {
+        departureDate,
+        arrivalDate,
+        depAirportCode: departure,
+        arrAirportCode: destination,
+      };
 
-      // URL 확인
-      console.log("요청 URL:", url);
+      const response = await api.get(`/special/${sp_id}`, { params });
 
-      const response = await axios.get(url);
-
-      // 응답 데이터 확인
       console.log("응답 데이터:", response.data);
-
       if (response.data.status === 200) {
         setOutboundFlights(response.data.data.outboundFlights);
         if (tripType === "round") {
           setReturnFlights(response.data.data.returnFlights);
         }
-        // 설정된 항공편 데이터 확인
-        console.log("가는편:", response.data.data.outboundFlights);
-        console.log("오는편:", response.data.data.returnFlights);
       } else {
         message.error("항공편 검색에 실패했습니다.");
       }
     } catch (error) {
-      // 에러 상세 정보 확인
-      console.error("에러 상세 정보:", error.response || error);
+      console.error("항공편 검색 중 오류가 발생했습니다:", error);
       message.error("항공편 검색 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
@@ -255,7 +251,6 @@ const Reservation = () => {
       })
     );
     navigate("/pricePick/reservation-confirmation");
-    console.log(selectedOutbound, selectedReturn, adultCount, tripType); // 지워
   };
 
   const handleAdultCountChange = (count) => {

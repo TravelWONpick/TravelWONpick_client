@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu, Typography, Button, Row, Col, Card, Modal, Input, message } from "antd";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from '../components/axios';
+
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -14,20 +15,26 @@ const UserGet = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/manager/member`);
-        if (response.status === 200 && response.data && response.data.data) {
-          setUserList(response.data.data);
-          setFilteredUserList(response.data.data);
-        }
-      } catch (error) {
-        console.error("사용자 목록 조회 중 오류가 발생했습니다:", error);
-        message.error("사용자 목록을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.");
-      }
-    };
 
+  const fetchUsers = async () => {
+    try {
+      const response = await api.get('/manager/member');
+      if (response.status === 200 && response.data?.data) {
+        const users = response.data.data.map(user => ({
+          email: user.email,
+          name: user.name,
+          phoneNumber: formatPhoneNumber(user.phoneNumber),
+        }));
+        setUserList(users);
+        setFilteredUserList(users);
+      }
+    } catch (error) {
+      console.error("사용자 목록 조회 중 오류가 발생했습니다:", error);
+      message.error("사용자 목록을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
+  };
+  
+  useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -36,21 +43,20 @@ const UserGet = () => {
     setIsModalVisible(true);
   };
 
-  const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
-    timeout: 5000, // 5초
-  });
   const handleOk = async () => {
     if (selectedUser) {
       try {
-        const response = await axiosInstance.delete("http://localhost:8080/manager/member", {
-          params: { email: selectedUser.email },
+        const response = await api.delete('/manager/member', {
+          params: { email: selectedUser.email }, 
         });
-
-        if (response.status === 200) {
+  
+        if (response.status === 200 && response.data?.data) {
+          const deletedEmail = response.data.data;
           message.success("사용자가 성공적으로 삭제되었습니다.");
-          setFilteredUserList(filteredUserList.filter((user) => user.email !== selectedUser.email));
-          setUserList(userList.filter((user) => user.email !== selectedUser.email));
+  
+          setFilteredUserList(filteredUserList.filter((user) => user.email !== deletedEmail));
+          setUserList(userList.filter((user) => user.email !== deletedEmail));
+  
           setIsModalVisible(false);
         } else {
           message.error("사용자 삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -61,7 +67,7 @@ const UserGet = () => {
       }
     }
   };
-
+  
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -75,7 +81,7 @@ const UserGet = () => {
     }
     return digits;
   };
-  
+
   return (
     <Layout
       style={{
