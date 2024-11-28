@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../components/axios';
 import { Tag, Button, Pagination } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import './CardPick.css';
+import '../css/CardPick.css';
 import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
 
 const CardPick = () => {
