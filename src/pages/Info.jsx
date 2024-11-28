@@ -45,7 +45,7 @@ const Info = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/info`, {
+                const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/my/info`, {
                     headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
                 });
                 const data = response.data.data;
@@ -70,7 +70,7 @@ const Info = () => {
 
     const handleModalOk = async () => {
         try {
-            const response = await axios.delete(`${process.env.VITE_APP_API_URL}/my/account`, {
+            const response = await axios.delete(`${import.meta.env.VITE_APP_API_URL}/my/account`, {
                 headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
             });
             if (response.status === 200) {

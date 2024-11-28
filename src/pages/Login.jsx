@@ -67,7 +67,7 @@ const Login = () => {
   const handleEmailSend = async () => {
     try {
       const phoneWithoutHyphen = form.getFieldValue("phone").replace(/-/g, "");
-      const response = await axios.post(`${process.env.VITE_APP_API_URL}/auth/verifyuser`, {
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/verifyuser`, {
         email: form.getFieldValue("email"),
         password: form.getFieldValue("password"),
         name: form.getFieldValue("name"),
@@ -119,7 +119,7 @@ const Login = () => {
 
   const handleVerificationConfirm = async () => {
     try {
-      const response = await axios.post(`${process.env.VITE_APP_API_URL}/auth/verifysuccess`, {
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/verifysuccess`, {
         email: form.getFieldValue("email"),
         confirmationCode: form.getFieldValue("verification"),
     });
@@ -142,7 +142,7 @@ const Login = () => {
 
   const handleSignupSubmit = async () => {
     try {
-      const response = await axios.post(`${process.env.VITE_APP_API_URL}/auth/signup`, {
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/signup`, {
         email: form.getFieldValue("email"),
         password: form.getFieldValue("password"),
         name: form.getFieldValue("name"),
@@ -171,7 +171,7 @@ const Login = () => {
         return;
       }
 
-      const response = await axios.post(`${process.env.VITE_APP_API_URL}/auth/login`, {
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/login`, {
         email,
         password,
       });

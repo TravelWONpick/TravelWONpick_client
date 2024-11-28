@@ -77,7 +77,7 @@ const PassengerRegister = () => {
       };
 
       const response = await axios.post(
-        `${process.env.VITE_APP_API_URL}/my/passenger`,
+        `${import.meta.env.VITE_APP_API_URL}/my/passenger`,
         requestData,
         {
           headers: {

@@ -88,7 +88,7 @@ const PassengerUpdate = () => {
 
       // PATCH 요청 보내기
       await axios.patch(
-        `${process.env.VITE_APP_API_URL}/my/passenger/${passengerId}`,
+        `${import.meta.env.VITE_APP_API_URL}/my/passenger/${passengerId}`,
         requestData,
         {
           headers: {

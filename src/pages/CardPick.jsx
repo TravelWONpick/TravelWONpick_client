@@ -21,7 +21,7 @@ const CardPick = () => {
   // API로부터 카드 데이터를 가져오는 함수
   const fetchCards = async () => {
     try {
-      const response = await axios.get(`${process.env.VITE_APP_API_URL}/cards`);
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/cards`);
       const fetchedCards = response.data.cards.map(card => ({
         title: card.title,
         description: card.description,

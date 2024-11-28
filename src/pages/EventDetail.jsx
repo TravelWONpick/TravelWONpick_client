@@ -13,7 +13,7 @@ const EventDetail = () => {
     useEffect(() => {
         const fetchEventDetail = async () => {
             try {
-                const response = await axios.get(`${process.env.VITE_APP_API_URL}/events/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/events/${id}`);
                 setEventDetail(response.data.data);
                 setLoading(false);
             } catch (error) {

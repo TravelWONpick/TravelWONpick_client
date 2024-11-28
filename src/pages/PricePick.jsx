@@ -16,7 +16,7 @@ const PricePick = () => {
   // API를 통해 데이터를 가져오는 함수
   const fetchTravelData = async () => {
     try {
-      const response = await axios.get(`${process.env.VITE_APP_API_URL}/special`);
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/special`);
       const data = response.data.data.specialPrices;
       setTravelData(data);
     } catch (error) {

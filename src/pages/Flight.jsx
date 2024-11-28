@@ -20,7 +20,7 @@ const Flight = () => {
         };
 
         try {
-            const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/flight`, { headers });
+            const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/my/flight`, { headers });
             if (response.data?.status === 200) {
                 setReservations(response.data?.data || []);
             } else {

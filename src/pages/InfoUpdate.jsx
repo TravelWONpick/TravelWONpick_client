@@ -32,7 +32,7 @@ const InfoUpdate = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/info`, {
+                const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/my/info`, {
                     headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
                 });
                 const { email, name, phoneNumber, notification } = response.data.data;
@@ -86,7 +86,7 @@ const InfoUpdate = () => {
     const handleSave = async () => {
         try {
             const response = await axios.patch(
-                `${process.env.VITE_APP_API_URL}/my/info`,
+                `${import.meta.env.VITE_APP_API_URL}/my/info`,
                 {
                     email: form.email,
                     name: form.name,

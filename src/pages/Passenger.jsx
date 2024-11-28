@@ -23,7 +23,7 @@ const Passenger = () => {
       if (!accessToken) {
         throw new Error("액세스 토큰이 없습니다.");
       }
-      const response = await axios.get(`${process.env.VITE_APP_API_URL}/my/passenger`, {
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/my/passenger`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -63,7 +63,7 @@ const Passenger = () => {
       const accessToken = sessionStorage.getItem("accessToken");
 
       // DELETE API 호출 - url 파라미터 이름을 up_id로 수정
-      await axios.delete(`${process.env.VITE_APP_API_URL}/my/passenger/${selectedKey}`, {
+      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/my/passenger/${selectedKey}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

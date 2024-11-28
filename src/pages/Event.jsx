@@ -14,7 +14,7 @@ const Event = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await axios.get(`${process.env.VITE_APP_API_URL}/events`);
+            const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/events`);
             const eventData = response.data?.data?.events || [];
             const updatedEvents = eventData.map(event => ({
                 ...event,
