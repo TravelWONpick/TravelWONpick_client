@@ -3,7 +3,7 @@ import { Card, Button, Row, Col, Typography, Space } from "antd";
 import { useSelector } from "react-redux";
 import FlightCard from "../components/FlightCard";
 import { useNavigate } from "react-router-dom"; // useNavigate 추가
-import axios from "axios";
+import api from "../components/axios";
 
 const { Title, Text } = Typography;
 
@@ -39,7 +39,7 @@ const Payment = () => {
       try {
         const accessToken = sessionStorage.getItem("accessToken");
         if (accessToken) {
-          const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/my/info`, {
+          const response = await api.get('/my/info', {
             headers: { Authorization: `Bearer ${accessToken}` },
           });
           const data = response.data.data;

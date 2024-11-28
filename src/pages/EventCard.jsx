@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import './event.css';
+import '../css/event.css';
 
 const EventCard = ({ id, title, startDate, endDate, previewImgSrc }) => {
     const formattedStartDate = startDate

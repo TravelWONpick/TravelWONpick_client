@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Menu, Typography, Input, Button, Row, Col, Card } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../components/axios";
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -76,16 +76,12 @@ const PassengerRegister = () => {
         phoneNumber: form.phone,
       };
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/my/passenger`,
-        requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await api.post("/my/passenger", requestData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      });
 
       if (response.data.status === 200) {
         alert("탑승객 정보가 등록되었습니다.");

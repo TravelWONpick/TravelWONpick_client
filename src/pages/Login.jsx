@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Button, Form, Input, Typography, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from '../components/axios';
 
 const { Title, Text } = Typography;
 
@@ -67,12 +67,16 @@ const Login = () => {
   const handleEmailSend = async () => {
     try {
       const phoneWithoutHyphen = form.getFieldValue("phone").replace(/-/g, "");
-      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/verifyuser`, {
+      const response = await api.post('/auth/verifyuser', {
         email: form.getFieldValue("email"),
         password: form.getFieldValue("password"),
         name: form.getFieldValue("name"),
         phonenumber: phoneWithoutHyphen,
-    });
+      }, {
+        headers: { 
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` 
+        }
+      });
 
       if (response.status === 200) {
         setIsEmailSent(true);
@@ -119,10 +123,14 @@ const Login = () => {
 
   const handleVerificationConfirm = async () => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/verifysuccess`, {
+      const response = await api.post('/auth/verifysuccess', {
         email: form.getFieldValue("email"),
         confirmationCode: form.getFieldValue("verification"),
-    });
+      }, {
+        headers: { 
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` 
+        }
+      });
 
       if (response.status === 200) {
         setVerificationConfirmed(true);
@@ -142,12 +150,16 @@ const Login = () => {
 
   const handleSignupSubmit = async () => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/signup`, {
+      const response = await api.post('/auth/signup', {
         email: form.getFieldValue("email"),
         password: form.getFieldValue("password"),
         name: form.getFieldValue("name"),
         phonenumber: form.getFieldValue("phone").replace(/-/g, ""),
         notification: true,
+      }, {
+        headers: { 
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` 
+        }
       });
 
       if (response.status === 200) {
@@ -171,7 +183,7 @@ const Login = () => {
         return;
       }
 
-      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/login`, {
+      const response = await api.post('/auth/login', {
         email,
         password,
       });

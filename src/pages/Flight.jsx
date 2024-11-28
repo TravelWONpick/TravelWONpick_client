@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Menu, Typography, Table, message, Spin } from "antd";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from '../components/axios';
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -20,7 +20,7 @@ const Flight = () => {
         };
 
         try {
-            const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/my/flight`, { headers });
+            const response = await api.get('/my/flight', { headers });
             if (response.data?.status === 200) {
                 setReservations(response.data?.data || []);
             } else {

@@ -12,7 +12,7 @@ import {
     message,
 } from "antd";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import api from '../components/axios';
 
 const { Content, Sider } = Layout;
 const { Title, Text } = Typography;
@@ -32,8 +32,10 @@ const InfoUpdate = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/my/info`, {
-                    headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
+                const response = await api.get('/my/info', {
+                    headers: { 
+                        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` 
+                    }
                 });
                 const { email, name, phoneNumber, notification } = response.data.data;
                 // 하이픈 포함된 전화번호 처리
@@ -85,8 +87,8 @@ const InfoUpdate = () => {
     // 수정 저장 처리
     const handleSave = async () => {
         try {
-            const response = await axios.patch(
-                `${import.meta.env.VITE_APP_API_URL}/my/info`,
+            const response = await api.patch(
+                '/my/info',
                 {
                     email: form.email,
                     name: form.name,
@@ -94,7 +96,9 @@ const InfoUpdate = () => {
                     notification: form.notification,
                 },
                 {
-                    headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
+                    headers: { 
+                        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` 
+                    }
                 }
             );
 
