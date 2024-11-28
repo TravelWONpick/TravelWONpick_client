@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu, Typography, Button, Row, Col, Card, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from '../components/axios';
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -23,11 +23,11 @@ const Passenger = () => {
       if (!accessToken) {
         throw new Error("액세스 토큰이 없습니다.");
       }
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/my/passenger`, {
+      const response = await api.get('/my/passenger', {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`
         },
-        withCredentials: true,
+        withCredentials: true
       });
 
       // response.data.data가 배열 형태로 오므로 직접 매핑
@@ -63,11 +63,11 @@ const Passenger = () => {
       const accessToken = sessionStorage.getItem("accessToken");
 
       // DELETE API 호출 - url 파라미터 이름을 up_id로 수정
-      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/my/passenger/${selectedKey}`, {
+      await api.delete(`/my/passenger/${selectedKey}`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`
         },
-        withCredentials: true,
+        withCredentials: true 
       });
 
       // 성공적으로 삭제되면 목록 다시 불러오기

@@ -13,7 +13,7 @@ import {
     message,
 } from "antd";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import api from '../components/axios';
 
 const { Content, Sider } = Layout;
 const { Title, Text } = Typography;
@@ -45,8 +45,10 @@ const Info = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/my/info`, {
-                    headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
+                const response = await api.get('/my/info', {
+                    headers: { 
+                        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` 
+                    }
                 });
                 const data = response.data.data;
                 data.phoneNumber = formatPhoneNumber(data.phoneNumber); // 전화번호 포맷 변경
@@ -70,8 +72,10 @@ const Info = () => {
 
     const handleModalOk = async () => {
         try {
-            const response = await axios.delete(`${import.meta.env.VITE_APP_API_URL}/my/account`, {
-                headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
+            const response = await api.delete('/my/account', {
+                headers: { 
+                    Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` 
+                }
             });
             if (response.status === 200) {
                 message.success("회원 탈퇴가 완료되었습니다.");

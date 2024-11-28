@@ -1,9 +1,9 @@
 // Event.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../components/axios';
 import EventCard from './EventCard';
 import { Pagination } from 'antd';
-import './event.css';
+import '../css/event.css';
 import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
 
 const Event = () => {
@@ -14,7 +14,7 @@ const Event = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/events`);
+            const response = await api.get('/events');
             const eventData = response.data?.data?.events || [];
             const updatedEvents = eventData.map(event => ({
                 ...event,

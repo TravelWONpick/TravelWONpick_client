@@ -2,21 +2,14 @@ import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+import api from '../components/axios';
 
-import "./Checkout.css";
+import "../css/Checkout.css";
 
 
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
 // customer 별 uuid 생성
 const customerKey = uuidv4();
-
-const api = axios.create({
-    baseURL: import.meta.env.VITE_APP_API_URL,
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
 
 export function Checkout() {
 
@@ -109,23 +102,17 @@ export function Checkout() {
                                     postOrderRequest
                                 );
 
-                                api.post("/order/create", postOrderRequest, {
+                                await api.post("/order/create", postOrderRequest, {
                                     headers: {
-                                        Authorization: `Bearer ${token}`, // Authorization 헤더 추가
+                                        Authorization: `Bearer ${token}`,
                                     },
                                 })
-                                    .then((response) => {
-                                        console.log(
-                                            "Order Created:",
-                                            response.data
-                                        );
-                                    })
-                                    .catch((error) => {
-                                        console.error(
-                                            "Error creating order:",
-                                            error
-                                        );
-                                    });
+                                .then((response) => {
+                                    console.log("Order Created:", response.data);
+                                })
+                                .catch((error) => {
+                                    console.error("Error creating order:", error);
+                                });
 
                                 await widgets.requestPayment({
                                     orderId: orderId,
