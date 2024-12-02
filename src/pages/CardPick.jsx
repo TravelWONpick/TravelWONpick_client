@@ -22,8 +22,8 @@ const CardPick = () => {
   // API로부터 카드 데이터를 가져오는 함수
   const fetchCards = async () => {
     try {
-      // const response = await api.get('/cards');
-      const response = await axios.get('http://spring-app.backend.svc.cluster.local:8080/cards');
+      const response = await api.get('/cards');
+      // const response = await axios.get('http://spring-app.backend.svc.cluster.local:8080/cards');
 
       console.log("response.data.cards" + response.data.cards);
       console.log("response" + response);
