@@ -22,6 +22,10 @@ const CardPick = () => {
   const fetchCards = async () => {
     try {
       const response = await api.get('/cards');
+
+      console.log(response.data.cards);
+      
+
       const fetchedCards = response.data.cards.map(card => ({
         title: card.title,
         description: card.description,

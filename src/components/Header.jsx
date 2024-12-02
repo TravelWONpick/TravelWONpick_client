@@ -4,7 +4,7 @@ import { Tabs, Dropdown, Menu, message, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import linkImg from "../assets/link_img.png";
 import logoImg from "../assets/logo.png";
-import axios from "axios";
+import api from "../components/axios";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const Header = () => {
   const handleLogout = async () => {
     const accessToken = sessionStorage.getItem("accessToken");
     try {
-      await axios.post("http://localhost:8080/auth/logout", { accessToken });
+      await api.post("/auth/logout", { accessToken });
       message.success("로그아웃 되었습니다.");
       navigate("/");
       sessionStorage.removeItem("accessToken");
