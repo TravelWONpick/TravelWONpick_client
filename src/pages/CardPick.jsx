@@ -24,7 +24,7 @@ const CardPick = () => {
       const response = await api.get('/cards');
 
       console.log(response.data.cards);
-      
+      console.log("Request URL:", api.getUri({ url: '/cards' }));
 
       const fetchedCards = response.data.cards.map(card => ({
         title: card.title,
