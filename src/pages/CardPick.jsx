@@ -4,7 +4,6 @@ import { Tag, Button, Pagination } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import '../css/CardPick.css';
 import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
-import axios from 'axios';
 
 const CardPick = () => {
   const [cards, setCards] = useState([]);
@@ -23,11 +22,6 @@ const CardPick = () => {
   const fetchCards = async () => {
     try {
       const response = await api.get('/cards');
-      // const response = await axios.get('http://spring-app.backend.svc.cluster.local:8080/cards');
-
-      console.log("response.data.cards" + response.data.cards);
-      console.log("response" + response);
-      console.log("VITE_APP_API_URL" + import.meta.env.VITE_APP_API_URL);
 
       const fetchedCards = response.data.cards.map(card => ({
         title: card.title,
