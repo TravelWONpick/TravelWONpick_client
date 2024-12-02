@@ -14,7 +14,7 @@ const Event = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await api.get('/events');
+            const response = await api.get('/my/events');
             const eventData = response.data?.data?.events || [];
             const updatedEvents = eventData.map(event => ({
                 ...event,
