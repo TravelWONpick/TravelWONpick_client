@@ -188,6 +188,10 @@ const Login = () => {
         password,
       });
 
+      console.log("response.data.cards" + response.data.cards);
+      console.log("response" + response);
+      console.log("VITE_APP_API_URL" + import.meta.env.VITE_APP_API_URL);
+
       if (response.status === 200 && response.data && response.data.data) {
         const { accessToken, name, isAdmin } = response.data.data;
         if (accessToken) {
