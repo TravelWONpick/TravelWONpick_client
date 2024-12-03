@@ -8,6 +8,7 @@ import {
 import { Button, Form, Input, Typography, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import api from '../components/axios';
+import logoImg from "../assets/logo.png";
 
 const { Title, Text } = Typography;
 
@@ -228,8 +229,8 @@ const Login = () => {
           <div className="w-40">
             <Link to="/">
               <img
-                src="../assets/logo.png"
-                alt="우리카드 로고"
+                src={logoImg}
+                alt="logo"
                 style={{ width: "130px", height: "auto", paddingTop: "14px" }} />
             </Link>
           </div>
