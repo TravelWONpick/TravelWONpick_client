@@ -228,7 +228,7 @@ const Login = () => {
           <div className="w-40">
             <Link to="/">
               <img
-                src="src/assets/logo.png"
+                src="../assets/logo.png"
                 alt="우리카드 로고"
                 style={{ width: "130px", height: "auto", paddingTop: "14px" }} />
             </Link>
