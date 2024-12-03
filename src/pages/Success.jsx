@@ -131,7 +131,7 @@ export function Success() {
                 {/* <p>{`Payment Key: ${searchParams.get("paymentKey")}`}</p> */}
 
                 <div style={{ marginTop: "20px" }}>
-                    <Button type="default" href="/my/flight">
+                    <Button type="default" href="/my/flights">
                         예매내역
                     </Button>
                 </div>

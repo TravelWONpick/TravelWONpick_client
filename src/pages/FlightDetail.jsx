@@ -196,7 +196,7 @@ const FlightDetail = () => {
                       >
                           <Menu.Item key="1">
                               <Link
-                                  to="/my/flight"
+                                  to="/my/flights"
                                   style={{
                                       fontSize: "14px",
                                       color: "inherit",

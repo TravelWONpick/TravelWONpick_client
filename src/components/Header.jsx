@@ -122,7 +122,7 @@ const Header = () => {
   const menu = (
       <Menu>
         <Menu.Item
-            onClick={() => navigate(isAdmin ? "/admin/userget" : "/my/flight")}
+            onClick={() => navigate(isAdmin ? "/admin/userget" : "/my/flights")}
         >
           {isAdmin ? "관리자 페이지" : "마이페이지"}
         </Menu.Item>
