@@ -6,8 +6,6 @@ import '../css/main.css';
 import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
 
 
-console.log(import.meta.env.VITE_APP_API_URL);
-
 // 커스텀 화살표 컴포넌트
 const CustomPrevArrow = ({ onClick }) => (
     <div className="custom-arrow custom-prev" onClick={onClick}>
