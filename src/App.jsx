@@ -17,7 +17,7 @@ import CardPick from "./pages/CardPick";
 import Event from "./pages/Event";
 import Login from "./pages/Login";
 import EventDetail from "./pages/EventDetail";
-import Flight from "./pages/Flight";
+import Flights from "./pages/Flights";
 import FlightDetail from "./pages/FlightDetail";
 import Reservation from "./pages/Reservation";
 import ReservationConfirmation from "./pages/ReservationConfirmation";
@@ -74,7 +74,7 @@ function MainContent() {
           path="/my/flights"
           element={
             <UserRoute>
-              <Flight />
+              <Flights />
             </UserRoute>
           }
         />
