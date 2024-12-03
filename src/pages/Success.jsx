@@ -51,7 +51,7 @@ export function Success() {
 
 
                 console.log("before paymentKey");
-                console.log(paymentKey);
+                console.log(paymentData.paymentKey);
 
                 // 2. 결제 승인 요청
                 const confirmResponse = await api.post("/payments/confirm", {
@@ -63,7 +63,7 @@ export function Success() {
                     seatCount: seatCount,
                     passengers: passengers
                 });
-                
+
                 console.log(confirmResponse.data);
                 console.log("after paymentKey");
                 console.log(paymentData.paymentKey);
