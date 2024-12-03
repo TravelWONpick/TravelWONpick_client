@@ -65,7 +65,7 @@ export function Success() {
                 });
                 console.log(confirmResponse.data);
                 console.log("after paymentKey");
-                console.log(paymentKey);
+                console.log(paymentData.paymentKey);
 
             } catch (error) {
                 if (error.response) {
