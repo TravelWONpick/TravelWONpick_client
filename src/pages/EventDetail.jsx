@@ -1,10 +1,8 @@
 // EventDetail.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
-import axios from 'axios';
-import './event.css';
-
-const baseUrl = "http://localhost:8080";
+import api from '../components/axios';
+import '../css/event.css';
 
 const EventDetail = () => {
     const { id } = useParams();
@@ -15,7 +13,7 @@ const EventDetail = () => {
     useEffect(() => {
         const fetchEventDetail = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/events/${id}`);
+                const response = await api.get(`/events/${id}`);
                 setEventDetail(response.data.data);
                 setLoading(false);
             } catch (error) {

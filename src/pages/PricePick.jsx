@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useMemo } from "react";
-import axios from "axios";
+import api from '../components/axios';
 import { Card, Button, Row, Col, Tag, Input, Modal } from "antd";
-import { useNavigate, useLocation } from "react-router-dom"; // useLocation 추가
-import "./Tabs.css";
+import { useNavigate, useLocation } from "react-router-dom";
+import "../css/Tabs.css";
 
 const { Search } = Input;
-const baseUrl = "http://localhost:8080"; // 백엔드 서버 URL
 
 const PricePick = () => {
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [travelData, setTravelData] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation(); // location 추가
+  const location = useLocation();
 
   // API를 통해 데이터를 가져오는 함수
   const fetchTravelData = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/special`);
+      const response = await api.get(`/special`);
       const data = response.data.data.specialPrices;
       setTravelData(data);
     } catch (error) {

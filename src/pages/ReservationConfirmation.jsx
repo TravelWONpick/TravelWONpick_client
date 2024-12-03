@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FlightCard from "../components/FlightCard";
 import PassengerForm from "../components/PassengerForm";
-import axios from "axios";
+import api from '../components/axios';
 
 import {
   addPassenger,
@@ -15,8 +15,6 @@ import {
 const { Text, Title } = Typography;
 
 const { Option } = Select;
-
-const baseUrl = "http://localhost:8080"; // 백엔드 서버 URL
 
 const ReservationConfirmation = () => {
   const dispatch = useDispatch();
@@ -48,53 +46,54 @@ const ReservationConfirmation = () => {
     return digits;
   };
 
-  // 사용자 정보 불러오기 (세션스토리지에서 액세스 토큰 사용)
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const accessToken = sessionStorage.getItem("accessToken");
-        if (accessToken) {
-          const response = await axios.get(`${baseUrl}/my/info`, {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          });
-          const data = response.data.data;
-          
-          setBookerInfo({
-            name: data.name,
-            email: data.email,
-            phone: formatPhoneNumber(data.phoneNumber),
-          });
-        }
-      } catch (error) {
-        console.error("사용자 정보를 불러오는 데 실패했습니다:", error);
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
-
-  // API로부터 탑승객 데이터 가져오기
-  const fetchPassengers = async () => {
+  const fetchUserInfo = async () => {
     try {
       const accessToken = sessionStorage.getItem("accessToken");
-
       if (!accessToken) {
         throw new Error("액세스 토큰이 없습니다.");
       }
 
-      const response = await axios.get(`${baseUrl}/my/passenger`, {
+      const response = await api.get("/my/info", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const data = response.data.data;
+
+      setBookerInfo({
+        name: data.name,
+        email: data.email,
+        phone: formatPhoneNumber(data.phoneNumber),
+      });
+    } catch (error) {
+      console.error("사용자 정보를 불러오는 데 실패했습니다:", error);
+    }
+  };
+
+  const fetchPassengers = async () => {
+    try {
+      const accessToken = sessionStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("액세스 토큰이 없습니다.");
+      }
+
+      const response = await api.get("/my/passenger", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         withCredentials: true,
       });
 
-      // API 응답의 데이터 저장
       setPassengersList(response.data.data);
     } catch (error) {
       console.error("탑승객 목록을 불러오는 데 실패했습니다:", error);
     }
   };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   useEffect(() => {
     fetchPassengers();

@@ -2,7 +2,7 @@ import React from 'react';
 import Slider from "react-slick";
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom'; // useNavigate 추가
-import './main.css';
+import '../css/main.css';
 import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
 
 // 커스텀 화살표 컴포넌트

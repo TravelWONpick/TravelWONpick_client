@@ -4,19 +4,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Layout, Typography, Button } from "antd";
 import successImage from "../assets/success.gif";
 import insureImage from "../assets/insure.png";
-import axios from "axios";
+import api from '../components/axios';
 import useSessionClearOnMain from '../hooks/useSessionClearOnMain';
 
 
 const { Content } = Layout;
 const { Title } = Typography;
-
-const api = axios.create({
-    baseURL: "http://localhost:8080",
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
 
 export function Success() {
     const navigate = useNavigate();

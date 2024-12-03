@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Menu, Typography, Table, Spin, message } from "antd";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import api from '../components/axios';
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -22,8 +22,8 @@ const FlightDetail = () => {
             };
             try {
                 const [flightResponse, passengerResponse] = await Promise.all([
-                    axios.get(`http://localhost:8080/my/flight/${reservationId}/flight-detail`, { headers }),
-                    axios.get(`http://localhost:8080/my/flight/${reservationId}/passenger-detail`, { headers }),
+                    api.get(`/my/flight/${reservationId}/flight-detail`, { headers }),
+                    api.get(`/my/flight/${reservationId}/passenger-detail`, { headers }),
                 ]);
 
                 if (flightResponse.data?.status === 200) {

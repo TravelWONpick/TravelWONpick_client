@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu, Typography, Input, Button, Row, Col, Card } from "antd";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+import api from "../components/axios";
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -87,16 +87,12 @@ const PassengerUpdate = () => {
       };
 
       // PATCH 요청 보내기
-      await axios.patch(
-        `http://localhost:8080/my/passenger/${passengerId}`,
-        requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          withCredentials: true,
-        }
-      );
+      await api.patch(`/my/passenger/${passengerId}`, requestData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      });
 
       alert("탑승객 정보가 수정되었습니다.");
       navigate("/my/passenger");

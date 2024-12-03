@@ -13,9 +13,7 @@ import {
     message,
 } from "antd";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
-// 백엔드 서버의 기본 URL
-const baseUrl = "http://localhost:8080";
+import api from '../components/axios';
 
 const { Content, Sider } = Layout;
 const { Title, Text } = Typography;
@@ -47,8 +45,10 @@ const Info = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/my/info`, {
-                    headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
+                const response = await api.get('/my/info', {
+                    headers: { 
+                        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` 
+                    }
                 });
                 const data = response.data.data;
                 data.phoneNumber = formatPhoneNumber(data.phoneNumber); // 전화번호 포맷 변경
@@ -72,8 +72,10 @@ const Info = () => {
 
     const handleModalOk = async () => {
         try {
-            const response = await axios.delete(`${baseUrl}/my/account`, {
-                headers: { Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` },
+            const response = await api.delete('/my/account', {
+                headers: { 
+                    Authorization: `Bearer ${sessionStorage.getItem("accessToken")}` 
+                }
             });
             if (response.status === 200) {
                 message.success("회원 탈퇴가 완료되었습니다.");
