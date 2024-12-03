@@ -71,7 +71,7 @@ function MainContent() {
 
         {/* 사용자 마이페이지 전용 라우트 */}
         <Route
-          path="/my/flight"
+          path="/my/flights"
           element={
             <UserRoute>
               <Flight />

@@ -8,7 +8,7 @@ const { Title, Text } = Typography;
 const { ItemGroup } = Menu;
 
 
-const Flight = () => {
+const Flights = () => {
     const [reservations, setReservations] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -210,4 +210,4 @@ const Flight = () => {
     );
 };
 
-export default Flight;
+export default Flights;
