@@ -17,6 +17,7 @@ api.interceptors.request.use(
         // Authorization 헤더에 토큰 추가
         config.headers.Authorization = `Bearer ${token}`;
       }
+      
       return config;
     },
     (error) => {

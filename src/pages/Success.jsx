@@ -30,7 +30,6 @@ export function Success() {
                 amount: Number(searchParams.get("amount")),
                 paymentKey: searchParams.get("paymentKey"),
             };
-            console.log(paymentData);
 
             try {
                 // 1. 결제 정보 검증 요청
@@ -51,7 +50,7 @@ export function Success() {
 
 
                 console.log("before paymentKey");
-                console.log(paymentData.paymentKey);
+                console.log(paymentKey);
 
                 // 2. 결제 승인 요청
                 const confirmResponse = await api.post("/payments/confirm", {
@@ -63,10 +62,7 @@ export function Success() {
                     seatCount: seatCount,
                     passengers: passengers
                 });
-
                 console.log(confirmResponse.data);
-                console.log("after paymentKey");
-                console.log(paymentData.paymentKey);
 
             } catch (error) {
                 if (error.response) {
