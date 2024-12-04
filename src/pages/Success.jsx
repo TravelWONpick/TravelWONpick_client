@@ -48,10 +48,6 @@ export function Success() {
                     return;
                 }
 
-
-                console.log("before paymentKey");
-                console.log(paymentKey);
-
                 // 2. 결제 승인 요청
                 const confirmResponse = await api.post("/payments/confirm", {
                     orderId: paymentData.orderId,
