@@ -5,7 +5,8 @@ import AdminMenu from '../components/AdminMenu';
 const { Content } = Layout;
 const { Title } = Typography;
 
-const url = process.env.VITE_LOGGING_URL;
+// const url = process.env.VITE_LOGGING_URL;
+const url = "http://management-alb-1530886175.ap-northeast-2.elb.amazonaws.com:5601/app/dashboards#/view/e6d581b0-1164-4f63-8705-4e1508812a00?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-90d%2Fd%2Cto%3Anow))";
 
 const LogDashBoard = () => {
   

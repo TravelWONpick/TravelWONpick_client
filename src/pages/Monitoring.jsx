@@ -5,7 +5,8 @@ import AdminMenu from '../components/AdminMenu';
 const { Content } = Layout;
 const { Title } = Typography;
 
-const url = process.env.VITE_MONITORING_URL;
+// const url = process.env.VITE_MONITORING_URL;
+const url = "http://management-alb-1530886175.ap-northeast-2.elb.amazonaws.com:3000/d/4b545447f/1-kubernetes-all-in-one-cluster-monitoring-kr?orgId=1";
 
 const Monitoring = () => {
   return (
