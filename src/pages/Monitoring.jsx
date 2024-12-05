@@ -5,7 +5,7 @@ import AdminMenu from '../components/AdminMenu';
 const { Content } = Layout;
 const { Title } = Typography;
 
-const url = import.meta.env.Monitoring_URL;
+const url = import.meta.env.VITE_MONITORING_URL;
 
 const Monitoring = () => {
   return (
@@ -21,7 +21,7 @@ const Monitoring = () => {
       }}
     >
       <h2 className="text-2xl font-bold pb-5" style={{ textAlign: 'left' }}>
-        "관리자님! 고생하십니다~!"
+        관리자님! 고생하십니다~!
       </h2>
       <Layout style={{ background: "white", width: "100%" }}>
         <AdminMenu />
@@ -41,11 +41,11 @@ const Monitoring = () => {
                 frameBorder="0"
                 title="Grafana Dashboard"
                 style={{
-                  border: 'none',
-                  borderRadius: '4px',
-                  backgroundColor: 'transparent'
-                }}
-              />
+                        border: 'none',
+                        borderRadius: '4px',
+                        backgroundColor: 'transparent'
+                        }}
+                />
             </div>
           </Content>
         </Layout>
