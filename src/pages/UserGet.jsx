@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Menu, Typography, Button, Row, Col, Card, Modal, Input, message } from "antd";
-import { Link } from "react-router-dom";
+import { Layout, Typography, Button, Row, Col, Card, Modal, Input, message } from "antd";
+import { useLocation } from "react-router-dom";
 import api from '../components/axios';
+import AdminMenu from '../components/AdminMenu';
 
-
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 const { Title, Text } = Typography;
-const { ItemGroup } = Menu;
 const { Search } = Input;
 
 const UserGet = () => {
@@ -14,7 +13,7 @@ const UserGet = () => {
   const [filteredUserList, setFilteredUserList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-
+  const location = useLocation();
 
   const fetchUsers = async () => {
     try {
@@ -98,53 +97,7 @@ const UserGet = () => {
         "관리자님! 고생하십니다~!"
       </h2>
       <Layout style={{ background: "white", width: "100%" }}>
-        <Sider width={200} style={{ background: "white" }}>
-          <Menu mode="vertical" defaultSelectedKeys={["1"]} style={{ borderRight: 0 }}>
-            <ItemGroup
-              key="g1"
-              title={
-                <Text strong style={{ fontSize: "18px", fontWeight: "bold" }}>
-                  서비스 관리
-                </Text>
-              }
-            >
-              <Menu.Item key="1">
-                <Link
-                  to="/admin/userget"
-                  style={{ fontSize: "14px", color: "inherit", textDecoration: "none" }}
-                >
-                  회원 관리
-                </Link>
-              </Menu.Item>
-            </ItemGroup>
-            <ItemGroup
-              key="g2"
-              title={
-                <Text strong style={{ fontSize: "18px", fontWeight: "bold" }}
-                >
-                  데이터 관리
-                </Text>
-              }
-            >
-              <Menu.Item key="2">
-                <Link
-                  to="/admin/monitoring"
-                  style={{ fontSize: "14px", color: "inherit", textDecoration: "none" }}
-                >
-                  모니터링
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="3">
-                <Link
-                  to="/admin/log-dashboard"
-                  style={{ fontSize: "14px", color: "inherit", textDecoration: "none" }}
-                >
-                  로그 관리
-                </Link>
-              </Menu.Item>
-            </ItemGroup>
-          </Menu>
-        </Sider>
+        <AdminMenu />
         <Layout style={{ background: "white", paddingLeft: "20px" }}>
           <Content style={{ padding: "24px", paddingTop: "8px" }}>
             <Title

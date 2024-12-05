@@ -165,14 +165,10 @@ const Reservation = () => {
       key: "selection",
     },
   ]);
-  // const [tripType, setTripType] = useState("round");
   const [departure] = useState(departure_airport_code || "");
   const [destination] = useState(arrival_airport_code || "");
-  // const [adultCount, setAdultCount] = useState(1);
   const [outboundFlights, setOutboundFlights] = useState([]);
   const [returnFlights, setReturnFlights] = useState([]);
-  // const [selectedOutbound, setSelectedOutbound] = useState(null);
-  // const [selectedReturn, setSelectedReturn] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // 공항 코드에 따른 도시 이름 매핑
@@ -185,6 +181,10 @@ const Reservation = () => {
     LAX: "로스엔젤레스",
     DAD: "다낭",
     BKK: "방콕",
+    CJU: "제주도",
+    LHR: "영국",
+    DPS: "발리",
+    CTS: "삿포로",
   };
 
   useEffect(() => {

@@ -335,7 +335,7 @@ const Login = () => {
           <Form
             form={form}
             name="register"
-            onFinish={(values) => console.log("회원가입 완료: ", values)}
+            onFinish={(values) => console.log("회원가입 완료")}
             onFieldsChange={handleFieldsChange}
           >
             <Form.Item
