@@ -5,7 +5,7 @@ import AdminMenu from '../components/AdminMenu';
 const { Content } = Layout;
 const { Title } = Typography;
 
-const url = import.meta.env.VITE_MONITORING_URL;
+const url = process.env.VITE_MONITORING_URL;
 
 const Monitoring = () => {
   return (
