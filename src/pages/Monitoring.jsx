@@ -5,7 +5,7 @@ import AdminMenu from '../components/AdminMenu';
 const { Content } = Layout;
 const { Title } = Typography;
 
-const url = import.meta.env.Monitoring_URL;
+const url = import.meta.env.VITE_MONITORING_URL;
 
 const Monitoring = () => {
   return (
@@ -21,7 +21,7 @@ const Monitoring = () => {
       }}
     >
       <h2 className="text-2xl font-bold pb-5" style={{ textAlign: 'left' }}>
-        "관리자님! 고생하십니다~!"
+        관리자님! 고생하십니다~!
       </h2>
       <Layout style={{ background: "white", width: "100%" }}>
         <AdminMenu />
@@ -35,17 +35,18 @@ const Monitoring = () => {
             </Title>
             <div style={{ width: '100%', height: '800px', overflow: 'hidden' }}>
               <iframe
+                // src="http://management-alb-1530886175.ap-northeast-2.elb.amazonaws.com:3000/d/4b545447f/1-kubernetes-all-in-one-cluster-monitoring-kr?orgId=1"
                 src={url}
                 width="100%"
                 height="800"
                 frameBorder="0"
                 title="Grafana Dashboard"
                 style={{
-                  border: 'none',
-                  borderRadius: '4px',
-                  backgroundColor: 'transparent'
-                }}
-              />
+                        border: 'none',
+                        borderRadius: '4px',
+                        backgroundColor: 'transparent'
+                        }}
+                />
             </div>
           </Content>
         </Layout>

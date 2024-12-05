@@ -5,7 +5,7 @@ import AdminMenu from '../components/AdminMenu';
 const { Content } = Layout;
 const { Title } = Typography;
 
-const url = import.meta.env.LOGGING_URL;
+const url = import.meta.env.VITE_LOGGING_URL;
 
 const LogDashBoard = () => {
   
