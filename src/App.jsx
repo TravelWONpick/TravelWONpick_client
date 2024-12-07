@@ -95,7 +95,7 @@ function MainContent() {
           }
         />
         <Route
-          path="/my/passenger"
+          path="/my/passengers"
           element={
             <UserRoute>
               <Passenger />
@@ -103,7 +103,7 @@ function MainContent() {
           }
         />
         <Route
-          path="/my/passenger/register"
+          path="/my/passengers/register"
           element={
             <UserRoute>
               <PassengerRegister />
@@ -111,7 +111,7 @@ function MainContent() {
           }
         />
         <Route
-          path="/my/passenger/update"
+          path="/my/passengers/update"
           element={
             <UserRoute>
               <PassengerUpdate />
@@ -119,7 +119,7 @@ function MainContent() {
           }
         />
         <Route
-          path="/my/info"
+          path="/my/infomation"
           element={
             <UserRoute>
               <Info />
@@ -127,7 +127,7 @@ function MainContent() {
           }
         />
         <Route
-          path="/my/info/update"
+          path="/my/infomation/update"
           element={
             <UserRoute>
               <InfoUpdate />

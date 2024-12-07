@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button, Row, Col, Typography, Select } from "antd";
+import { Card, Button, Row, Col, Typography, Select, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FlightCard from "../components/FlightCard";
@@ -195,6 +195,7 @@ const ReservationConfirmation = () => {
       })
     );
 
+    message.info("결제 전 입력된 정보를 확인해주세요.");
     navigate("/pricePick/payment");
   };
 

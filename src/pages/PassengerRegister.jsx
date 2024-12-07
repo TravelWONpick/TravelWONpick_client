@@ -48,7 +48,7 @@ const PassengerRegister = () => {
   };
 
   const handleCancel = () => {
-    navigate("/my/passenger");
+    navigate("/my/passengers");
   };
 
   const handleSave = async () => {
@@ -85,7 +85,7 @@ const PassengerRegister = () => {
 
       if (response.data.status === 200) {
         alert("탑승객 정보가 등록되었습니다.");
-        navigate("/my/passenger"); // 목록 페이지로 이동
+        navigate("/my/passengers"); // 목록 페이지로 이동
       }
     } catch (error) {
       console.error("탑승객 등록 중 오류가 발생했습니다:", error);
@@ -178,7 +178,7 @@ const PassengerRegister = () => {
             >
               <Menu.Item key="2">
                 <Link
-                  to="/my/passenger"
+                  to="/my/passengers"
                   style={{
                     fontSize: "14px",
                     color: "inherit",
@@ -190,7 +190,7 @@ const PassengerRegister = () => {
               </Menu.Item>
               <Menu.Item key="3">
                 <Link
-                  to="/my/info"
+                  to="/my/infomation"
                   style={{
                     fontSize: "14px",
                     color: "inherit",
