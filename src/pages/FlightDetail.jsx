@@ -64,7 +64,7 @@ const FlightDetail = () => {
                         passengerResponse.data.data.map((passenger, index) => ({
                             key: index + 1,
                             passengerName: `${passenger.lastName} / ${passenger.firstName}`,
-                            gender: passenger.gender === "FEMALE" ? "여성" : "남성",
+                            gender: passenger.gender == "FEMALE" ? "여성" : "남성",
                             birthDate: passenger.birth,
                             phoneNumber: passenger.phoneNumber,
                         }))
