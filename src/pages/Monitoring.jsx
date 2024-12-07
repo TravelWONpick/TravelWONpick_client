@@ -6,7 +6,7 @@ const { Content } = Layout;
 const { Title } = Typography;
 
 // const url = process.env.VITE_MONITORING_URL;
-const url = "http://management-alb-1530886175.ap-northeast-2.elb.amazonaws.com:3000/d/4b545447f/1-kubernetes-all-in-one-cluster-monitoring-kr?orgId=1";
+const url = "http://management-alb-1530886175.ap-northeast-2.elb.amazonaws.com:3000/d/4b545447f22/1-kubernetes-all-in-one-cluster-monitoring-kr-4?var-duration=5m&orgId=1&from=2024-12-07T07:04:51.687Z&to=2024-12-07T07:05:51.687Z&var-node=&var-instance=ip-10-0-135-254.ap-northeast-2.compute.internal&var-namespace=&var-pod=&refresh=auto&theme=light";
 
 const Monitoring = () => {
   return (
