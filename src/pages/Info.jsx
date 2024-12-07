@@ -163,7 +163,7 @@ const Info = () => {
                         >
                             <Menu.Item key="2">
                                 <Link
-                                    to="/my/passenger"
+                                    to="/my/passengers"
                                     style={{
                                         fontSize: "14px",
                                         color: "inherit",
@@ -175,7 +175,7 @@ const Info = () => {
                             </Menu.Item>
                             <Menu.Item key="3">
                                 <Link
-                                    to="/my/info"
+                                    to="/my/infomation"
                                     style={{
                                         fontSize: "14px",
                                         color: "inherit",

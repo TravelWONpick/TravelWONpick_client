@@ -59,7 +59,7 @@ const PassengerUpdate = () => {
   };
 
   const handleCancel = () => {
-    navigate("/my/passenger");
+    navigate("/my/passengers");
   };
 
   const handleSave = async () => {
@@ -95,7 +95,7 @@ const PassengerUpdate = () => {
       });
 
       alert("탑승객 정보가 수정되었습니다.");
-      navigate("/my/passenger");
+      navigate("/my/passengers");
     } catch (error) {
       console.error("탑승객 정보 수정 중 오류가 발생했습니다:", error);
       alert(
@@ -189,7 +189,7 @@ const PassengerUpdate = () => {
             >
               <Menu.Item key="2">
                 <Link
-                  to="/my/passenger"
+                  to="/my/passengers"
                   style={{
                     fontSize: "14px",
                     color: "inherit",
@@ -201,7 +201,7 @@ const PassengerUpdate = () => {
               </Menu.Item>
               <Menu.Item key="3">
                 <Link
-                  to="/my/info"
+                  to="/my/infomation"
                   style={{
                     fontSize: "14px",
                     color: "inherit",

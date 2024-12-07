@@ -90,11 +90,11 @@ const Passenger = () => {
   };
 
   const handleAddPassenger = () => {
-    navigate("/my/passenger/register");
+    navigate("/my/passengers/register");
   };
 
   const handleUpdatePassenger = (record) => {
-    navigate("/my/passenger/update", {
+    navigate("/my/passengers/update", {
       state: {
         id: record.key, // 탑승객 ID
         lastName: record.name.split(" / ")[0],
@@ -171,7 +171,7 @@ const Passenger = () => {
             >
               <Menu.Item key="2">
                 <Link
-                  to="/my/passenger"
+                  to="/my/passengers"
                   style={{
                     fontSize: "14px",
                     color: "inherit",
@@ -183,7 +183,7 @@ const Passenger = () => {
               </Menu.Item>
               <Menu.Item key="3">
                 <Link
-                  to="/my/info"
+                  to="/my/infomation"
                   style={{
                     fontSize: "14px",
                     color: "inherit",
