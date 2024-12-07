@@ -63,7 +63,7 @@ const Info = () => {
     }, []);
 
     const handleUpdateInfo = () => {
-        navigate("/my/info/update");
+        navigate("/my/infomation/update");
     };
 
     const handleCancel = () => {

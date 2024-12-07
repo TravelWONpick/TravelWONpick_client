@@ -108,7 +108,7 @@ const InfoUpdate = () => {
                 // 로컬스토리지에 userName 업데이트
                 sessionStorage.setItem("userName", form.name);
 
-                navigate("/my/info");
+                navigate("/my/infomation");
             } else {
                 message.error("회원정보 수정에 실패했습니다.");
             }
@@ -119,7 +119,7 @@ const InfoUpdate = () => {
     };
 
     const handleCancel = () => {
-        navigate("/my/info");
+        navigate("/my/infomation");
     };
 
     return (
